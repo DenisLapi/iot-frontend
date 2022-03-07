@@ -1,0 +1,410 @@
+[
+  {
+    "id": 4778966,
+    "title": "Field 5",
+    "size": "15.4 ha",
+    "company": {
+      "id": 0,
+      "name": "Company name 1"
+    },
+    "coordinates": [
+      [
+        {
+          "x": 22.633209,
+          "y": 44.423574
+        },
+        {
+          "x": 22.629218,
+          "y": 44.424433
+        },
+        {
+          "x": 22.628734,
+          "y": 44.423781
+        },
+        {
+          "x": 22.634025,
+          "y": 44.419069
+        },
+        {
+          "x": 22.636514,
+          "y": 44.418578
+        },
+        {
+          "x": 22.638745,
+          "y": 44.421797
+        },
+        {
+          "x": 22.633209,
+          "y": 44.423574
+        }
+      ]
+    ],
+    "crops": [
+      {
+        "id": 57412,
+        "planting_date": "01-02-2022",
+        "harvest_date": "05-09-2022",
+        "name": "Sunflower",
+        "yield": "15 t/ha"
+      }
+    ],
+    "sensors": [
+      {
+        "name": "Moisture sensor",
+        "type": "moisture",
+        "coordinates": {
+          "x": 22.638745,
+          "y": 44.423574
+        }
+      },
+      {
+        "name": "Humidity sensor",
+        "type": "humidity",
+        "coordinates": {
+          "x": 22.638745,
+          "y": 44.423574
+        }
+      }
+    ],
+    "notes": [
+      {
+        "id": 298,
+        "type": "other",
+        "message": "Tomorrow add some water",
+        "created_at": "06-03-2022"
+      }
+    ]
+  },
+  {
+    "id": 4778958,
+    "title": "Field 4",
+    "size": "15.4 ha",
+    "company": {
+      "id": 0,
+      "name": "Company name 1"
+    },
+    "coordinates": [
+      [
+        {
+          "x": 22.625978,
+          "y": 44.425536
+        },
+        {
+          "x": 22.623661,
+          "y": 44.422226
+        },
+        {
+          "x": 22.623811,
+          "y": 44.421781
+        },
+        {
+          "x": 22.626611,
+          "y": 44.420923
+        },
+        {
+          "x": 22.629218,
+          "y": 44.424433
+        },
+        {
+          "x": 22.625978,
+          "y": 44.425536
+        }
+      ]
+    ],
+    "crops": [
+      {
+        "id": 57412,
+        "planting_date": "01-02-2022",
+        "harvest_date": "05-09-2022",
+        "name": "Sunflower",
+        "yield": "15 t/ha"
+      }
+    ],
+    "sensors": [
+      {
+        "name": "Moisture sensor",
+        "type": "moisture",
+        "coordinates": {
+          "x": 22.638745,
+          "y": 44.423574
+        }
+      },
+      {
+        "name": "Humidity sensor",
+        "type": "humidity",
+        "coordinates": {
+          "x": 22.638745,
+          "y": 44.423574
+        }
+      }
+    ],
+    "notes": [
+      {
+        "id": 298,
+        "type": "other",
+        "message": "Tomorrow add some water",
+        "created_at": "06-03-2022"
+      }
+    ]
+  },
+  {
+    "id": 3994123,
+    "title": null,
+    "size": "15.4 ha",
+    "company": {
+      "id": 0,
+      "name": "Company name 1"
+    },
+    "coordinates": [
+      [
+        {
+          "x": 22.623661,
+          "y": 44.422226
+        },
+        {
+          "x": 22.621322,
+          "y": 44.419084
+        },
+        {
+          "x": 22.627738,
+          "y": 44.417276
+        },
+        {
+          "x": 22.628639,
+          "y": 44.419743
+        },
+        {
+          "x": 22.627866,
+          "y": 44.420479
+        },
+        {
+          "x": 22.625484,
+          "y": 44.421322
+        },
+        {
+          "x": 22.623811,
+          "y": 44.421781
+        },
+        {
+          "x": 22.623661,
+          "y": 44.422226
+        }
+      ]
+    ],
+    "crops": [
+      {
+        "id": 57412,
+        "planting_date": "01-02-2022",
+        "harvest_date": "05-09-2022",
+        "name": "Sunflower",
+        "yield": "15 t/ha"
+      }
+    ],
+    "sensors": [
+      {
+        "name": "Moisture sensor",
+        "type": "moisture",
+        "coordinates": {
+          "x": 22.638745,
+          "y": 44.423574
+        }
+      },
+      {
+        "name": "Humidity sensor",
+        "type": "humidity",
+        "coordinates": {
+          "x": 22.638745,
+          "y": 44.423574
+        }
+      }
+    ],
+    "notes": [
+      {
+        "id": 298,
+        "type": "flooding",
+        "message": "Tomorrow add some water",
+        "created_at": "06-03-2022"
+      }
+    ]
+  },
+  {
+    "id": 3994088,
+    "title": null,
+    "size": "15.4 ha",
+    "company": {
+      "id": 0,
+      "name": "Company name 1"
+    },
+    "coordinates": [
+      [
+        {
+          "x": 22.630162,
+          "y": 44.416341
+        },
+        {
+          "x": 22.629046,
+          "y": 44.41631
+        },
+        {
+          "x": 22.627974,
+          "y": 44.415237
+        },
+        {
+          "x": 22.627888,
+          "y": 44.414287
+        },
+        {
+          "x": 22.634625,
+          "y": 44.411804
+        },
+        {
+          "x": 22.640848,
+          "y": 44.409719
+        },
+        {
+          "x": 22.642136,
+          "y": 44.411835
+        },
+        {
+          "x": 22.640934,
+          "y": 44.413183
+        },
+        {
+          "x": 22.632995,
+          "y": 44.415758
+        },
+        {
+          "x": 22.632008,
+          "y": 44.415758
+        },
+        {
+          "x": 22.631364,
+          "y": 44.416279
+        },
+        {
+          "x": 22.630162,
+          "y": 44.416341
+        }
+      ]
+    ],
+    "crops": [
+      {
+        "id": 57412,
+        "planting_date": "01-02-2022",
+        "harvest_date": "05-09-2022",
+        "name": "Sunflower",
+        "yield": "15 t/ha"
+      }
+    ],
+    "sensors": [
+      {
+        "name": "Moisture sensor",
+        "type": "moisture",
+        "coordinates": {
+          "x": 22.638745,
+          "y": 44.423574
+        }
+      },
+      {
+        "name": "Humidity sensor",
+        "type": "humidity",
+        "coordinates": {
+          "x": 22.638745,
+          "y": 44.423574
+        }
+      }
+    ],
+    "notes": [
+      {
+        "id": 298,
+        "type": "flooding",
+        "message": "Tomorrow add some water",
+        "created_at": "06-03-2022"
+      }
+    ]
+  },
+  {
+    "id": 3994086,
+    "title": "Field 1",
+    "size": "15.4 ha",
+    "company": {
+      "id": 0,
+      "name": "Company name 1"
+    },
+    "coordinates": [
+      [
+        {
+          "x": 22.620807,
+          "y": 44.418486
+        },
+        {
+          "x": 22.616215,
+          "y": 44.412509
+        },
+        {
+          "x": 22.622051,
+          "y": 44.409689
+        },
+        {
+          "x": 22.624111,
+          "y": 44.412264
+        },
+        {
+          "x": 22.626343,
+          "y": 44.413122
+        },
+        {
+          "x": 22.627158,
+          "y": 44.41467
+        },
+        {
+          "x": 22.623725,
+          "y": 44.416724
+        },
+        {
+          "x": 22.622137,
+          "y": 44.417659
+        },
+        {
+          "x": 22.620807,
+          "y": 44.418486
+        }
+      ]
+    ],
+    "crops": [
+      {
+        "id": 57412,
+        "planting_date": "01-02-2022",
+        "harvest_date": "05-09-2022",
+        "name": "Sunflower",
+        "yield": "15 t/ha"
+      }
+    ],
+    "sensors": [
+      {
+        "name": "Moisture sensor",
+        "type": "moisture",
+        "coordinates": {
+          "x": 22.638745,
+          "y": 44.423574
+        }
+      },
+      {
+        "name": "Humidity sensor",
+        "type": "humidity",
+        "coordinates": {
+          "x": 22.638745,
+          "y": 44.423574
+        }
+      }
+    ],
+    "notes": [
+      {
+        "id": 298,
+        "type": "flooding",
+        "message": "Tomorrow add some water",
+        "created_at": "06-03-2022"
+      }
+    ]
+  }
+]
