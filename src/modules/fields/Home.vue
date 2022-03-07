@@ -1,10 +1,9 @@
 <template>
   <Map
-    access-token="pk.eyJ1IjoiZGVuaXNsYXBpIiwiYSI6ImNqemdyMGhuZTBtOWIzY2xudHJ1eHIyZHQifQ.gFiU6KI16bIPjK6raEJvbQ"
     container="map"
-    :zoom="5"
     class="map"
-   />
+    :access-token="accessToken"
+  />
 </template>
 
 <script>
@@ -14,6 +13,11 @@ export default {
   name: 'Home',
   components: {
     Map
+  },
+  computed: {
+    accessToken () {
+      return process.env.VUE_APP_MAPBOX_ACCESS_TOKEN
+    }
   }
 }
 </script>
