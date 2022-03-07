@@ -2,6 +2,7 @@
   <Map
     container="map"
     class="map"
+    :style="'mapbox://styles/denislapi/cjzgrmmzh1scx1cqlysghos1j'"
     :access-token="accessToken"
   />
 </template>
