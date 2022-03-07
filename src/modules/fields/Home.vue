@@ -7,16 +7,20 @@
 </template>
 
 <script>
-import Map from '@/components/molecules/Map'
+import Map from '@/components/atoms/Map'
+import { computed } from 'vue'
 
 export default {
   name: 'Home',
   components: {
     Map
   },
-  computed: {
-    accessToken () {
+  setup () {
+    const accessToken = computed(_ => {
       return process.env.VUE_APP_MAPBOX_ACCESS_TOKEN
+    })
+    return {
+      accessToken
     }
   }
 }
