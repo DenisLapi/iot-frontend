@@ -1,46 +1,50 @@
+/**
+ * Create fields on a map source
+ * @param fields Array of fields
+ * @param map MapBox map object
+ * @param source Source name
+ */
 export const createFields = (fields, map, source) => {
+  const coordinates = fields.map(field => [formatCoordinates(field)])
   map.addSource(source, {
     type: 'geojson',
     data: {
       type: 'Feature',
       geometry: {
-        type: 'Polygon',
-        coordinates: [
-          [
-            [-67.13734, 45.13745],
-            [-66.96466, 44.8097],
-            [-68.03252, 44.3252],
-            [-69.06, 43.98],
-            [-70.11617, 43.68405],
-            [-70.64573, 43.09008],
-            [-70.75102, 43.08003],
-            [-70.79761, 43.21973],
-            [-70.98176, 43.36789],
-            [-70.94416, 43.46633],
-            [-71.08482, 45.30524],
-            [-70.66002, 45.46022],
-            [-70.30495, 45.91479],
-            [-70.00014, 46.69317],
-            [-69.23708, 47.44777],
-            [-68.90478, 47.18479],
-            [-68.2343, 47.35462],
-            [-67.79035, 47.06624],
-            [-67.79141, 45.70258],
-            [-67.13734, 45.13745]
-          ]
-        ]
+        type: 'MultiPolygon',
+        coordinates
       }
     }
   })
-
   map.addLayer({
     id: 'field',
     type: 'fill',
-    source: 'maine', // reference the data source
+    source,
     layout: {},
     paint: {
-      'fill-color': '#0080ff', // blue color fill
-      'fill-opacity': 0.5
+      'fill-color': '#dedede',
+      'fill-opacity': 0.8
     }
+  })
+  map.addLayer({
+    id: 'outline',
+    type: 'line',
+    source,
+    layout: {},
+    paint: {
+      'line-color': '#000',
+      'line-width': 2
+    }
+  })
+}
+
+/**
+ * Format the Field coordinates to match the Mapbox source format
+ * @param Field
+ * @returns {Array} Returns array of arrays with x and y coordinates
+ */
+export const formatCoordinates = ({ coordinates }) => {
+  return coordinates.map(coordinate => {
+    return [coordinate.x, coordinate.y]
   })
 }
