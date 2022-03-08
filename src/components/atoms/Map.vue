@@ -29,12 +29,18 @@ export default {
     zoom: {
       type: Number,
       required: false,
-      default: 9
+      default: 5
     }
   },
   setup (props, { emit }) {
     onMounted(_ => {
-      const { accessToken, container, style, center, zoom } = props
+      const {
+        accessToken,
+        container,
+        style,
+        center,
+        zoom
+      } = props
       mapboxgl.accessToken = accessToken
       const map = new mapboxgl.Map({
         container,
@@ -42,7 +48,9 @@ export default {
         center,
         zoom
       })
-      map.on('load', map => emit('load', map))
+      map.on('load', () => {
+        emit('load', map)
+      })
     })
   }
 }
