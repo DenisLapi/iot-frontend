@@ -21,11 +21,11 @@ export default {
     Map
   },
   setup (props, { emit }) {
+    const mapCenter = ref([22.630162, 44.416341])
+    const mapZoom = ref(15)
     const accessToken = computed(_ => {
       return process.env.VUE_APP_MAPBOX_ACCESS_TOKEN
     })
-    const mapCenter = ref([22.630162, 44.416341])
-    const mapZoom = ref(15)
     const fieldClicked = field => { emit('fieldClicked', field) }
     const onMapLoaded = map => {
       createFields(

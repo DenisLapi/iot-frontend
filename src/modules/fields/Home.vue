@@ -11,9 +11,7 @@ export default {
     FieldsMap
   },
   setup () {
-    const fieldClicked = field => {
-      console.log(field)
-    }
+    const fieldClicked = field => console.log(field)
     return {
       fieldClicked
     }
