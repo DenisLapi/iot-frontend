@@ -1,50 +1,82 @@
+const FIELD_COLOR = '#f6c81a'
+const FIELD_COLOR_OPACITY = 0.5
+const FIELD_BORDER_WIDTH = 2
+
 /**
  * Create fields on a map source
- * @param fields Array of fields
- * @param map MapBox map object
- * @param source Source name
+ * @param fields array of fields
+ * @param map mapbox map object
+ * @param source source name
+ * @param fieldsLayer name of the layer for fields
+ * @param fieldClickedCB callback fired when field is clicked
  */
-export const createFields = (fields, map, source) => {
-  const coordinates = fields.map(field => [formatCoordinates(field)])
+export const createFields = (
+  fields,
+  map,
+  source,
+  fieldsLayer = 'fields-layer',
+  fieldClickedCB = () => {}
+) => {
+  const features = fields.map(field => createFieldFeature(field))
   map.addSource(source, {
     type: 'geojson',
     data: {
-      type: 'Feature',
-      geometry: {
-        type: 'MultiPolygon',
-        coordinates
-      }
+      type: 'FeatureCollection',
+      features
     }
   })
   map.addLayer({
-    id: 'field',
+    id: fieldsLayer,
     type: 'fill',
     source,
     layout: {},
     paint: {
-      'fill-color': '#dedede',
-      'fill-opacity': 0.8
+      'fill-color': FIELD_COLOR,
+      'fill-opacity': FIELD_COLOR_OPACITY
     }
   })
   map.addLayer({
-    id: 'outline',
+    id: 'fields-outline',
     type: 'line',
     source,
     layout: {},
     paint: {
-      'line-color': '#000',
-      'line-width': 2
+      'line-color': FIELD_COLOR,
+      'line-width': FIELD_BORDER_WIDTH
     }
+  })
+
+  if (fieldClickedCB && typeof fieldClickedCB === 'function') {
+    map.on('click', fieldsLayer, e => {
+      const fieldProperties = e.features[0].properties
+      fieldClickedCB(fieldProperties)
+    })
+  }
+}
+
+/**
+ * Format the field coordinates to match the mapbox source format
+ * @param field
+ * @returns {Array} returns array of arrays with x and y coordinates
+ */
+export const formatCoordinates = ({ coordinates }) => {
+  return coordinates.map(({ x, y }) => {
+    return [x, y]
   })
 }
 
 /**
- * Format the Field coordinates to match the Mapbox source format
- * @param Field
- * @returns {Array} Returns array of arrays with x and y coordinates
+ * Creates mapbox feature for one field
+ * @param field
+ * @returns {{geometry: {coordinates: Array[], type: string}, type: string}}
  */
-export const formatCoordinates = ({ coordinates }) => {
-  return coordinates.map(coordinate => {
-    return [coordinate.x, coordinate.y]
-  })
+export const createFieldFeature = (field) => {
+  return {
+    type: 'Feature',
+    properties: field,
+    geometry: {
+      type: 'Polygon',
+      coordinates: [formatCoordinates(field)]
+    }
+  }
 }

@@ -1,44 +1,22 @@
 <template>
-  <Map
-    container="map"
-    class="map"
-    :style="'mapbox://styles/mapbox/outdoors-v11'"
-    :access-token="accessToken"
-    :center="[22.630162, 44.416341]"
-    :zoom="14"
-    @load="mapLoaded"
-  />
+  <fields-map @fieldClicked="fieldClicked" />
 </template>
 
 <script>
-import Map from '@/components/atoms/Map'
-import fields from './data'
-import { computed } from 'vue'
-import { createFields } from './utils/fields'
+import FieldsMap from './components/FieldsMap'
 
 export default {
   name: 'Home',
   components: {
-    Map
+    FieldsMap
   },
   setup () {
-    const accessToken = computed(_ => {
-      return process.env.VUE_APP_MAPBOX_ACCESS_TOKEN
-    })
-    const mapLoaded = map => {
-      createFields(fields, map, 'fields-map')
+    const fieldClicked = field => {
+      console.log(field)
     }
     return {
-      accessToken,
-      mapLoaded
+      fieldClicked
     }
   }
 }
 </script>
-
-<style scoped>
-.map {
-  width: 100%;
-  height: 100vh;
-}
-</style>
