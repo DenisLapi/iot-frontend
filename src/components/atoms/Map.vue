@@ -19,7 +19,7 @@ export default {
     style: {
       type: String,
       required: false,
-      default: 'mapbox://styles/mapbox/streets-v11'
+      default: 'mapbox://styles/mapbox/satellite-v9'
     },
     center: {
       type: Array,

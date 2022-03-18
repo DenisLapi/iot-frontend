@@ -1,6 +1,6 @@
-const FIELD_COLOR = '#f6c81a'
-const FIELD_COLOR_OPACITY = 0.5
-const FIELD_BORDER_WIDTH = 2
+export const FIELD_COLOR = '#fde400'
+export const FIELD_COLOR_OPACITY = 0.5
+export const FIELD_BORDER_WIDTH = 3
 
 /**
  * Create fields on a map source

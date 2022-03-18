@@ -35,7 +35,6 @@ export default {
         'fields-layer',
         fieldClicked)
     }
-
     return {
       mapCenter,
       mapZoom,
