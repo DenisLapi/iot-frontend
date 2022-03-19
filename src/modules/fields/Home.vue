@@ -36,6 +36,7 @@ export default {
      * @param fieldData return field data
      */
     const fieldClicked = fieldData => {
+      console.log(fieldData)
       field.value = fieldData
       showFieldDetailsModal.value = true
     }

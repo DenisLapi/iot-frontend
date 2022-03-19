@@ -1,11 +1,12 @@
 <template>
   <o-modal
+    class="modal-wrapper"
     scroll="clip"
     v-model:active="show"
-    :width="width"
+    :width="maxWidth"
     @onClose="closeModal"
   >
-    <slot />
+    <slot></slot>
   </o-modal>
 </template>
 
@@ -19,7 +20,7 @@ export default {
       type: Boolean,
       default: false
     },
-    width: {
+    maxWidth: {
       type: Number,
       default: 640
     }
@@ -45,3 +46,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.modal-wrapper {
+  ::v-deep .o-modal__content {
+    border-radius: 5px;
+  }
+}
+</style>

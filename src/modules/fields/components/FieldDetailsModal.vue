@@ -1,9 +1,12 @@
 <template>
   <modal
+    class="field-details-modal"
     :is-visible="show"
+    :width="maxWidth"
     @close="value => $emit('onClose', value)"
   >
-    Field name: {{ field.name }}
+    {{ field.title }}
+    <hr>
   </modal>
 </template>
 
@@ -24,6 +27,10 @@ export default {
     isVisible: {
       type: Boolean,
       default: false
+    },
+    maxWidth: {
+      type: Number,
+      default: 640
     }
   },
   setup (props, { emit }) {
@@ -42,6 +49,10 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.field-details-modal {
+  ::v-deep .o-modal__content {
+    width: 500px;
+  }
+}
 </style>
