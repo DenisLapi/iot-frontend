@@ -52,6 +52,7 @@ export const createFields = (
       fieldProperties.company = JSON.parse(fieldProperties.company)
       fieldProperties.coordinates = JSON.parse(fieldProperties.coordinates)
       fieldProperties.crops = JSON.parse(fieldProperties.crops)
+      fieldProperties.manager = JSON.parse(fieldProperties.manager)
       fieldClickedCB(fieldProperties)
     })
   }

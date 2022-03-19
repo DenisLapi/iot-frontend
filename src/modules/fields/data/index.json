@@ -7,6 +7,10 @@
       "id": 0,
       "name": "Agro group"
     },
+    "manager":{
+      "id":2,
+      "name": "Tobias Smith"
+    },
     "coordinates": [
       {
         "x": 22.633209,
@@ -81,6 +85,10 @@
       "id": 0,
       "name": "Agro group"
     },
+    "manager": {
+      "id": 2,
+      "name": "Tobias Smith"
+    },
     "coordinates": [
       {
         "x": 22.625978,
@@ -150,6 +158,10 @@
     "company": {
       "id": 0,
       "name": "Agro group"
+    },
+    "manager": {
+      "id": 2,
+      "name": "Tobias Smith"
     },
     "coordinates": [
       {
@@ -228,6 +240,10 @@
     "company": {
       "id": 0,
       "name": "Agro group"
+    },
+    "manager": {
+      "id": 2,
+      "name": "Tobias Smith"
     },
     "coordinates": [
       {
@@ -322,6 +338,10 @@
     "company": {
       "id": 0,
       "name": "Agro group"
+    },
+    "manager": {
+      "id": 2,
+      "name": "Tobias Smith"
     },
     "coordinates": [
       {
