@@ -1,26 +1,25 @@
 <template>
-  <o-modal
-    scroll="clip"
-    v-model:active="show"
-    :width="width"
+  <modal
+    :is-visible="show"
+    @close="value => $emit('close', value)"
   >
     <slot />
-  </o-modal>
+  </modal>
 </template>
 
 <script>
+import Modal from '@/components/molecules/Modal'
 import { computed } from 'vue'
 
 export default {
-  name: 'Modal',
+  name: 'FieldDetailsModal',
+  components: {
+    Modal
+  },
   props: {
     isVisible: {
       type: Boolean,
       default: false
-    },
-    width: {
-      type: Number,
-      default: 640
     }
   },
   setup (props, { emit }) {
@@ -38,3 +37,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+</style>
