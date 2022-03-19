@@ -49,6 +49,9 @@ export const createFields = (
   if (fieldClickedCB && typeof fieldClickedCB === 'function') {
     map.on('click', fieldsLayer, e => {
       const fieldProperties = e.features[0].properties
+      fieldProperties.company = JSON.parse(fieldProperties.company)
+      fieldProperties.coordinates = JSON.parse(fieldProperties.coordinates)
+      fieldProperties.crops = JSON.parse(fieldProperties.crops)
       fieldClickedCB(fieldProperties)
     })
   }

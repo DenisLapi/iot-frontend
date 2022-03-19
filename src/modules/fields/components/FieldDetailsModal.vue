@@ -5,7 +5,14 @@
     :width="maxWidth"
     @close="value => $emit('onClose', value)"
   >
-    {{ field.title }}
+    <p>Field title</p>
+    <p>{{ field.title }}</p>
+
+    <p>Field size</p>
+    <p>{{ field.size }}</p>
+
+    <p>Company name</p>
+    <p>{{ field.company.name }}</p>
     <hr>
   </modal>
 </template>
@@ -53,6 +60,7 @@ export default {
 .field-details-modal {
   ::v-deep .o-modal__content {
     width: 500px;
+    padding: 15px;
   }
 }
 </style>
