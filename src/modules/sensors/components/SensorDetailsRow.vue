@@ -53,7 +53,7 @@ export default {
         return props.status
       },
       set (value) {
-        emit('setSensorStatus', value)
+        emit('setStatus', value)
       }
     })
     const icon = computed(_ => {

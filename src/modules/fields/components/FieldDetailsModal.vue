@@ -63,7 +63,6 @@ export default {
       }
     })
     const sensors = computed(_ => {
-      console.log(props.field.sensors)
       return props.field.sensors
     })
     const details = computed(_ => [
