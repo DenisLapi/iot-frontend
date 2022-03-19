@@ -1,9 +1,9 @@
 <template>
   <modal
     :is-visible="show"
-    @close="value => $emit('close', value)"
+    @close="value => $emit('onClose', value)"
   >
-    <slot />
+    Field name: {{ field.name }}
   </modal>
 </template>
 
@@ -17,6 +17,10 @@ export default {
     Modal
   },
   props: {
+    field: {
+      type: Object,
+      required: true
+    },
     isVisible: {
       type: Boolean,
       default: false
@@ -28,7 +32,7 @@ export default {
         return props.isVisible
       },
       set (value) {
-        emit('close', value)
+        emit('onClose', value)
       }
     })
     return {

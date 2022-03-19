@@ -2,8 +2,9 @@
   <div>
     <fields-map @fieldClicked="fieldClicked" />
     <field-details-modal
+      :field="field"
       :is-visible="showFieldDetailsModal"
-      @close="showFieldDetailsModal = false"
+      @onClose="closeFieldDetailsModal"
     />
   </div>
 </template>
@@ -20,11 +21,30 @@ export default {
     FieldDetailsModal
   },
   setup () {
-    const showFieldDetailsModal = ref(true)
-    const fieldClicked = field => console.log(field)
+    const field = ref({})
+    const showFieldDetailsModal = ref(false)
+
+    /**
+     * Function triggered when close event on field details modal is emitted
+     */
+    const closeFieldDetailsModal = () => {
+      showFieldDetailsModal.value = false
+    }
+
+    /**
+     * Callback function triggered when field on the map is clicked
+     * @param fieldData return field data
+     */
+    const fieldClicked = fieldData => {
+      field.value = fieldData
+      showFieldDetailsModal.value = true
+    }
+
     return {
+      field,
       showFieldDetailsModal,
-      fieldClicked
+      fieldClicked,
+      closeFieldDetailsModal
     }
   }
 }
