@@ -5,6 +5,7 @@
     :width="maxWidth"
     @close="value => $emit('onClose', value)"
   >
+    <h3>Basic details</h3>
     <div class="field-details-modal__grid">
       <data-group
         v-for="({ label, value }, index) in details"
@@ -13,19 +14,30 @@
         :value="value"
       />
     </div>
+    <h3>Sensors</h3>
+    <sensor-details-row
+      class="field-details-modal__sensor"
+      v-for="({ name, type, status }, index) in sensors"
+      :key="index"
+      :name="name"
+      :type="type"
+      :status="status"
+    />
   </modal>
 </template>
 
 <script>
 import Modal from '@/components/molecules/Modal'
-import DataGroup from '@/components/molecules/DataGroup'
+import DataGroup from '@/components/atoms/DataGroup'
+import SensorDetailsRow from '@/modules/sensors/components/SensorDetailsRow'
 import { computed } from 'vue'
 
 export default {
   name: 'FieldDetailsModal',
   components: {
     Modal,
-    DataGroup
+    DataGroup,
+    SensorDetailsRow
   },
   props: {
     field: {
@@ -50,9 +62,13 @@ export default {
         emit('onClose', value)
       }
     })
+    const sensors = computed(_ => {
+      console.log(props.field.sensors)
+      return props.field.sensors
+    })
     const details = computed(_ => [
       {
-        label: 'Title',
+        label: 'Name',
         value: props.field.title
       },
       {
@@ -70,6 +86,7 @@ export default {
     ])
     return {
       show,
+      sensors,
       details
     }
   }
@@ -79,12 +96,15 @@ export default {
 <style lang="scss" scoped>
 .field-details-modal {
   ::v-deep .o-modal__content {
-    width: 500px;
-    padding: 15px;
+    width: 750px;
+    padding: 20px;
   }
   &__grid {
     display: grid;
     grid-template-columns: 50% 50%;
+  }
+  &__sensor {
+    margin-bottom: 10px;
   }
 }
 </style>
