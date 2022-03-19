@@ -1,5 +1,5 @@
-export const FIELD_COLOR = '#fde400'
-export const FIELD_COLOR_OPACITY = 0.5
+export const FIELD_COLOR = '#ffffff'
+export const FIELD_COLOR_OPACITY = 0.2
 export const FIELD_BORDER_WIDTH = 3
 
 /**
