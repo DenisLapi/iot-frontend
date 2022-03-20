@@ -4,7 +4,7 @@
       label="Name"
       :value="name"
     />
-    <o-tooltip
+    <tooltip
       position="left"
       :label="type"
     >
@@ -12,22 +12,27 @@
         label="Type"
         :value="icon"
       />
-    </o-tooltip>
-    <o-switch v-model="sensorStatus" />
+    </tooltip>
+    <Switch
+      :value="sensorStatus"
+      :onChange="onSwitchChange"
+    />
   </div>
 </template>
 
 <script>
 import { computed } from 'vue'
-import DataGroup from '@/components/atoms/DataGroup'
 import { sensorIcon } from '@/modules/sensors/utils'
-
-console.log(sensorIcon)
+import DataGroup from '@/components/atoms/DataGroup'
+import Tooltip from '@/components/atoms/Tooltip'
+import Switch from '@/components/atoms/Switch'
 
 export default {
   name: 'SensorDetailsRow',
   components: {
-    DataGroup
+    Switch,
+    DataGroup,
+    Tooltip
   },
   props: {
     name: {
@@ -53,15 +58,24 @@ export default {
         return props.status
       },
       set (value) {
-        emit('setStatus', value)
+        emit('onSetStatus', value)
       }
     })
     const icon = computed(_ => {
       return sensorIcon[props.type]
     })
+
+    /**
+     * Function triggered when switch change the value
+     * @param value new value
+     */
+    const onSwitchChange = value => {
+      sensorStatus.value = value
+    }
     return {
       sensorStatus,
-      icon
+      icon,
+      onSwitchChange
     }
   }
 }
