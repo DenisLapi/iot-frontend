@@ -1,5 +1,7 @@
 <template>
   <div>
+    {{ switchVal }}
+    <Switch v-model="switchVal" />
     <fields-map @fieldClicked="fieldClicked" />
   </div>
 </template>
@@ -7,14 +9,17 @@
 <script>
 import { ref } from 'vue'
 import FieldsMap from './components/FieldsMap'
+import Switch from '@/components/atoms/Switch'
 
 export default {
   name: 'Home',
   components: {
-    FieldsMap
+    FieldsMap,
+    Switch
   },
   setup () {
     const field = ref({})
+    const switchVal = ref(false)
 
     /**
      * Callback function triggered when field on the map is clicked
@@ -26,6 +31,7 @@ export default {
 
     return {
       field,
+      switchVal,
       fieldClicked
     }
   }

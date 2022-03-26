@@ -9,7 +9,8 @@ export default {
   name: 'Switch',
   props: {
     value: {
-      type: Boolean
+      type: Boolean,
+      required: true
     }
   },
   setup (props, { emit }) {
@@ -18,7 +19,7 @@ export default {
         return props.value
       },
       set (value) {
-        emit('onChange', value)
+        emit('input', value)
       }
     })
     return {
