@@ -1,5 +1,5 @@
-export const FIELD_COLOR = '#fde400'
-export const FIELD_COLOR_OPACITY = 0.5
+export const FIELD_COLOR = '#ffffff'
+export const FIELD_COLOR_OPACITY = 0.2
 export const FIELD_BORDER_WIDTH = 3
 
 /**
@@ -49,6 +49,11 @@ export const createFields = (
   if (fieldClickedCB && typeof fieldClickedCB === 'function') {
     map.on('click', fieldsLayer, e => {
       const fieldProperties = e.features[0].properties
+      fieldProperties.company = JSON.parse(fieldProperties.company)
+      fieldProperties.coordinates = JSON.parse(fieldProperties.coordinates)
+      fieldProperties.crops = JSON.parse(fieldProperties.crops)
+      fieldProperties.manager = JSON.parse(fieldProperties.manager)
+      fieldProperties.sensors = JSON.parse(fieldProperties.sensors)
       fieldClickedCB(fieldProperties)
     })
   }

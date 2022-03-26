@@ -10,10 +10,10 @@
 </template>
 
 <script>
-import Map from '@/components/atoms/Map'
-import fields from '../data'
 import { computed, ref } from 'vue'
 import { createFields } from '../utils/fields'
+import fields from '../data'
+import Map from '@/components/atoms/Map'
 
 export default {
   name: 'FieldsMap',
@@ -26,7 +26,12 @@ export default {
     const accessToken = computed(_ => {
       return process.env.VUE_APP_MAPBOX_ACCESS_TOKEN
     })
-    const fieldClicked = field => { emit('fieldClicked', field) }
+
+    /**
+     * Callback function triggered when field is clicked
+     * @param field return clicked field
+     */
+    const fieldClicked = field => emit('fieldClicked', field)
     const onMapLoaded = map => {
       createFields(
         fields,

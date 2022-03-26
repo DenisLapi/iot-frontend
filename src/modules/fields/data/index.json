@@ -5,7 +5,11 @@
     "size": "15.4 ha",
     "company": {
       "id": 0,
-      "name": "Company name 1"
+      "name": "Agro group"
+    },
+    "manager":{
+      "id":2,
+      "name": "Tobias Smith"
     },
     "coordinates": [
       {
@@ -48,8 +52,9 @@
     ],
     "sensors": [
       {
-        "name": "Moisture sensor",
-        "type": "moisture",
+        "name": "Wind sensor",
+        "type": "wind",
+        "status": true,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -58,6 +63,7 @@
       {
         "name": "Humidity sensor",
         "type": "humidity",
+        "status": false,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -79,7 +85,11 @@
     "size": "15.4 ha",
     "company": {
       "id": 0,
-      "name": "Company name 1"
+      "name": "Agro group"
+    },
+    "manager": {
+      "id": 2,
+      "name": "Tobias Smith"
     },
     "coordinates": [
       {
@@ -118,8 +128,9 @@
     ],
     "sensors": [
       {
-        "name": "Moisture sensor",
-        "type": "moisture",
+        "name": "Wind sensor",
+        "type": "wind",
+        "status": true,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -128,6 +139,7 @@
       {
         "name": "Humidity sensor",
         "type": "humidity",
+        "status": false,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -149,7 +161,11 @@
     "size": "15.4 ha",
     "company": {
       "id": 0,
-      "name": "Company name 1"
+      "name": "Agro group"
+    },
+    "manager": {
+      "id": 2,
+      "name": "Tobias Smith"
     },
     "coordinates": [
       {
@@ -196,8 +212,9 @@
     ],
     "sensors": [
       {
-        "name": "Moisture sensor",
-        "type": "moisture",
+        "name": "Wind sensor",
+        "type": "wind",
+        "status": true,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -206,6 +223,7 @@
       {
         "name": "Humidity sensor",
         "type": "humidity",
+        "status": false,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -227,7 +245,11 @@
     "size": "15.4 ha",
     "company": {
       "id": 0,
-      "name": "Company name 1"
+      "name": "Agro group"
+    },
+    "manager": {
+      "id": 2,
+      "name": "Tobias Smith"
     },
     "coordinates": [
       {
@@ -290,8 +312,9 @@
     ],
     "sensors": [
       {
-        "name": "Moisture sensor",
-        "type": "moisture",
+        "name": "Wind sensor",
+        "type": "wind",
+        "status": true,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -300,6 +323,7 @@
       {
         "name": "Humidity sensor",
         "type": "humidity",
+        "status": false,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -321,7 +345,11 @@
     "size": "15.4 ha",
     "company": {
       "id": 0,
-      "name": "Company name 1"
+      "name": "Agro group"
+    },
+    "manager": {
+      "id": 2,
+      "name": "Tobias Smith"
     },
     "coordinates": [
       {
@@ -372,8 +400,9 @@
     ],
     "sensors": [
       {
-        "name": "Moisture sensor",
-        "type": "moisture",
+        "name": "Wind sensor",
+        "type": "wind",
+        "status": true,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -382,6 +411,7 @@
       {
         "name": "Humidity sensor",
         "type": "humidity",
+        "status": false,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
