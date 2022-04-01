@@ -55,6 +55,7 @@
         "name": "Wind sensor",
         "type": "wind",
         "status": true,
+        "battery": 50,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -64,6 +65,7 @@
         "name": "Humidity sensor",
         "type": "humidity",
         "status": false,
+        "battery": 5,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -131,6 +133,7 @@
         "name": "Wind sensor",
         "type": "wind",
         "status": true,
+        "battery": 12,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -140,6 +143,7 @@
         "name": "Humidity sensor",
         "type": "humidity",
         "status": false,
+        "battery": 37,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -215,6 +219,7 @@
         "name": "Wind sensor",
         "type": "wind",
         "status": true,
+        "battery": 46,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -224,6 +229,7 @@
         "name": "Humidity sensor",
         "type": "humidity",
         "status": false,
+        "battery": 72,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -315,6 +321,7 @@
         "name": "Wind sensor",
         "type": "wind",
         "status": true,
+        "battery": 91,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -324,6 +331,7 @@
         "name": "Humidity sensor",
         "type": "humidity",
         "status": false,
+        "battery": 32,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -403,6 +411,7 @@
         "name": "Wind sensor",
         "type": "wind",
         "status": true,
+        "battery": 41,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -412,6 +421,7 @@
         "name": "Humidity sensor",
         "type": "humidity",
         "status": false,
+        "battery": 20,
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574

@@ -1,38 +1,45 @@
 <template>
   <div>
-    {{ switchVal }}
-    <Switch v-model="switchVal" />
     <fields-map @fieldClicked="fieldClicked" />
+    <field-details-modal
+      :if="!!field && showFieldModal"
+      :field="field"
+      :is-visible="showFieldModal"
+      @onClose="closeFieldModal"
+    />
   </div>
 </template>
 
 <script>
 import { ref } from 'vue'
 import FieldsMap from './components/FieldsMap'
-import Switch from '@/components/atoms/Switch'
+import FieldDetailsModal from './components/FieldDetailsModal'
 
 export default {
   name: 'Home',
   components: {
     FieldsMap,
-    Switch
+    FieldDetailsModal
   },
   setup () {
     const field = ref({})
-    const switchVal = ref(false)
-
+    const showFieldModal = ref(false)
     /**
      * Callback function triggered when field on the map is clicked
      * @param fieldData return field data
      */
     const fieldClicked = fieldData => {
       field.value = fieldData
+      showFieldModal.value = true
     }
-
+    const closeFieldModal = () => {
+      showFieldModal.value = false
+    }
     return {
       field,
-      switchVal,
-      fieldClicked
+      showFieldModal,
+      fieldClicked,
+      closeFieldModal
     }
   }
 }
