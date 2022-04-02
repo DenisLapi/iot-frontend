@@ -54,7 +54,7 @@ export const createFields = (
       fieldProperties.crops = JSON.parse(fieldProperties.crops)
       fieldProperties.manager = JSON.parse(fieldProperties.manager)
       fieldProperties.sensors = JSON.parse(fieldProperties.sensors)
-      fieldProperties.notes = JSON.parse(fieldProperties.notes)
+      fieldProperties.notifications = JSON.parse(fieldProperties.notifications)
       fieldClickedCB(fieldProperties)
     })
   }

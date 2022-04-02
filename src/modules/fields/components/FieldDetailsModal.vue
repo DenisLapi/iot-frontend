@@ -5,6 +5,7 @@
     :max-width="'auto'"
     @onClose="closeModal"
   >
+    <h3 class="mt-0">Basic information</h3>
     <div class="data-grid">
       <data-group
         v-for="({ label, value}, index) in fieldValues"
@@ -14,24 +15,26 @@
       />
     </div>
     <divider />
-    <h3>Recent Notes</h3>
-    <div class="notes">
+
+    <h3>Recent notifications</h3>
+    <div class="notifications">
       <p
-        v-if="!notes.length"
-        class="no-notes-text"
+        v-if="!notifications.length"
+        class="no-notifications-text"
       >
-        There are no notes yet <br>
-        <a href="#">Add notes</a>
+        There are no notifications yet <br>
+        <a href="#">Add notifications</a>
       </p>
       <div v-else>
-        <note
-          v-for="({ type, message, createdDate }, index) in notes"
+        <notification
+          v-for="({ type, message, createdDate }, index) in notifications"
           :key="index"
           :label="noteLabel({ type, createdDate })"
           :message="message"
         />
       </div>
     </div>
+    <divider />
   </right-side-modal>
 </template>
 
@@ -40,7 +43,7 @@ import { computed } from 'vue'
 import DataGroup from '@/components/atoms/DataGroup'
 import RightSideModal from '@/components/molecules/RightSideModal'
 import Divider from '@/components/atoms/Divider'
-import Note from '@/modules/notes/components/Note'
+import Notification from '@/modules/notifications/components/Notification'
 
 export default {
   name: 'FieldDetailsModal',
@@ -48,7 +51,7 @@ export default {
     DataGroup,
     RightSideModal,
     Divider,
-    Note
+    Notification
   },
   props: {
     isVisible: {
@@ -75,7 +78,7 @@ export default {
       { label: 'Company', value: props.field.company.name },
       { label: 'Manager', value: props.field.manager.name }
     ])
-    const notes = computed(() => props.field.notes)
+    const notifications = computed(() => props.field.notifications)
     /**
      * Function triggered by framework when modal is closed
      * @param value
@@ -86,7 +89,7 @@ export default {
       show,
       closeModal,
       fieldValues,
-      notes,
+      notifications,
       noteLabel
     }
   }
@@ -101,9 +104,15 @@ export default {
 h3 {
   margin: 15px 0;
 }
-.no-notes-text {
+.no-notifications-text {
   text-align: center;
   font-size: 14px;
   color: #a5b2bc;
+}
+.notifications ::v-deep .note {
+  margin-bottom: 10px;
+}
+.mt-0 {
+  margin-top: 0;
 }
 </style>

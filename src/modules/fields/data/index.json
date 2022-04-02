@@ -72,7 +72,7 @@
         }
       }
     ],
-    "notes": [
+    "notifications": [
       {
         "id": 298,
         "type": "other",
@@ -150,7 +150,7 @@
         }
       }
     ],
-    "notes": [
+    "notifications": [
       {
         "id": 298,
         "type": "other",
@@ -236,7 +236,7 @@
         }
       }
     ],
-    "notes": [
+    "notifications": [
       {
         "id": 298,
         "type": "flooding",
@@ -338,7 +338,7 @@
         }
       }
     ],
-    "notes": [
+    "notifications": [
       {
         "id": 298,
         "type": "flooding",
@@ -429,12 +429,18 @@
         }
       }
     ],
-    "notes": [
+    "notifications": [
       {
         "id": 298,
         "type": "flooding",
         "message": "Tomorrow add some water",
         "createdDate": "06-03-2022"
+      },
+      {
+        "id": 298,
+        "type": "fire",
+        "message": "Fire was detected",
+        "createdDate": "12-05-2022"
       }
     ]
   }
