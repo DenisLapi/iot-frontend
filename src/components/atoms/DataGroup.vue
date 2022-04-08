@@ -33,7 +33,7 @@ export default {
   }
   &__value {
     font-size: 16px;
-    margin: 0 0 15px;
+    margin: 0;
   }
 }
 </style>

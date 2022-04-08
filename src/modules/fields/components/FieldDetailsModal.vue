@@ -14,27 +14,13 @@
         :value="value"
       />
     </div>
-    <divider />
-
-    <h3>Recent notifications</h3>
-    <div class="notifications">
-      <p
-        v-if="!notifications.length"
-        class="no-notifications-text"
-      >
-        There are no notifications yet <br>
-        <a href="#">Add notifications</a>
-      </p>
-      <div v-else>
-        <notification
-          v-for="({ type, message, createdDate }, index) in notifications"
-          :key="index"
-          :label="noteLabel({ type, createdDate })"
-          :message="message"
-        />
-      </div>
+    <div class="data-grid mt-15">
+      <sensor-card
+        v-for="(sensor, index) in field.sensors"
+        :key="index"
+        :sensor="sensor"
+      />
     </div>
-    <divider />
   </right-side-modal>
 </template>
 
@@ -42,16 +28,14 @@
 import { computed } from 'vue'
 import DataGroup from '@/components/atoms/DataGroup'
 import RightSideModal from '@/components/molecules/RightSideModal'
-import Divider from '@/components/atoms/Divider'
-import Notification from '@/modules/notifications/components/Notification'
+import SensorCard from '@/modules/sensors/components/SensorCard'
 
 export default {
   name: 'FieldDetailsModal',
   components: {
     DataGroup,
     RightSideModal,
-    Divider,
-    Notification
+    SensorCard
   },
   props: {
     isVisible: {
@@ -73,12 +57,11 @@ export default {
       }
     })
     const fieldValues = computed(() => [
-      { label: 'Title', value: props.field.title },
+      { label: 'Name', value: props.field.title },
       { label: 'Size', value: props.field.size },
       { label: 'Company', value: props.field.company.name },
       { label: 'Manager', value: props.field.manager.name }
     ])
-    const notifications = computed(() => props.field.notifications)
     /**
      * Function triggered by framework when modal is closed
      * @param value
@@ -89,7 +72,6 @@ export default {
       show,
       closeModal,
       fieldValues,
-      notifications,
       noteLabel
     }
   }
@@ -99,20 +81,17 @@ export default {
 <style lang="scss" scoped>
 .data-grid {
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: repeat(2, 49%);
+  column-gap: 2%;
+  row-gap: 13px;
 }
 h3 {
   margin: 15px 0;
 }
-.no-notifications-text {
-  text-align: center;
-  font-size: 14px;
-  color: #a5b2bc;
-}
-.notifications ::v-deep .note {
-  margin-bottom: 10px;
-}
 .mt-0 {
   margin-top: 0;
+}
+.mt-15 {
+  margin-top: 15px;
 }
 </style>

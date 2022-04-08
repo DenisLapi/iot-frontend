@@ -1,5 +1,5 @@
 <template>
-  <div class="notification">
+  <div class="note">
     <data-group
       :label="label"
       :value="message"
@@ -11,7 +11,7 @@
 import DataGroup from '@/components/atoms/DataGroup'
 
 export default {
-  name: 'Notification',
+  name: 'Note',
   components: {
     DataGroup
   },
@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.notification ::v-deep .data-group__label {
+.note ::v-deep .data-group__label {
   text-transform: uppercase;
 }
 </style>
