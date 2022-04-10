@@ -1,5 +1,8 @@
 <template>
-  <o-switch v-model="switchValue" />
+  <o-switch
+    v-model="switchValue"
+    :class="{ 'is-small': small }"
+  />
 </template>
 
 <script>
@@ -9,7 +12,13 @@ export default {
   name: 'Switch',
   props: {
     value: {
-      type: Boolean
+      type: Boolean,
+      required: true
+    },
+    small: {
+      type: Boolean,
+      default: false,
+      required: false
     }
   },
   setup (props, { emit }) {
@@ -18,7 +27,7 @@ export default {
         return props.value
       },
       set (value) {
-        emit('onChange', value)
+        emit('input', value)
       }
     })
     return {
@@ -27,3 +36,16 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.is-small {
+  ::v-deep .o-switch__check {
+    width: 2rem;
+    height: calc(2em * 0.5 + 0.2em);
+  }
+  ::v-deep .o-switch__check-switch {
+    height: calc((2rem - 0.2em * 2) * 0.5);
+    width: calc((2rem - 0.2em * 2) * 0.5);
+  }
+}
+</style>

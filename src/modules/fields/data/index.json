@@ -55,6 +55,11 @@
         "name": "Wind sensor",
         "type": "wind",
         "status": true,
+        "battery": 50,
+        "current": {
+          "value": 14,
+          "unit": "m/s"
+        },
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -64,6 +69,39 @@
         "name": "Humidity sensor",
         "type": "humidity",
         "status": false,
+        "battery": 5,
+        "current": {
+          "value": 10,
+          "unit": "%"
+        },
+        "coordinates": {
+          "x": 22.638745,
+          "y": 44.423574
+        }
+      },
+      {
+        "name": "Wind sensor",
+        "type": "wind",
+        "status": true,
+        "battery": 50,
+        "current": {
+          "value": 14,
+          "unit": "m/s"
+        },
+        "coordinates": {
+          "x": 22.638745,
+          "y": 44.423574
+        }
+      },
+      {
+        "name": "Humidity sensor",
+        "type": "humidity",
+        "status": false,
+        "battery": 5,
+        "current": {
+          "value": 10,
+          "unit": "%"
+        },
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -75,7 +113,7 @@
         "id": 298,
         "type": "other",
         "message": "Tomorrow add some water",
-        "created_at": "06-03-2022"
+        "createdDate": "06-03-2022"
       }
     ]
   },
@@ -131,6 +169,11 @@
         "name": "Wind sensor",
         "type": "wind",
         "status": true,
+        "battery": 12,
+        "current": {
+          "value": 5,
+          "unit": "m/s"
+        },
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -140,6 +183,11 @@
         "name": "Humidity sensor",
         "type": "humidity",
         "status": false,
+        "battery": 37,
+        "current": {
+          "value": 23,
+          "unit": "%"
+        },
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -151,7 +199,7 @@
         "id": 298,
         "type": "other",
         "message": "Tomorrow add some water",
-        "created_at": "06-03-2022"
+        "createdDate": "06-03-2022"
       }
     ]
   },
@@ -215,6 +263,11 @@
         "name": "Wind sensor",
         "type": "wind",
         "status": true,
+        "battery": 46,
+        "current": {
+          "value": 10,
+          "unit": "m/s"
+        },
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -224,6 +277,11 @@
         "name": "Humidity sensor",
         "type": "humidity",
         "status": false,
+        "battery": 72,
+        "current": {
+          "value": 55,
+          "unit": "%"
+        },
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -235,7 +293,7 @@
         "id": 298,
         "type": "flooding",
         "message": "Tomorrow add some water",
-        "created_at": "06-03-2022"
+        "createdDate": "06-03-2022"
       }
     ]
   },
@@ -315,6 +373,11 @@
         "name": "Wind sensor",
         "type": "wind",
         "status": true,
+        "battery": 91,
+        "current": {
+          "value": 15,
+          "unit": "m/s"
+        },
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -324,6 +387,11 @@
         "name": "Humidity sensor",
         "type": "humidity",
         "status": false,
+        "battery": 32,
+        "current": {
+          "value": 60,
+          "unit": "%"
+        },
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -335,7 +403,7 @@
         "id": 298,
         "type": "flooding",
         "message": "Tomorrow add some water",
-        "created_at": "06-03-2022"
+        "createdDate": "06-03-2022"
       }
     ]
   },
@@ -376,6 +444,7 @@
         "x": 22.627158,
         "y": 44.41467
       },
+
       {
         "x": 22.623725,
         "y": 44.416724
@@ -403,6 +472,11 @@
         "name": "Wind sensor",
         "type": "wind",
         "status": true,
+        "battery": 41,
+        "current": {
+          "value": 32,
+          "unit": "m/s"
+        },
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -412,6 +486,11 @@
         "name": "Humidity sensor",
         "type": "humidity",
         "status": false,
+        "battery": 20,
+        "current": {
+          "value": 70,
+          "unit": "%"
+        },
         "coordinates": {
           "x": 22.638745,
           "y": 44.423574
@@ -423,7 +502,13 @@
         "id": 298,
         "type": "flooding",
         "message": "Tomorrow add some water",
-        "created_at": "06-03-2022"
+        "createdDate": "06-03-2022"
+      },
+      {
+        "id": 298,
+        "type": "fire",
+        "message": "Fire was detected",
+        "createdDate": "12-05-2022"
       }
     ]
   }

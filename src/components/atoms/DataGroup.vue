@@ -27,13 +27,13 @@ export default {
     display: block;
   }
   &__label {
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 12px;
     margin: 0;
+    color: #a5b2bc;
   }
   &__value {
-    font-size: 18px;
-    margin: 5px 0 15px;
+    font-size: 16px;
+    margin: 0;
   }
 }
 </style>
