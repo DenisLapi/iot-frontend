@@ -4,7 +4,7 @@
     scroll="clip"
     v-model:active="show"
     :width="maxWidth"
-    @onClose="closeModal"
+    @close="closeModal"
   >
     <slot></slot>
   </o-modal>
@@ -31,14 +31,14 @@ export default {
         return props.isVisible
       },
       set (value) {
-        emit('onClose', value)
+        emit('close', value)
       }
     })
     /**
      * Function triggered by framework when modal is closed
      * @param value
      */
-    const closeModal = value => emit('onClose', value)
+    const closeModal = value => emit('close', value)
     return {
       show,
       closeModal

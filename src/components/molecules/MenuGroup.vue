@@ -9,7 +9,7 @@
     >
       <icon
         color="#ccc"
-        size="15"
+        :size="15"
         :name="icon"
       />
       <p class="menu-group__label">{{ label }}</p>
