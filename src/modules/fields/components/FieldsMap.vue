@@ -12,13 +12,19 @@
 <script>
 import { computed, ref } from 'vue'
 import { createFields } from '../utils/fields'
-import fields from '../data'
 import Map from '@/components/atoms/Map'
 
 export default {
   name: 'FieldsMap',
   components: {
     Map
+  },
+  props: {
+    fields: {
+      type: Array,
+      default: () => [],
+      required: false
+    }
   },
   setup (props, { emit }) {
     const mapCenter = ref([22.630162, 44.416341])
@@ -34,7 +40,7 @@ export default {
     const fieldClicked = field => emit('fieldClicked', field)
     const onMapLoaded = map => {
       createFields(
-        fields,
+        props.fields,
         map,
         'fields-map',
         'fields-layer',

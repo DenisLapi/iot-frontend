@@ -1,6 +1,9 @@
 <template>
   <div>
-    <fields-map @field-clicked="fieldClicked" />
+    <fields-map
+      :fields="fields"
+      @field-clicked="fieldClicked"
+    />
     <field-details-modal
       :if="!!field && showFieldModal"
       :field="field"
@@ -12,7 +15,8 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { useFieldStore } from './store'
 import FieldsMap from './components/FieldsMap'
 import FieldDetailsModal from './components/FieldDetailsModal'
 
@@ -23,7 +27,9 @@ export default {
     FieldDetailsModal
   },
   setup () {
+    const fieldStore = useFieldStore()
     const field = ref({})
+    const fields = computed(_ => fieldStore.fields)
     const showFieldModal = ref(false)
 
     /**
@@ -44,11 +50,16 @@ export default {
      * @param newField
      */
     const fieldUpdated = newField => {
-      console.log('update field', newField)
+      fieldStore.updateField(newField)
     }
+
+    onMounted(_ => {
+      fieldStore.loadFields()
+    })
 
     return {
       field,
+      fields,
       showFieldModal,
       fieldClicked,
       closeFieldModal,
