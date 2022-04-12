@@ -6,7 +6,7 @@
       :field="field"
       :is-visible="showFieldModal"
       @on-close="closeFieldModal"
-      @on-change="updateField"
+      @on-change="fieldUpdated"
     />
   </div>
 </template>
@@ -43,7 +43,7 @@ export default {
      * Function is triggered when field value is changed
      * @param newField
      */
-    const updateField = newField => {
+    const fieldUpdated = newField => {
       console.log('update field', newField)
     }
 
@@ -52,7 +52,7 @@ export default {
       showFieldModal,
       fieldClicked,
       closeFieldModal,
-      updateField
+      fieldUpdated
     }
   }
 }
