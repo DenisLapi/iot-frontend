@@ -5,8 +5,8 @@
       :if="!!field && showFieldModal"
       :field="field"
       :is-visible="showFieldModal"
-      @close="closeFieldModal"
-      @change="updateField"
+      @on-close="closeFieldModal"
+      @on-change="updateField"
     />
   </div>
 </template>
@@ -41,10 +41,10 @@ export default {
 
     /**
      * Function is triggered when field value is changed
-     * @param field
+     * @param newField
      */
-    const updateField = field => {
-      // console.log('update field', field)
+    const updateField = newField => {
+      console.log('update field', newField)
     }
 
     return {

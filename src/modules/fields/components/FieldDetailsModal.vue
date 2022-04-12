@@ -3,7 +3,7 @@
     class="field-details-modal"
     :is-visible="show"
     :max-width="'auto'"
-    @close="closeModal"
+    @on-close="closeModal"
   >
     <h3 class="mt-0">Basic information</h3>
     <div class="data-grid">
@@ -19,7 +19,7 @@
         v-for="(sensor, index) in fieldRef.sensors"
         :key="index"
         :sensor="sensor"
-        @change="newValue => updateSensor(newValue, index)"
+        @on-change="newValue => updateSensor(newValue, index)"
       />
     </div>
   </right-side-modal>
@@ -65,7 +65,7 @@ export default {
         return props.isVisible
       },
       set (value) {
-        emit('close', value)
+        emit('onClose', value)
       }
     })
 
@@ -73,7 +73,7 @@ export default {
      * Function triggered by framework when modal is closed
      * @param value
      */
-    const closeModal = value => emit('close', value)
+    const closeModal = value => emit('onClose', value)
 
     /**
      * Function generates note label
@@ -90,7 +90,7 @@ export default {
      */
     const updateSensor = (newValue, index) => {
       fieldRef.value.sensors[index] = newValue
-      // emit('change', fieldRef.value)
+      emit('onChange', fieldRef.value)
     }
 
     watch(show, isVisible => {

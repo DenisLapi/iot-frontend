@@ -52,8 +52,7 @@ export default {
       }
     ])
     watch(sensorRef, newValue => {
-      console.log(newValue, newValue)
-      emit('change', newValue.value)
+      emit('onChange', newValue)
     }, { deep: true })
 
     return {

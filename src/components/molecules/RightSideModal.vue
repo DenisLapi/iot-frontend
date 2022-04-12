@@ -31,7 +31,7 @@ export default {
         return props.isVisible
       },
       set (value) {
-        emit('close', value)
+        emit('onClose', value)
       }
     })
 
@@ -39,7 +39,7 @@ export default {
      * Function triggered by framework when modal is closed
      * @param value
      */
-    const closeModal = value => emit('close', value)
+    const closeModal = value => emit('onClose', value)
 
     return {
       show,
