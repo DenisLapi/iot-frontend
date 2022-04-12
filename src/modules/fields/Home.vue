@@ -1,11 +1,12 @@
 <template>
   <div>
-    <fields-map @fieldClicked="fieldClicked" />
+    <fields-map @field-clicked="fieldClicked" />
     <field-details-modal
       :if="!!field && showFieldModal"
       :field="field"
       :is-visible="showFieldModal"
-      @onClose="closeFieldModal"
+      @on-close="closeFieldModal"
+      @on-change="fieldUpdated"
     />
   </div>
 </template>
@@ -24,6 +25,7 @@ export default {
   setup () {
     const field = ref({})
     const showFieldModal = ref(false)
+
     /**
      * Callback function triggered when field on the map is clicked
      * @param fieldData return field data
@@ -32,14 +34,25 @@ export default {
       field.value = fieldData
       showFieldModal.value = true
     }
+
     const closeFieldModal = () => {
       showFieldModal.value = false
     }
+
+    /**
+     * Function is triggered when field value is changed
+     * @param newField
+     */
+    const fieldUpdated = newField => {
+      console.log('update field', newField)
+    }
+
     return {
       field,
       showFieldModal,
       fieldClicked,
-      closeFieldModal
+      closeFieldModal,
+      fieldUpdated
     }
   }
 }

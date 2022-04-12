@@ -4,7 +4,7 @@
     scroll="clip"
     v-model:active="show"
     :width="maxWidth"
-    @onClose="closeModal"
+    @on-close="closeModal"
   >
     <slot></slot>
   </o-modal>

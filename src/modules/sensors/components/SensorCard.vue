@@ -1,15 +1,15 @@
 <template>
   <div class="sensor-card">
     <div class="sensor-card__icon-wrapper">
-      <icon :name="sensor.type" />
+      <icon :name="sensorRef.type" />
     </div>
-    <p class="sensor-card__name">{{ sensor.name }}</p>
+    <p class="sensor-card__name">{{ sensorRef.name }}</p>
     <p class="sensor-card__value">
-      {{ sensor.current.value }}<span class="sensor-card__value-unit">{{ sensor.current.unit }}</span>
+      {{ sensorRef.current.value }}<span class="sensor-card__value-unit">{{ sensorRef.current.unit }}</span>
     </p>
     <Switch
       class="sensor-card__status-switch"
-      :value="sensor.status"
+      v-model="sensorRef.status"
       :small="true"
     />
     <MenuGroup
@@ -22,7 +22,7 @@
 import Icon from '@/components/atoms/Icon'
 import Switch from '@/components/atoms/Switch'
 import MenuGroup from '@/components/molecules/MenuGroup'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 export default {
   name: 'SensorCard',
@@ -37,7 +37,8 @@ export default {
       required: true
     }
   },
-  setup (props) {
+  setup (props, { emit }) {
+    const sensorRef = ref(props.sensor)
     const options = ref([
       {
         label: 'Location',
@@ -50,7 +51,14 @@ export default {
         callback: false
       }
     ])
-    return { options }
+    watch(sensorRef, newValue => {
+      emit('onChange', newValue)
+    }, { deep: true })
+
+    return {
+      options,
+      sensorRef
+    }
   }
 }
 </script>

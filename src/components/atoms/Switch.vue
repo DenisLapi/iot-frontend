@@ -12,8 +12,7 @@ export default {
   name: 'Switch',
   props: {
     value: {
-      type: Boolean,
-      required: true
+      type: Boolean
     },
     small: {
       type: Boolean,
