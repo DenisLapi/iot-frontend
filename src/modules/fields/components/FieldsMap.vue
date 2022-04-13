@@ -48,7 +48,6 @@ export default {
     }
 
     watch(props.fields, _ => {
-      console.log('update fields')
       updateFields(
         props.fields,
         map,

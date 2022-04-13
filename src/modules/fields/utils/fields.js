@@ -72,7 +72,9 @@ export const formatCoordinates = ({ coordinates }) => {
 export const createFieldFeature = (field) => {
   return {
     type: 'Feature',
-    properties: field,
+    properties: {
+      id: field.id
+    },
     geometry: {
       type: 'Polygon',
       coordinates: [formatCoordinates(field)]
