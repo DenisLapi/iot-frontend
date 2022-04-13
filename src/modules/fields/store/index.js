@@ -6,17 +6,31 @@ export const useFieldStore = defineStore('field', {
     fields: []
   }),
   actions: {
+
+    /**
+     * Function loads the fields in the store
+     */
     loadFields () {
       this.fields = DEFAULT_FIELDS
     },
-    updateFields (fields) {
-      this.fields = fields
-    },
+
+    /**
+     * Function updates field
+     * @param field field details which needs to include field id
+     */
     updateField (field) {
       const fieldIndex = this.fields.findIndex(({ id }) => field.id === id)
-      console.log(fieldIndex)
       this.fields[fieldIndex] = field
-      console.log(this.fields)
+    },
+
+    /**
+     * Function returns the field based on the id
+     * @param fieldId
+     * @returns {*} Field
+     */
+    getField (fieldId) {
+      const fieldIndex = this.fields.findIndex(({ id }) => fieldId === id)
+      return this.fields[fieldIndex]
     }
   }
 })

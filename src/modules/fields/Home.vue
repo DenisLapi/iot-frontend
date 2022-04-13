@@ -5,17 +5,18 @@
       @field-clicked="fieldClicked"
     />
     <field-details-modal
-      :if="!!field && showFieldModal"
-      :field="field"
+      :if="shouldDisplayFieldModal"
+      :field="selectedField"
       :is-visible="showFieldModal"
       @on-close="closeFieldModal"
-      @on-change="fieldUpdated"
+      @on-change="updateField"
     />
   </div>
 </template>
 
 <script>
 import { ref, computed, onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useFieldStore } from './store'
 import FieldsMap from './components/FieldsMap'
 import FieldDetailsModal from './components/FieldDetailsModal'
@@ -28,16 +29,17 @@ export default {
   },
   setup () {
     const fieldStore = useFieldStore()
-    const field = ref({})
-    const fields = computed(_ => fieldStore.fields)
+    const { fields } = storeToRefs(fieldStore)
+    const selectedField = ref({})
     const showFieldModal = ref(false)
+    const shouldDisplayFieldModal = computed(() => !!selectedField.value && showFieldModal.value)
 
     /**
      * Callback function triggered when field on the map is clicked
-     * @param fieldData return field data
+     * @param fieldId
      */
-    const fieldClicked = fieldData => {
-      field.value = fieldData
+    const fieldClicked = fieldId => {
+      selectedField.value = fieldStore.getField(fieldId)
       showFieldModal.value = true
     }
 
@@ -47,10 +49,10 @@ export default {
 
     /**
      * Function is triggered when field value is changed
-     * @param newField
+     * @param field
      */
-    const fieldUpdated = newField => {
-      fieldStore.updateField(newField)
+    const updateField = field => {
+      fieldStore.updateField(field)
     }
 
     onMounted(_ => {
@@ -58,12 +60,13 @@ export default {
     })
 
     return {
-      field,
       fields,
+      selectedField,
       showFieldModal,
+      shouldDisplayFieldModal,
       fieldClicked,
       closeFieldModal,
-      fieldUpdated
+      updateField
     }
   }
 }
