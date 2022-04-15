@@ -2,20 +2,21 @@ export const FIELD_COLOR = '#ffffff'
 export const FIELD_COLOR_OPACITY = 0.2
 export const FIELD_BORDER_WIDTH = 3
 
+export const MAP_MODE_SELECT = 'select'
+export const MAP_MODE_CREATE = 'create'
+
 /**
  * Create fields on a map source
  * @param fields array of fields
  * @param map mapbox map object
  * @param source source name
  * @param fieldsLayer name of the layer for fields
- * @param fieldClickedCB callback fired when field is clicked
  */
 export const createFields = (
   fields,
   map,
   source,
-  fieldsLayer = 'fields-layer',
-  fieldClickedCB = () => {}
+  fieldsLayer = 'fields-layer'
 ) => {
   const features = fields.map(field => createFieldFeature(field))
   map.addSource(source, {
@@ -45,12 +46,6 @@ export const createFields = (
       'line-width': FIELD_BORDER_WIDTH
     }
   })
-
-  if (fieldClickedCB && typeof fieldClickedCB === 'function') {
-    map.on('click', fieldsLayer, e => {
-      return fieldClickedCB(e.features[0].properties.id)
-    })
-  }
 }
 
 /**
