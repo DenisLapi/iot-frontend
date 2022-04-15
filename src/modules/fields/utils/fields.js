@@ -48,14 +48,7 @@ export const createFields = (
 
   if (fieldClickedCB && typeof fieldClickedCB === 'function') {
     map.on('click', fieldsLayer, e => {
-      const fieldProperties = e.features[0].properties
-      fieldProperties.company = JSON.parse(fieldProperties.company)
-      fieldProperties.coordinates = JSON.parse(fieldProperties.coordinates)
-      fieldProperties.crops = JSON.parse(fieldProperties.crops)
-      fieldProperties.manager = JSON.parse(fieldProperties.manager)
-      fieldProperties.sensors = JSON.parse(fieldProperties.sensors)
-      fieldProperties.notes = JSON.parse(fieldProperties.notes)
-      fieldClickedCB(fieldProperties)
+      return fieldClickedCB(e.features[0].properties.id)
     })
   }
 }
@@ -79,10 +72,26 @@ export const formatCoordinates = ({ coordinates }) => {
 export const createFieldFeature = (field) => {
   return {
     type: 'Feature',
-    properties: field,
+    properties: {
+      id: field.id
+    },
     geometry: {
       type: 'Polygon',
       coordinates: [formatCoordinates(field)]
     }
   }
+}
+
+/**
+ * Update the fields on existing map and source
+ * @param fields list of fields
+ * @param map mapbox map object
+ * @param source source name as string
+ */
+export const updateFields = (fields, map, source) => {
+  const features = fields.map(field => createFieldFeature(field))
+  map.getSource(source).setData({
+    type: 'FeatureCollection',
+    features: [...features]
+  })
 }

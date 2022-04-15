@@ -12,6 +12,7 @@
     "@oruga-ui/oruga-next": "^0.5.5",
     "core-js": "^3.6.5",
     "mapbox-gl": "^2.7.0",
+    "pinia": "^2.0.13",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0"
   },
