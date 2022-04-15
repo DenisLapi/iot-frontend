@@ -27,7 +27,7 @@ export default {
     }
   },
   setup (props, { emit }) {
-    let map
+    const map = ref(null)
     const mapCenter = ref([22.630162, 44.416341])
     const mapZoom = ref(15)
     const accessToken = computed(() => process.env.VUE_APP_MAPBOX_ACCESS_TOKEN)
@@ -37,22 +37,30 @@ export default {
      * @param fieldId callback returns field id
      */
     const fieldClicked = fieldId => emit('fieldClicked', fieldId)
+
+    /**
+     * Function triggered when map is loaded
+     * @param createdMap Map created by the mapbox
+     */
     const onMapLoaded = createdMap => {
-      map = createdMap
+      map.value = createdMap
       createFields(
         props.fields,
-        map,
+        map.value,
         'fields-map',
         'fields-layer',
         fieldClicked)
     }
 
-    watch(props.fields, _ => {
-      updateFields(
-        props.fields,
-        map,
-        'fields-map')
-    })
+    watch(() => props.fields, _ => {
+      if (map.value) {
+        updateFields(
+          props.fields,
+          map.value,
+          'fields-map')
+      }
+    }, { deep: true })
+
     return {
       mapCenter,
       mapZoom,

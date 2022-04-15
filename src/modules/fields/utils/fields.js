@@ -48,7 +48,7 @@ export const createFields = (
 
   if (fieldClickedCB && typeof fieldClickedCB === 'function') {
     map.on('click', fieldsLayer, e => {
-      fieldClickedCB(e.features[0].properties.id)
+      return fieldClickedCB(e.features[0].properties.id)
     })
   }
 }
@@ -90,5 +90,8 @@ export const createFieldFeature = (field) => {
  */
 export const updateFields = (fields, map, source) => {
   const features = fields.map(field => createFieldFeature(field))
-  map.getSource(source).setData(features)
+  map.getSource(source).setData({
+    type: 'FeatureCollection',
+    features: [...features]
+  })
 }

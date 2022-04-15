@@ -31,6 +31,14 @@ export const useFieldStore = defineStore('field', {
     getField (fieldId) {
       const fieldIndex = this.fields.findIndex(({ id }) => fieldId === id)
       return this.fields[fieldIndex]
+    },
+
+    /**
+     * Functions appends field into the fields list
+     * @param field
+     */
+    addField (field) {
+      this.fields.push(field)
     }
   }
 })
