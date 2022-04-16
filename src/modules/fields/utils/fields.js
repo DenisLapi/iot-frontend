@@ -1,3 +1,5 @@
+import MapboxDraw from '@mapbox/mapbox-gl-draw'
+
 export const FIELD_COLOR = '#ffffff'
 export const FIELD_COLOR_OPACITY = 0.2
 export const FIELD_BORDER_WIDTH = 3
@@ -88,5 +90,16 @@ export const updateFields = (fields, map, source) => {
   map.getSource(source).setData({
     type: 'FeatureCollection',
     features: [...features]
+  })
+}
+
+export const getMapboxDraw = _ => {
+  return new MapboxDraw({
+    displayControlsDefault: false,
+    controls: {
+      polygon: true,
+      trash: true
+    },
+    defaultMode: 'draw_polygon'
   })
 }

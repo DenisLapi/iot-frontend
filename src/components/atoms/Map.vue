@@ -58,4 +58,12 @@ export default {
 
 <style lang="scss" scoped>
 @import "~mapbox-gl/dist/mapbox-gl.css";
+
+::v-deep .mapbox-gl-draw_polygon {
+  background: url("~@/assets/icons/polygon.svg") no-repeat center;
+}
+
+::v-deep .mapbox-gl-draw_trash {
+  background: url("~@/assets/icons/trash.svg") no-repeat center;
+}
 </style>

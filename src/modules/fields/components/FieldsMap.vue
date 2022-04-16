@@ -1,5 +1,6 @@
 <template>
   <div>
+    <button>Save</button>
     <button @click="setCreateMode()">Create</button>
     <button @click="setSelectMode()">Select</button>
     Mode: {{ mapMode }}
@@ -25,7 +26,8 @@ import {
   MAP_MODE_CREATE,
   MAP_MODE_SELECT,
   createFields,
-  updateFields
+  updateFields,
+  getMapboxDraw
 } from '../utils/fields'
 import Map from '@/components/atoms/Map'
 
@@ -42,7 +44,7 @@ export default {
     }
   },
   setup (props, { emit }) {
-    const map = ref(null)
+    let map, draw
     const mapMode = ref(MAP_MODE_SELECT)
     const mapCenter = ref([22.630162, 44.416341])
     const mapZoom = ref(15)
@@ -53,8 +55,8 @@ export default {
      * @param createdMap Map created by the mapbox
      */
     const mapLoaded = createdMap => {
-      map.value = createdMap
-      createFields(props.fields, map.value)
+      map = createdMap
+      createFields(props.fields, map)
       setMapClickEvents(mapMode.value)
     }
 
@@ -88,26 +90,35 @@ export default {
       console.log('handle map click', e)
     }
 
+    const updateNewFieldAre = e => {
+      draw.getAll()
+    }
+
     /**
      * Function sets event listeners for the map
      */
     const setMapClickEvents = (mode) => {
       switch (mode) {
         case MAP_MODE_CREATE:
-          map.value.off('click', 'fields-layer', handleFieldClick)
-          map.value.on('click', handleMapClick)
+          draw = getMapboxDraw()
+          map.addControl(draw)
+          map.off('click', 'fields-layer', handleFieldClick)
+          map.on('draw.create', updateNewFieldAre)
+          map.on('draw.delete', updateNewFieldAre)
+          map.on('draw.update', updateNewFieldAre)
           break
         default:
-          map.value.off('click', handleMapClick)
-          map.value.on('click', 'fields-layer', handleFieldClick)
+          map.removeControl(draw)
+          map.off('click', handleMapClick)
+          map.on('click', 'fields-layer', handleFieldClick)
       }
     }
 
     watch(() => props.fields, _ => {
-      if (map.value) {
+      if (map) {
         updateFields(
           props.fields,
-          map.value,
+          map,
           'fields-map')
       }
     }, { deep: true })
