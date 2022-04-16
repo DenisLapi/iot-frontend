@@ -1,9 +1,18 @@
 <template>
   <div>
-    <button>Save</button>
-    <button @click="setCreateMode()">Create</button>
+    <button
+      v-if="showSaveButton"
+      @click="saveCreatedField"
+    >
+      Save
+    </button>
+    <button
+      v-if="showCreateButton"
+      @click="setCreateMode()"
+    >
+      Create
+    </button>
     <button @click="setSelectMode()">Select</button>
-    Mode: {{ mapMode }}
     <Map
       container="map"
       class="map"
@@ -45,10 +54,15 @@ export default {
   },
   setup (props, { emit }) {
     let map, draw
+
+    const newField = ref(null)
     const mapMode = ref(MAP_MODE_SELECT)
     const mapCenter = ref([22.630162, 44.416341])
     const mapZoom = ref(15)
+
     const accessToken = computed(() => process.env.VUE_APP_MAPBOX_ACCESS_TOKEN)
+    const showSaveButton = computed(() => newField.value?.features[0] && mapMode.value === MAP_MODE_CREATE)
+    const showCreateButton = computed(() => !newField.value && mapMode.value === MAP_MODE_SELECT)
 
     /**
      * Function triggered when map is loaded
@@ -82,16 +96,12 @@ export default {
       emit('fieldClicked', e.features[0].properties.id)
     }
 
-    /**
-     * Function handles click on the map
-     * @param e
-     */
-    const handleMapClick = e => {
-      console.log('handle map click', e)
+    const updateNewFieldAre = _ => {
+      newField.value = draw.getAll()
     }
 
-    const updateNewFieldAre = e => {
-      draw.getAll()
+    const saveCreatedField = _ => {
+      emit('saveCreatedField', newField.value.features[0])
     }
 
     /**
@@ -108,8 +118,10 @@ export default {
           map.on('draw.update', updateNewFieldAre)
           break
         default:
-          map.removeControl(draw)
-          map.off('click', handleMapClick)
+          if (draw) {
+            map.removeControl(draw)
+            newField.value = null
+          }
           map.on('click', 'fields-layer', handleFieldClick)
       }
     }
@@ -131,9 +143,12 @@ export default {
       mapCenter,
       mapZoom,
       accessToken,
+      showSaveButton,
+      showCreateButton,
       mapLoaded,
       setCreateMode,
-      setSelectMode
+      setSelectMode,
+      saveCreatedField
     }
   }
 }

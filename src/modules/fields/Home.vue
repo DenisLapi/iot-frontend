@@ -3,6 +3,7 @@
     <fields-map
       :fields="fields"
       @field-clicked="fieldClicked"
+      @save-created-field="saveCreatedField"
     />
     <field-details-modal
       :if="shouldDisplayFieldModal"
@@ -10,6 +11,10 @@
       :is-visible="showFieldModal"
       @on-close="closeFieldModal"
       @on-change="updateField"
+    />
+    <create-field-modal
+      :is-visible="showCreateFieldModal"
+      @on-close="closeCreateFieldModal"
     />
   </div>
 </template>
@@ -20,22 +25,25 @@ import { storeToRefs } from 'pinia'
 import { useFieldStore } from './store'
 import FieldsMap from './components/FieldsMap'
 import FieldDetailsModal from './components/FieldDetailsModal'
+import CreateFieldModal from './components/CreateFieldModal'
 
 export default {
   name: 'Home',
   components: {
     FieldsMap,
-    FieldDetailsModal
+    FieldDetailsModal,
+    CreateFieldModal
   },
   setup () {
     const fieldStore = useFieldStore()
     const { fields } = storeToRefs(fieldStore)
     const selectedField = ref({})
     const showFieldModal = ref(false)
+    const showCreateFieldModal = ref(false)
     const shouldDisplayFieldModal = computed(() => !!selectedField.value && showFieldModal.value)
 
     /**
-     * Callback function triggered when field on the map is clicked
+     * Function triggered when field on the map is clicked
      * @param fieldId
      */
     const fieldClicked = fieldId => {
@@ -47,12 +55,25 @@ export default {
       showFieldModal.value = false
     }
 
+    const closeCreateFieldModal = () => {
+      showCreateFieldModal.value = false
+    }
+
     /**
-     * Function is triggered when field value is changed
+     * Function triggered when field value is changed
      * @param field
      */
     const updateField = field => {
       fieldStore.updateField(field)
+    }
+
+    /**
+     * Function triggered when user click save after drawing it
+     * @param field
+     */
+    const saveCreatedField = field => {
+      console.log(field)
+      showCreateFieldModal.value = true
     }
 
     onMounted(_ => {
@@ -63,10 +84,13 @@ export default {
       fields,
       selectedField,
       showFieldModal,
+      showCreateFieldModal,
       shouldDisplayFieldModal,
       fieldClicked,
       closeFieldModal,
-      updateField
+      closeCreateFieldModal,
+      updateField,
+      saveCreatedField
     }
   }
 }
