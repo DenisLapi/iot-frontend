@@ -15,7 +15,7 @@ export const MAP_MODE_CREATE = 'create'
 export const createFields = (
   fields,
   map,
-  source,
+  source = 'fields-map',
   fieldsLayer = 'fields-layer'
 ) => {
   const features = fields.map(field => createFieldFeature(field))

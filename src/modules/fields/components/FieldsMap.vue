@@ -49,23 +49,13 @@ export default {
     const accessToken = computed(() => process.env.VUE_APP_MAPBOX_ACCESS_TOKEN)
 
     /**
-     * Callback function triggered when field is clicked
-     * @param fieldId callback returns field id
-     */
-    const fieldClicked = fieldId => emit('fieldClicked', fieldId)
-
-    /**
      * Function triggered when map is loaded
      * @param createdMap Map created by the mapbox
      */
     const mapLoaded = createdMap => {
       map.value = createdMap
-      createFields(
-        props.fields,
-        map.value,
-        'fields-map',
-        'fields-layer')
-      handleMapClickEvents()
+      createFields(props.fields, map.value)
+      setMapClickEvents(mapMode.value)
     }
 
     /**
@@ -83,22 +73,33 @@ export default {
     }
 
     /**
+     * Function handles click on the field
+     * @param e
+     */
+    const handleFieldClick = e => {
+      emit('fieldClicked', e.features[0].properties.id)
+    }
+
+    /**
+     * Function handles click on the map
+     * @param e
+     */
+    const handleMapClick = e => {
+      console.log('handle map click', e)
+    }
+
+    /**
      * Function sets event listeners for the map
      */
-    const handleMapClickEvents = () => {
-      console.log('set click events', mapMode.value)
-      switch (mapMode.value) {
+    const setMapClickEvents = (mode) => {
+      switch (mode) {
         case MAP_MODE_CREATE:
-          console.log('create clicked')
-          map.value.on('click', e => {
-            console.log('create', e)
-          })
+          map.value.off('click', 'fields-layer', handleFieldClick)
+          map.value.on('click', handleMapClick)
           break
         default:
-          console.log('select clicked')
-          map.value.on('click', 'fields-layer', e => {
-            fieldClicked(e.features[0].properties.id)
-          })
+          map.value.off('click', handleMapClick)
+          map.value.on('click', 'fields-layer', handleFieldClick)
       }
     }
 
@@ -110,6 +111,9 @@ export default {
           'fields-map')
       }
     }, { deep: true })
+    watch(mapMode, mode => {
+      setMapClickEvents(mode)
+    })
 
     return {
       mapMode,
