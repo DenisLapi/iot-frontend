@@ -5,18 +5,28 @@
     :max-width="'auto'"
     @on-close="closeModal"
   >
-    Hello world
+    <h3 class="mt-0">Basic information</h3>
+    <Input
+      v-model="field.title"
+      placeholder="Enter field title"
+    />
+    <Input
+      v-model="field.size"
+      placeholder="Enter field size"
+    />
   </right-side-modal>
 </template>
 
 <script>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import RightSideModal from '@/components/molecules/RightSideModal'
+import Input from '@/components/atoms/Input'
 
 export default {
   name: 'FieldDetailsModal',
   components: {
-    RightSideModal
+    RightSideModal,
+    Input
   },
   props: {
     isVisible: {
@@ -25,6 +35,22 @@ export default {
     }
   },
   setup (props, { emit }) {
+    const field = ref({
+      title: '',
+      size: '',
+      company: {
+        id: 0,
+        name: 'Agro group'
+      },
+      manager: {
+        id: 2,
+        name: 'Tobias Smith'
+      },
+      coordinates: [],
+      crops: [],
+      sensors: [],
+      notes: []
+    })
     const show = computed({
       get () {
         return props.isVisible
@@ -41,6 +67,7 @@ export default {
     const closeModal = value => emit('onClose', value)
 
     return {
+      field,
       show,
       closeModal
     }
