@@ -1,7 +1,7 @@
 <template>
-  <right-side-modal
+  <modal
     :is-visible="show"
-    max-width="auto"
+    :max-width="1200"
     @on-close="closeModal"
   >
     <h3 class="mt-0">Basic information</h3>
@@ -19,18 +19,33 @@
         class="mb-15"
       />
     </div>
-  </right-side-modal>
+    <h3 class="mt-0">Crops</h3>
+    <div class="data-grid">
+      <Input
+        v-model="cropForm.name"
+        placeholder="Enter crop name"
+        label="Crop name"
+      />
+      <o-datepicker
+        v-model="cropForm.plantingDate"
+        placeholder="Select planting date"
+        :show-week-number="true"
+        :locale="'en-US'"
+        trap-focus
+      />
+    </div>
+  </modal>
 </template>
 
 <script>
 import { ref, computed } from 'vue'
-import RightSideModal from '@/components/molecules/RightSideModal'
 import Input from '@/components/atoms/Input'
+import Modal from '@/components/molecules/Modal'
 
 export default {
   name: 'FieldDetailsModal',
   components: {
-    RightSideModal,
+    Modal,
     Input
   },
   props: {
@@ -56,6 +71,12 @@ export default {
       sensors: [],
       notes: []
     })
+    const cropForm = ref({
+      name: '',
+      plantingDate: '',
+      harvestingDate: '',
+      yield: ''
+    })
     const show = computed({
       get () {
         return props.isVisible
@@ -73,6 +94,7 @@ export default {
 
     return {
       field,
+      cropForm,
       show,
       closeModal
     }

@@ -3,7 +3,7 @@
     class="modal-wrapper"
     scroll="clip"
     v-model:active="show"
-    :width="maxWidth"
+    :width="1000"
     @on-close="closeModal"
   >
     <slot></slot>
@@ -22,7 +22,7 @@ export default {
     },
     maxWidth: {
       type: Number,
-      default: 640
+      default: 1500
     }
   },
   setup (props, { emit }) {
@@ -51,6 +51,8 @@ export default {
 .modal-wrapper {
   ::v-deep .o-modal__content {
     border-radius: 5px;
+    padding: 30px;
+    overflow-y: auto;
   }
 }
 </style>
