@@ -51,9 +51,6 @@ export default {
 
 <style lang="scss" scoped>
 .right-side-modal {
-  ::v-deep .o-modal__overlay {
-    //display: none;
-  }
   ::v-deep .o-modal__content {
     position: absolute;
     top: 10px;
@@ -63,6 +60,7 @@ export default {
     max-height: calc(100vh - 20px);
     padding: 30px;
     overflow-y: auto;
+    border-radius: 8px;
   }
 }
 </style>

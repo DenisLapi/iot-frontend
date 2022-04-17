@@ -69,6 +69,7 @@ export default {
   height: auto;
   padding: 10px;
   border: 1px solid #dedede;
+  border-radius: 8px;
   position: relative;
   &__status-switch {
     position: absolute;

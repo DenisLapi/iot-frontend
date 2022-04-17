@@ -1,19 +1,24 @@
 <template>
   <right-side-modal
-    class="field-details-modal"
     :is-visible="show"
-    :max-width="'auto'"
+    max-width="auto"
     @on-close="closeModal"
   >
     <h3 class="mt-0">Basic information</h3>
-    <Input
-      v-model="field.title"
-      placeholder="Enter field title"
-    />
-    <Input
-      v-model="field.size"
-      placeholder="Enter field size"
-    />
+    <div class="data-grid">
+      <Input
+        v-model="field.title"
+        placeholder="Enter field title"
+        label="Title"
+        class="mb-15"
+      />
+      <Input
+        v-model="field.size"
+        placeholder="Enter field size"
+        label="Size"
+        class="mb-15"
+      />
+    </div>
   </right-side-modal>
 </template>
 
@@ -81,6 +86,9 @@ export default {
   grid-template-columns: repeat(2, 49%);
   column-gap: 2%;
   row-gap: 13px;
+  ::v-deep .input__field {
+    width: 100%;
+  }
 }
 h3 {
   margin: 15px 0;
@@ -90,5 +98,8 @@ h3 {
 }
 .mt-15 {
   margin-top: 15px;
+}
+.mb-15 {
+  margin-bottom: 15px;
 }
 </style>
