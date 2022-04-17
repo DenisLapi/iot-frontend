@@ -14,6 +14,9 @@ import IconWind from '@/components/atoms/icons/IconWind'
 import IconDrop from '@/components/atoms/icons/IconDrop'
 import IconCrossHair from '@/components/atoms/icons/IconCrossHair'
 import IconBattery from '@/components/atoms/icons/IconBattery'
+import IconSelect from '@/components/atoms/icons/IconSelect'
+import IconLayout from '@/components/atoms/icons/IconLayout'
+import IconSave from '@/components/atoms/icons/IconSave'
 
 export default {
   name: 'Icon',
@@ -43,6 +46,12 @@ export default {
           return IconCrossHair
         case 'battery':
           return IconBattery
+        case 'select':
+          return IconSelect
+        case 'layout':
+          return IconLayout
+        case 'save':
+          return IconSave
         default:
           return new Error('Icon not found')
       }

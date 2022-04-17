@@ -72,7 +72,6 @@ export default {
      * @param field
      */
     const saveCreatedField = field => {
-      console.log(field)
       showCreateFieldModal.value = true
     }
 

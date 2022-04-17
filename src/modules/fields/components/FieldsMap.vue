@@ -1,18 +1,9 @@
 <template>
-  <div>
-    <button
-      v-if="showSaveButton"
-      @click="saveCreatedField"
-    >
-      Save
-    </button>
-    <button
-      v-if="showCreateButton"
-      @click="setCreateMode()"
-    >
-      Create
-    </button>
-    <button @click="setSelectMode()">Select</button>
+  <div class="fields-map">
+    <map-controls
+      class="map-controls"
+      :options="mapControlOptions"
+    />
     <Map
       container="map"
       class="map"
@@ -39,11 +30,13 @@ import {
   getMapboxDraw
 } from '../utils/fields'
 import Map from '@/components/atoms/Map'
+import MapControls from './MapControls'
 
 export default {
   name: 'FieldsMap',
   components: {
-    Map
+    Map,
+    MapControls
   },
   props: {
     fields: {
@@ -63,6 +56,23 @@ export default {
     const accessToken = computed(() => process.env.VUE_APP_MAPBOX_ACCESS_TOKEN)
     const showSaveButton = computed(() => newField.value?.features[0] && mapMode.value === MAP_MODE_CREATE)
     const showCreateButton = computed(() => !newField.value && mapMode.value === MAP_MODE_SELECT)
+    const mapControlOptions = computed(() => [
+      {
+        icon: 'select',
+        hide: false,
+        callback: () => { setSelectMode() }
+      },
+      {
+        icon: 'save',
+        hide: !showSaveButton.value,
+        callback: () => { saveCreatedField() }
+      },
+      {
+        icon: 'layout',
+        hide: !showCreateButton.value,
+        callback: () => { setCreateMode() }
+      }
+    ])
 
     /**
      * Function triggered when map is loaded
@@ -145,6 +155,7 @@ export default {
       accessToken,
       showSaveButton,
       showCreateButton,
+      mapControlOptions,
       mapLoaded,
       setCreateMode,
       setSelectMode,
@@ -154,9 +165,21 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.fields-map {
+  position: relative;
+  .map-controls {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+}
 .map {
   width: 100%;
   height: 100vh;
+  position: relative;
 }
+
 </style>
