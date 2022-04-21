@@ -14,7 +14,9 @@
     />
     <create-field-modal
       :is-visible="showCreateFieldModal"
+      :crops="crops"
       @on-close="closeCreateFieldModal"
+      @on-create="createField"
     />
   </div>
 </template>
@@ -23,6 +25,8 @@
 import { ref, computed, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useFieldStore } from './store'
+import { CROP_TYPES_LIST } from './utils/crops'
+import { formatCoordinatesToObject } from './utils/fields'
 import FieldsMap from './components/FieldsMap'
 import FieldDetailsModal from './components/FieldDetailsModal'
 import CreateFieldModal from './components/CreateFieldModal'
@@ -35,11 +39,14 @@ export default {
     CreateFieldModal
   },
   setup () {
+    let newFieldCoordinates = []
     const fieldStore = useFieldStore()
     const { fields } = storeToRefs(fieldStore)
     const selectedField = ref({})
     const showFieldModal = ref(false)
     const showCreateFieldModal = ref(false)
+    const modalShow = ref(true)
+    const crops = ref(CROP_TYPES_LIST)
     const shouldDisplayFieldModal = computed(() => !!selectedField.value && showFieldModal.value)
 
     /**
@@ -71,8 +78,19 @@ export default {
      * Function triggered when user click save after drawing it
      * @param field
      */
-    const saveCreatedField = field => {
+    const saveCreatedField = ({ geometry: { coordinates } }) => {
+      newFieldCoordinates = formatCoordinatesToObject(coordinates[0])
       showCreateFieldModal.value = true
+    }
+
+    /**
+     * Function triggered when create field event is emitted
+     * @param field
+     */
+    const createField = field => {
+      field.coordinates = newFieldCoordinates
+      newFieldCoordinates = []
+      fieldStore.addField(field)
     }
 
     onMounted(_ => {
@@ -84,12 +102,15 @@ export default {
       selectedField,
       showFieldModal,
       showCreateFieldModal,
+      crops,
       shouldDisplayFieldModal,
+      modalShow,
       fieldClicked,
       closeFieldModal,
       closeCreateFieldModal,
       updateField,
-      saveCreatedField
+      saveCreatedField,
+      createField
     }
   }
 }

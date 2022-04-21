@@ -17,6 +17,8 @@ import IconBattery from '@/components/atoms/icons/IconBattery'
 import IconSelect from '@/components/atoms/icons/IconSelect'
 import IconLayout from '@/components/atoms/icons/IconLayout'
 import IconSave from '@/components/atoms/icons/IconSave'
+import IconPlus from '@/components/atoms/icons/IconPlus'
+import IconTrash from '@/components/atoms/icons/IconTrash'
 
 export default {
   name: 'Icon',
@@ -52,6 +54,10 @@ export default {
           return IconLayout
         case 'save':
           return IconSave
+        case 'plus':
+          return IconPlus
+        case 'trash':
+          return IconTrash
         default:
           return new Error('Icon not found')
       }

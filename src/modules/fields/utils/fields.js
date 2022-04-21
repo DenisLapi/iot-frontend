@@ -62,6 +62,16 @@ export const formatCoordinates = ({ coordinates }) => {
 }
 
 /**
+ * Format the field coordinates from array to objects
+ * @param coordinates array
+ */
+export const formatCoordinatesToObject = coordinates => {
+  return coordinates.map(coords => {
+    return { x: coords[0], y: coords[1] }
+  })
+}
+
+/**
  * Creates mapbox feature for one field
  * @param field
  * @returns {{geometry: {coordinates: Array[], type: string}, type: string}}

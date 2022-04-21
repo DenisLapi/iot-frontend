@@ -57,14 +57,16 @@ export default {
 <style lang="scss" scoped>
 .input {
   &__field {
+    width: 100%;
     border-radius: 8px;
     padding: 9px 13px;
     margin: 0;
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
     line-height: 16px;
+    height: 47px;
     border: 2px solid rgba(165, 178, 188, .3);
-    resize: vertical;
+    resize: none;
     outline: none;
     transition: border-color .1s, border-width .1s;
 

@@ -1,7 +1,8 @@
 <template>
   <modal
+    class="create-field-modal"
     :is-visible="show"
-    :max-width="1200"
+    :max-width="1300"
     @on-close="closeModal"
   >
     <h3 class="mt-0">Basic information</h3>
@@ -19,42 +20,67 @@
         class="mb-15"
       />
     </div>
-    <h3 class="mt-0">Crops</h3>
-    <div class="data-grid">
-      <Input
-        v-model="cropForm.name"
-        placeholder="Enter crop name"
-        label="Crop name"
-      />
-      <o-datepicker
-        v-model="cropForm.plantingDate"
-        placeholder="Select planting date"
-        :show-week-number="true"
-        :locale="'en-US'"
-        trap-focus
-      />
+    <h3>Crops</h3>
+    <crop-list-item
+      :crop="newCrop"
+      :crops-list="cropTypeList"
+      @on-update="updatedCrop"
+      @on-submit="addCrop"
+    />
+    <divider class="my-20" />
+    <crop-list-item
+      v-for="(crop, index) in field.crops"
+      :key="index"
+      class="mb-10"
+      icon="trash"
+      :crop="crop"
+      :crops-list="cropTypeList"
+      @on-update="value => updateFieldCrop(value, index)"
+      @on-submit="addCrop"
+    />
+    <divider class="my-20" />
+    <div class="footer">
+      <Button
+        type="primary"
+        class="mr-15"
+        @click="createField"
+      >Create Field</Button>
+      <Button @click="closeModal()">Cancel</Button>
     </div>
   </modal>
 </template>
 
 <script>
 import { ref, computed } from 'vue'
+import { CROP_TYPES_LIST, EMPTY_CROP_SCHEMA } from '@/modules/fields/utils/crops'
 import Input from '@/components/atoms/Input'
 import Modal from '@/components/molecules/Modal'
+import CropListItem from '@/modules/crops/CropListItem'
+import Divider from '@/components/atoms/Divider'
+import Button from '@/components/atoms/Button'
 
 export default {
   name: 'FieldDetailsModal',
   components: {
+    Button,
+    Input,
     Modal,
-    Input
+    CropListItem,
+    Divider
   },
   props: {
     isVisible: {
       type: Boolean,
       default: false
+    },
+    crops: {
+      type: Array,
+      required: true
     }
   },
   setup (props, { emit }) {
+    const cropTypeList = ref(CROP_TYPES_LIST)
+    const newCrop = ref({ ...EMPTY_CROP_SCHEMA })
     const field = ref({
       title: '',
       size: '',
@@ -71,12 +97,6 @@ export default {
       sensors: [],
       notes: []
     })
-    const cropForm = ref({
-      name: '',
-      plantingDate: '',
-      harvestingDate: '',
-      yield: ''
-    })
     const show = computed({
       get () {
         return props.isVisible
@@ -92,17 +112,58 @@ export default {
      */
     const closeModal = value => emit('onClose', value)
 
+    /**
+     * Function triggered when new created crop is updated
+     * @param crop
+     */
+    const updatedCrop = crop => {
+      newCrop.value = crop
+    }
+
+    /**
+     * Function add crop to the field crop list
+     */
+    const addCrop = crop => {
+      field.value.crops.push(crop)
+      newCrop.value = { ...EMPTY_CROP_SCHEMA }
+    }
+
+    /**
+     * Update field's crop with new value based on index
+     * @param crop
+     * @param index
+     */
+    const updateFieldCrop = (crop, index) => {
+      field.value.crops[index] = crop
+    }
+
+    /**
+     * Function triggered when you click on create field button
+     */
+    const createField = () => {
+      emit('onCreate', { ...field.value })
+      emit('onClose', true)
+    }
+
     return {
+      newCrop,
+      cropTypeList,
       field,
-      cropForm,
       show,
-      closeModal
+      closeModal,
+      updatedCrop,
+      addCrop,
+      updateFieldCrop,
+      createField
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.create-field-modal ::v-deep .o-modal__content {
+  width: 1300px;
+}
 .data-grid {
   display: grid;
   grid-template-columns: repeat(2, 49%);
@@ -111,17 +172,30 @@ export default {
   ::v-deep .input__field {
     width: 100%;
   }
+  &--5 {
+    grid-template-columns: auto auto auto auto auto;
+    column-gap: 10px;
+  }
 }
 h3 {
   margin: 15px 0;
 }
+.mr-15 {
+  margin-right: 15px;
+}
 .mt-0 {
   margin-top: 0;
 }
-.mt-15 {
-  margin-top: 15px;
+.mb-10 {
+  margin-bottom: 10px;
 }
-.mb-15 {
-  margin-bottom: 15px;
+.my-20 {
+  margin: 20px auto;
+}
+.footer {
+  display: flex;
+  & > :first-child {
+    margin-left: auto;
+  }
 }
 </style>
