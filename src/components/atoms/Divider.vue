@@ -11,6 +11,6 @@ export default {
 <style scoped>
 hr {
   border: none;
-  border-top: 1px solid #dedede;
+  border-top: 1px solid #e4e8eb;
 }
 </style>

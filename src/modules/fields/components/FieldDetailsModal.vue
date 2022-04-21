@@ -1,6 +1,5 @@
 <template>
   <right-side-modal
-    class="field-details-modal"
     :is-visible="show"
     :max-width="'auto'"
     @on-close="closeModal"

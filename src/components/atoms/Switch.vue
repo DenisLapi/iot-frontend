@@ -46,5 +46,8 @@ export default {
     height: calc((2rem - 0.2em * 2) * 0.5);
     width: calc((2rem - 0.2em * 2) * 0.5);
   }
+  ::v-deep .o-switch__check--checked {
+    background: #27ae60;
+  }
 }
 </style>

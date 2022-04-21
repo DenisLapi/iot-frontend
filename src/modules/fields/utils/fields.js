@@ -1,6 +1,11 @@
+import MapboxDraw from '@mapbox/mapbox-gl-draw'
+
 export const FIELD_COLOR = '#ffffff'
 export const FIELD_COLOR_OPACITY = 0.2
 export const FIELD_BORDER_WIDTH = 3
+
+export const MAP_MODE_SELECT = 'select'
+export const MAP_MODE_CREATE = 'create'
 
 /**
  * Create fields on a map source
@@ -8,14 +13,12 @@ export const FIELD_BORDER_WIDTH = 3
  * @param map mapbox map object
  * @param source source name
  * @param fieldsLayer name of the layer for fields
- * @param fieldClickedCB callback fired when field is clicked
  */
 export const createFields = (
   fields,
   map,
-  source,
-  fieldsLayer = 'fields-layer',
-  fieldClickedCB = () => {}
+  source = 'fields-map',
+  fieldsLayer = 'fields-layer'
 ) => {
   const features = fields.map(field => createFieldFeature(field))
   map.addSource(source, {
@@ -45,12 +48,6 @@ export const createFields = (
       'line-width': FIELD_BORDER_WIDTH
     }
   })
-
-  if (fieldClickedCB && typeof fieldClickedCB === 'function') {
-    map.on('click', fieldsLayer, e => {
-      return fieldClickedCB(e.features[0].properties.id)
-    })
-  }
 }
 
 /**
@@ -61,6 +58,16 @@ export const createFields = (
 export const formatCoordinates = ({ coordinates }) => {
   return coordinates.map(({ x, y }) => {
     return [x, y]
+  })
+}
+
+/**
+ * Format the field coordinates from array to objects
+ * @param coordinates array
+ */
+export const formatCoordinatesToObject = coordinates => {
+  return coordinates.map(coords => {
+    return { x: coords[0], y: coords[1] }
   })
 }
 
@@ -93,5 +100,16 @@ export const updateFields = (fields, map, source) => {
   map.getSource(source).setData({
     type: 'FeatureCollection',
     features: [...features]
+  })
+}
+
+export const getMapboxDraw = _ => {
+  return new MapboxDraw({
+    displayControlsDefault: false,
+    controls: {
+      polygon: true,
+      trash: true
+    },
+    defaultMode: 'draw_polygon'
   })
 }
