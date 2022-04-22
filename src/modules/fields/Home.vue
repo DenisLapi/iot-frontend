@@ -90,6 +90,7 @@ export default {
     const createField = field => {
       field.coordinates = newFieldCoordinates
       newFieldCoordinates = []
+      console.log(field)
       fieldStore.addField(field)
     }
 

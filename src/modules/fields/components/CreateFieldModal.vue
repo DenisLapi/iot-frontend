@@ -36,9 +36,12 @@
       :crop="crop"
       :crops-list="cropTypeList"
       @on-update="value => updateFieldCrop(value, index)"
-      @on-submit="addCrop"
+      @on-submit="deleteCrop(index)"
     />
-    <divider class="my-20" />
+    <divider
+      v-if="field.crops.length"
+      class="my-20"
+    />
     <div class="footer">
       <Button
         type="primary"
@@ -129,6 +132,14 @@ export default {
     }
 
     /**
+     * Function to delete the crop from field crop list
+     * @param index
+     */
+    const deleteCrop = index => {
+      field.value.crops.splice(index)
+    }
+
+    /**
      * Update field's crop with new value based on index
      * @param crop
      * @param index
@@ -153,6 +164,7 @@ export default {
       closeModal,
       updatedCrop,
       addCrop,
+      deleteCrop,
       updateFieldCrop,
       createField
     }

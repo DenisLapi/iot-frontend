@@ -1,6 +1,6 @@
 export const EMPTY_CROP_SCHEMA = {
   type: '',
-  name: '',
+  hybrid: '',
   plantingDate: '',
   harvestingDate: ''
 }

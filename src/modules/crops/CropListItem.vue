@@ -6,7 +6,7 @@
       :options="cropsList"
     />
     <Input
-      v-model="cropRef.name"
+      v-model="cropRef.hybrid"
       placeholder="Enter hybrid"
       label="Hybrid"
     />

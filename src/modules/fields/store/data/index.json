@@ -43,11 +43,10 @@
     ],
     "crops": [
       {
-        "id": 57412,
-        "planting_date": "01-02-2022",
-        "harvest_date": "05-09-2022",
-        "name": "Sunflower",
-        "yield": "15 t/ha"
+        "type": "sunflower",
+        "hybrid": "20",
+        "plantingDate": "2022-04-01",
+        "harvestingDate": "2022-04-30"
       }
     ],
     "sensors": [
@@ -157,11 +156,10 @@
     ],
     "crops": [
       {
-        "id": 57412,
-        "planting_date": "01-02-2022",
-        "harvest_date": "05-09-2022",
-        "name": "Sunflower",
-        "yield": "15 t/ha"
+        "type": "sunflower",
+        "hybrid": "20",
+        "plantingDate": "2022-04-01",
+        "harvestingDate": "2022-04-30"
       }
     ],
     "sensors": [
