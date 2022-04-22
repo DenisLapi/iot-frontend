@@ -5,33 +5,47 @@
     :max-width="'auto'"
     @on-close="closeModal"
   >
-    <h3 class="mt-0">Basic information</h3>
-    <div class="data-grid">
-      <data-group
-        v-for="({ label, value}, index) in fieldValues"
-        :key="index"
-        :label="label"
-        :value="value"
+    <div class="wrapper">
+      <h3 class="mt-0">Basic information</h3>
+      <div class="data-grid">
+        <data-group
+          v-for="({ label, value}, index) in fieldValues"
+          :key="index"
+          :label="label"
+          :value="value"
+        />
+      </div>
+      <div class="data-grid mt-15">
+        <sensor-card
+          v-for="(sensor, index) in fieldRef.sensors"
+          :key="index"
+          :sensor="sensor"
+          @on-change="newValue => updateSensor(newValue, index)"
+        />
+      </div>
+      <Button class="mt-15 mr-15">All sensors</Button>
+      <crop-list-item
+        v-for="(crop, index) in fieldRef.crops"
+        class="mt-15"
+        icon="trash"
+        :crops-list="cropTypesList"
+        :crop="crop"
+        @on-submit="deleteCrop(index)"
       />
+      <Button
+        class="mt-15"
+        @click="addCrop()"
+      >
+        Add crop
+      </Button>
     </div>
-    <div class="data-grid mt-15">
-      <sensor-card
-        v-for="(sensor, index) in fieldRef.sensors"
-        :key="index"
-        :sensor="sensor"
-        @on-change="newValue => updateSensor(newValue, index)"
-      />
+    <div class="footer">
+      <Button
+        type="primary"
+        class="mr-15"
+      >Save</Button>
+      <Button @click="closeModal()">Cancel</Button>
     </div>
-    <Button class="mt-15">All sensors</Button>
-    <crop-list-item
-      v-for="(crop, index) in fieldRef.crops"
-      class="mt-15"
-      icon="trash"
-      :key="index"
-      :crops-list="cropTypesList"
-      :crop="crop"
-      @on-submit="deleteCrop(index)"
-    />
   </right-side-modal>
 </template>
 
@@ -114,7 +128,14 @@ export default {
      * @param index
      */
     const deleteCrop = index => {
-      fieldRef.value.crops.splice(index)
+      fieldRef.value.crops.splice(index, 1)
+    }
+
+    /**
+     * Function to add crop for the field crop list
+     */
+    const addCrop = () => {
+      fieldRef.value.crops.unshift({ ...CROP_TYPES_LIST })
     }
 
     watch(show, isVisible => {
@@ -131,7 +152,8 @@ export default {
       closeModal,
       noteLabel,
       updateSensor,
-      deleteCrop
+      deleteCrop,
+      addCrop
     }
   }
 }
@@ -140,6 +162,15 @@ export default {
 <style lang="scss" scoped>
 .field-details-modal ::v-deep .o-modal__content {
   width: 1000px;
+  display: flex;
+  flex-direction: column;
+}
+.footer {
+  margin-top: auto;
+  display: flex;
+  & > :first-child {
+    margin-left: auto;
+  }
 }
 .data-grid {
   display: grid;
@@ -159,5 +190,8 @@ h3 {
 }
 .mt-15 {
   margin-top: 15px;
+}
+.mr-15 {
+  margin-right: 15px;
 }
 </style>

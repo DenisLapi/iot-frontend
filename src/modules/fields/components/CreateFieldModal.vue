@@ -22,15 +22,7 @@
     </div>
     <h3>Crops</h3>
     <crop-list-item
-      :crop="newCrop"
-      :crops-list="cropTypeList"
-      @on-update="updatedCrop"
-      @on-submit="addCrop"
-    />
-    <divider class="my-20" />
-    <crop-list-item
       v-for="(crop, index) in field.crops"
-      :key="index"
       class="mb-10"
       icon="trash"
       :crop="crop"
@@ -38,10 +30,8 @@
       @on-update="value => updateFieldCrop(value, index)"
       @on-submit="deleteCrop(index)"
     />
-    <divider
-      v-if="field.crops.length"
-      class="my-20"
-    />
+    <Button @click="addCrop">Add crop</Button>
+    <divider class="my-20" />
     <div class="footer">
       <Button
         type="primary"
@@ -83,7 +73,6 @@ export default {
   },
   setup (props, { emit }) {
     const cropTypeList = ref(CROP_TYPES_LIST)
-    const newCrop = ref({ ...EMPTY_CROP_SCHEMA })
     const field = ref({
       title: '',
       size: '',
@@ -116,19 +105,10 @@ export default {
     const closeModal = value => emit('onClose', value)
 
     /**
-     * Function triggered when new created crop is updated
-     * @param crop
-     */
-    const updatedCrop = crop => {
-      newCrop.value = crop
-    }
-
-    /**
      * Function add crop to the field crop list
      */
     const addCrop = crop => {
-      field.value.crops.push(crop)
-      newCrop.value = { ...EMPTY_CROP_SCHEMA }
+      field.value.crops.push({ ...EMPTY_CROP_SCHEMA })
     }
 
     /**
@@ -136,7 +116,7 @@ export default {
      * @param index
      */
     const deleteCrop = index => {
-      field.value.crops.splice(index)
+      field.value.crops.splice(index, 1)
     }
 
     /**
@@ -157,12 +137,10 @@ export default {
     }
 
     return {
-      newCrop,
       cropTypeList,
       field,
       show,
       closeModal,
-      updatedCrop,
       addCrop,
       deleteCrop,
       updateFieldCrop,
