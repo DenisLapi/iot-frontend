@@ -1,5 +1,6 @@
 <template>
   <right-side-modal
+    class="field-details-modal"
     :is-visible="show"
     :max-width="'auto'"
     @on-close="closeModal"
@@ -21,6 +22,16 @@
         @on-change="newValue => updateSensor(newValue, index)"
       />
     </div>
+    <Button class="mt-15">All sensors</Button>
+    <crop-list-item
+      v-for="(crop, index) in fieldRef.crops"
+      class="mt-15"
+      icon="trash"
+      :key="index"
+      :crops-list="cropTypesList"
+      :crop="crop"
+      @on-submit="deleteCrop(index)"
+    />
   </right-side-modal>
 </template>
 
@@ -30,16 +41,21 @@ import {
   watch,
   ref
 } from 'vue'
+import { CROP_TYPES_LIST } from '../utils/crops'
 import DataGroup from '@/components/atoms/DataGroup'
 import RightSideModal from '@/components/molecules/RightSideModal'
 import SensorCard from '@/modules/sensors/components/SensorCard'
+import Button from '@/components/atoms/Button'
+import CropListItem from '@/modules/crops/CropListItem'
 
 export default {
   name: 'FieldDetailsModal',
   components: {
     DataGroup,
     RightSideModal,
-    SensorCard
+    SensorCard,
+    Button,
+    CropListItem
   },
   props: {
     isVisible: {
@@ -52,6 +68,7 @@ export default {
     }
   },
   setup (props, { emit }) {
+    const cropTypesList = ref(CROP_TYPES_LIST)
     const fieldRef = ref(props.field)
     const fieldValues = computed(() => [
       { label: 'Name', value: fieldRef.value.title },
@@ -92,6 +109,14 @@ export default {
       emit('onChange', fieldRef.value)
     }
 
+    /**
+     * Function to delete the crop from field crop list
+     * @param index
+     */
+    const deleteCrop = index => {
+      fieldRef.value.crops.splice(index)
+    }
+
     watch(show, isVisible => {
       if (isVisible) {
         fieldRef.value = props.field
@@ -99,23 +124,32 @@ export default {
     })
 
     return {
+      cropTypesList,
       fieldRef,
       fieldValues,
       show,
       closeModal,
       noteLabel,
-      updateSensor
+      updateSensor,
+      deleteCrop
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.field-details-modal ::v-deep .o-modal__content {
+  width: 1000px;
+}
 .data-grid {
   display: grid;
-  grid-template-columns: repeat(2, 49%);
+  grid-template-columns: repeat(3, 32%);
   column-gap: 2%;
   row-gap: 13px;
+  &--5 {
+    grid-template-columns: auto auto auto auto auto;
+    column-gap: 10px;
+  }
 }
 h3 {
   margin: 15px 0;

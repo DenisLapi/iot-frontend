@@ -79,20 +79,6 @@
         }
       },
       {
-        "name": "Wind sensor",
-        "type": "wind",
-        "status": true,
-        "battery": 50,
-        "current": {
-          "value": 14,
-          "unit": "m/s"
-        },
-        "coordinates": {
-          "x": 22.638745,
-          "y": 44.423574
-        }
-      },
-      {
         "name": "Humidity sensor",
         "type": "humidity",
         "status": false,
