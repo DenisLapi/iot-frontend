@@ -48,5 +48,13 @@ export default {
       background: #33c070;
     }
   }
+  &.danger {
+    background: #db5555;
+    border-color: #db5555;
+    color: #fff;
+    &:hover {
+      background: #f35a5a;
+    }
+  }
 }
 </style>

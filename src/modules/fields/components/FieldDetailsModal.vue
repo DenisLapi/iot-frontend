@@ -43,8 +43,21 @@
       <Button
         type="primary"
         class="mr-15"
-      >Save</Button>
-      <Button @click="closeModal()">Cancel</Button>
+      >
+        Save
+      </Button>
+      <Button
+        class="mr-15"
+        @click="closeModal()"
+      >
+        Cancel
+      </Button>
+      <Button
+        type="danger"
+        @click="deleteField()"
+      >
+        Delete
+      </Button>
     </div>
   </right-side-modal>
 </template>
@@ -138,6 +151,14 @@ export default {
       fieldRef.value.crops.unshift({ ...CROP_TYPES_LIST })
     }
 
+    /**
+     * Function emits delete event with the field data
+     */
+    const deleteField = () => {
+      emit('onDelete', fieldRef.value)
+      closeModal()
+    }
+
     watch(show, isVisible => {
       if (isVisible) {
         fieldRef.value = props.field
@@ -153,7 +174,8 @@ export default {
       noteLabel,
       updateSensor,
       deleteCrop,
-      addCrop
+      addCrop,
+      deleteField
     }
   }
 }
