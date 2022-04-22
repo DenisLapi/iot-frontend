@@ -11,6 +11,7 @@
       :is-visible="showFieldModal"
       @on-close="closeFieldModal"
       @on-change="updateField"
+      @on-delete="deleteField"
     />
     <create-field-modal
       :is-visible="showCreateFieldModal"
@@ -90,8 +91,15 @@ export default {
     const createField = field => {
       field.coordinates = newFieldCoordinates
       newFieldCoordinates = []
-      console.log(field)
       fieldStore.addField(field)
+    }
+
+    /**
+     * Function triggered when delete field event is emitted
+     * @param field
+     */
+    const deleteField = field => {
+      fieldStore.deleteField(field)
     }
 
     onMounted(_ => {
@@ -111,7 +119,8 @@ export default {
       closeCreateFieldModal,
       updateField,
       saveCreatedField,
-      createField
+      createField,
+      deleteField
     }
   }
 }

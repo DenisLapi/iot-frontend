@@ -39,6 +39,15 @@ export const useFieldStore = defineStore('field', {
      */
     addField (field) {
       this.fields.push(field)
+    },
+
+    /**
+     * Function deletes field from the field list
+     * @param field Field object with id property
+     */
+    deleteField (field) {
+      const fieldIndex = this.fields.findIndex(({ id }) => field.id === id)
+      this.fields.splice(fieldIndex, 1)
     }
   }
 })
