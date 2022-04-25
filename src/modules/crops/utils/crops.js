@@ -9,36 +9,43 @@ export const CROP_TYPES_LIST = [
   {
     id: 'corn',
     value: 'corn',
-    label: '🌽 Corn'
+    icon: '🌽',
+    label: 'Corn'
   },
   {
     id: 'sunflower',
     value: 'sunflower',
-    label: '🌻 Sunflower'
+    icon: '🌻',
+    label: 'Sunflower'
   },
   {
     id: 'tomato',
     value: 'tomato',
-    label: '🍅 Tomato'
+    icon: '🍅',
+    label: 'Tomato'
   },
   {
     id: 'cucumber',
     value: 'cucumber',
-    label: '🥒 Cucumber'
+    icon: '🥒',
+    label: 'Cucumber'
   },
   {
     id: 'garlic',
     value: 'garlic',
-    label: '🧄 Garlic'
+    icon: '🧄',
+    label: 'Garlic'
   },
   {
     id: 'onion',
     value: 'onion',
-    label: '🧅 Onion'
+    icon: '🧅',
+    label: 'Onion'
   },
   {
     id: 'carrot',
     value: 'carrot',
-    label: '🥕 Carrot'
+    icon: '🥕',
+    label: 'Carrot'
   }
 ]

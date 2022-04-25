@@ -26,7 +26,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useFieldStore } from './store'
-import { CROP_TYPES_LIST } from './utils/crops'
+import { CROP_TYPES_LIST } from '../crops/utils/crops'
 import { formatCoordinatesToObject } from './utils/fields'
 import FieldsMap from './components/FieldsMap'
 import FieldDetailsModal from './components/FieldDetailsModal'
