@@ -74,7 +74,7 @@ export default {
   &__label {
     border-radius: 4px;
     color: white;
-    padding: 2px 4px;
+    padding: 2px 5px;
     &--income {
       background-color: #27ae60;
     }
