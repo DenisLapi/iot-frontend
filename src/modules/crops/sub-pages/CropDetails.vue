@@ -15,19 +15,29 @@
     </div>
     <div class="crop-details__finance-headline mt-50">
       <h2>Financial details</h2>
-      <Button type="small primary">
+      <Button
+        type="small primary"
+        @click="showFinanceModal"
+      >
         <Icon name="plus" color="white" />
         Add more
       </Button>
     </div>
     <finance-table class="mt-20" />
+    <finance-modal
+      :is-visible="financeModalVisible"
+      @on-close="closeFinanceModal"
+      @on-save="saveFinancialDetail"
+    />
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
 import Button from '@/components/atoms/Button'
 import DataGroup from '@/components/atoms/DataGroup'
 import FinanceTable from '@/components/molecules/FinanceTable'
+import FinanceModal from '@/components/molecules/FinanceModal'
 import Icon from '@/components/atoms/Icon'
 
 export default {
@@ -36,7 +46,41 @@ export default {
     Icon,
     Button,
     FinanceTable,
+    FinanceModal,
     DataGroup
+  },
+  setup () {
+    const financeModalVisible = ref(false)
+
+    /**
+     * Function triggered to when close event emitted on finance model
+     */
+    const closeFinanceModal = () => {
+      financeModalVisible.value = false
+    }
+
+    /**
+     * Function triggered when add more finance button is clicked
+     */
+    const showFinanceModal = () => {
+      financeModalVisible.value = true
+    }
+
+    /**
+     * Function triggered when save financial is emitted
+     * @param details
+     */
+    const saveFinancialDetail = details => {
+      console.log(details)
+      financeModalVisible.value = false
+    }
+
+    return {
+      financeModalVisible,
+      closeFinanceModal,
+      showFinanceModal,
+      saveFinancialDetail
+    }
   }
 }
 </script>

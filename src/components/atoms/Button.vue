@@ -63,5 +63,8 @@ export default {
     height: 40px;
     font-size: 14px;
   }
+  &.fluid {
+    width: 100%;
+  }
 }
 </style>

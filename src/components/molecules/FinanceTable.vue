@@ -45,14 +45,14 @@
 </template>
 
 <script>
-import Icon from '@/components/atoms/Icon'
 import Button from '@/components/atoms/Button'
+import Icon from '@/components/atoms/Icon'
 
 export default {
   name: 'FinanceTable',
   components: {
-    Icon,
-    Button
+    Button,
+    Icon
   }
 }
 </script>
