@@ -41,6 +41,13 @@
     </div>
     <div class="footer">
       <Button
+        type="danger"
+        class="mr-15"
+        @click="deleteField()"
+      >
+        Delete
+      </Button>
+      <Button
         type="primary"
         class="mr-15"
       >
@@ -51,12 +58,6 @@
         @click="closeModal()"
       >
         Cancel
-      </Button>
-      <Button
-        type="danger"
-        @click="deleteField()"
-      >
-        Delete
       </Button>
     </div>
   </right-side-modal>
