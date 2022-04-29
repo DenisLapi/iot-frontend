@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import DEFAULT_CROPS from './data'
+import { db } from '@/firebase/db'
 
 export const useCropStore = defineStore('crop', {
   state: () => ({
@@ -12,7 +12,11 @@ export const useCropStore = defineStore('crop', {
      * Function loads the crops in the store
      */
     loadCrops () {
-      this.crops = DEFAULT_CROPS
+      db.collection('crops')
+        .get()
+        .then(querySnapshot => {
+          this.crops = querySnapshot.docs.map(doc => doc.data())
+        })
     },
 
     /**
@@ -20,8 +24,9 @@ export const useCropStore = defineStore('crop', {
      * @param crop crop details which needs to include crop id
      */
     updateCrop (crop) {
-      const index = this.crops.findIndex(({ id }) => crop.id === id)
-      this.crop[index] = crop
+      db.collection('crops')
+        .doc(crop.id)
+        .set(crop)
     },
 
     /**
@@ -30,8 +35,12 @@ export const useCropStore = defineStore('crop', {
      * @returns {*} Crop
      */
     getCrop (cropId) {
-      const index = DEFAULT_CROPS.findIndex(({ id }) => cropId === id)
-      return DEFAULT_CROPS[index]
+      db.collection('crops')
+        .doc(cropId)
+        .get()
+        .then(querySnapshot => {
+          return querySnapshot.data()
+        })
     },
 
     /**
@@ -39,16 +48,18 @@ export const useCropStore = defineStore('crop', {
      * @param crop
      */
     addCrop (crop) {
-      this.crop.push(crop)
+      db.collection('crops')
+        .add(crop).then(r => r)
     },
 
     /**
      * Function deletes crop from the crops list
      * @param crop Crop object with id property
      */
-    deleteCrop (crop) {
-      const index = this.crops.findIndex(({ id }) => crop.id === id)
-      this.crop.splice(index, 1)
+    deleteCrop ({ id }) {
+      db.collection('crops')
+        .doc(id)
+        .delete()
     },
 
     /**
