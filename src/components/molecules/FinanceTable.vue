@@ -23,7 +23,12 @@
       </td>
       <td>{{ description }}</td>
       <td>
-        <span class="finance-table__label finance-table__label--income">${{ money }}</span>
+        <span
+          class="finance-table__label"
+          :class="moneyClass(type)"
+        >
+          ${{ money }}
+        </span>
       </td>
       <td>{{ date }}</td>
       <td>
@@ -76,13 +81,23 @@ export default {
         : { name: 'trend-down', color: '#ec3636' }
     }
 
+    /**
+     * Function returns money class
+     * @param type
+     * @returns {string[]}
+     */
+    const moneyClass = type => {
+      return type.toLowerCase() === 'income' ? ['income'] : ['expense']
+    }
+
     watch(dataComp, value => {
       emit('onChange', value)
     }, { deep: true })
 
     return {
       dataComp,
-      iconSettings
+      iconSettings,
+      moneyClass
     }
   }
 }
@@ -106,10 +121,10 @@ export default {
     border-radius: 4px;
     color: white;
     padding: 2px 5px;
-    &--income {
+    &.income {
       background-color: #27ae60;
     }
-    &--expense {
+    &.expense {
       background-color: #fa4444;
     }
   }
