@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import DEFAULT_FIELDS from './data'
+import { db } from '@/firebase/db'
 
 export const useFieldStore = defineStore('field', {
   state: () => ({
@@ -11,7 +11,11 @@ export const useFieldStore = defineStore('field', {
      * Function loads the fields in the store
      */
     loadFields () {
-      this.fields = DEFAULT_FIELDS
+      db.collection('fields')
+        .get()
+        .then(querySnapshot => {
+          this.fields = querySnapshot.docs.map(doc => doc.data())
+        })
     },
 
     /**
@@ -19,8 +23,9 @@ export const useFieldStore = defineStore('field', {
      * @param field field details which needs to include field id
      */
     updateField (field) {
-      const fieldIndex = this.fields.findIndex(({ id }) => field.id === id)
-      this.fields[fieldIndex] = field
+      db.collection('fields')
+        .doc(field.id)
+        .set(field).then(r => r)
     },
 
     /**
@@ -29,8 +34,12 @@ export const useFieldStore = defineStore('field', {
      * @returns {*} Field
      */
     getField (fieldId) {
-      const fieldIndex = this.fields.findIndex(({ id }) => fieldId === id)
-      return this.fields[fieldIndex]
+      db.collection('fields')
+        .doc(fieldId)
+        .get()
+        .then(querySnapshot => {
+          return querySnapshot.data()
+        })
     },
 
     /**
@@ -38,16 +47,18 @@ export const useFieldStore = defineStore('field', {
      * @param field
      */
     addField (field) {
-      this.fields.push(field)
+      db.collection('fields')
+        .add(field).then(r => r)
     },
 
     /**
      * Function deletes field from the field list
      * @param field Field object with id property
      */
-    deleteField (field) {
-      const fieldIndex = this.fields.findIndex(({ id }) => field.id === id)
-      this.fields.splice(fieldIndex, 1)
+    deleteField ({ id }) {
+      db.collection('fields')
+        .doc(id)
+        .delete().then(r => r)
     }
   }
 })

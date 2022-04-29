@@ -26,7 +26,7 @@ export const useCropStore = defineStore('crop', {
     updateCrop (crop) {
       db.collection('crops')
         .doc(crop.id)
-        .set(crop)
+        .set(crop).then(r => r)
     },
 
     /**
@@ -59,7 +59,7 @@ export const useCropStore = defineStore('crop', {
     deleteCrop ({ id }) {
       db.collection('crops')
         .doc(id)
-        .delete()
+        .delete().then(r => r)
     },
 
     /**
