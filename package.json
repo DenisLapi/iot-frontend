@@ -14,12 +14,14 @@
     "@turf/turf": "^6.5.0",
     "chart.js": "^3.7.1",
     "core-js": "^3.6.5",
+    "firebase": "^9.7.0",
     "mapbox-gl": "^2.7.0",
     "moment": "^2.29.3",
     "pinia": "^2.0.13",
     "vue": "^3.0.0",
     "vue-chartjs": "^4.0.7",
-    "vue-router": "^4.0.0-0"
+    "vue-router": "^4.0.0-0",
+    "vuefire": "^2.2.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.13",
