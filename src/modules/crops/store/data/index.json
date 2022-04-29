@@ -1,0 +1,39 @@
+[
+    {
+      "id": "1",
+      "type": "sunflower",
+      "hybrid": "20",
+      "plantingDate": "2022-04-01",
+      "harvestingDate": "2022-06-29",
+      "finance": [
+        {
+          "id":  "dfawfghh5486ga68t4j6h84h6j4s68h4s64kjkyf",
+          "type": "income",
+          "money": 5000,
+          "description": "Donation from GoFundMe",
+          "date": "2022-03-25"
+        },
+        {
+          "id":  "dfawfghh5482212168t4j6h84h6j4s68h4s64kjkyf",
+          "type": "expense",
+          "money": 300,
+          "description": "Planting seeds",
+          "date": "2022-03-27"
+        },
+        {
+          "id":  "dfawfghh5482212168t4j6h84h6j4s68h4s64kjkyf",
+          "type": "expense",
+          "money": 300,
+          "description": "Visit with specialists",
+          "date": "2022-04-27"
+        },
+        {
+          "id":  "dfawfghh5482212ss1168t4j6h84h6j4s68h4s64kjkyf",
+          "type": "expense",
+          "money": 500,
+          "description": "Harvesting",
+          "date": "2022-09-05"
+        }
+      ]
+    }
+]

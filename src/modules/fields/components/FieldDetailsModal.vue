@@ -41,6 +41,13 @@
     </div>
     <div class="footer">
       <Button
+        type="danger"
+        class="mr-15"
+        @click="deleteField()"
+      >
+        Delete
+      </Button>
+      <Button
         type="primary"
         class="mr-15"
       >
@@ -52,12 +59,6 @@
       >
         Cancel
       </Button>
-      <Button
-        type="danger"
-        @click="deleteField()"
-      >
-        Delete
-      </Button>
     </div>
   </right-side-modal>
 </template>
@@ -68,12 +69,12 @@ import {
   watch,
   ref
 } from 'vue'
-import { CROP_TYPES_LIST } from '../utils/crops'
+import { CROP_TYPES_LIST } from '../../crops/utils/crops'
 import DataGroup from '@/components/atoms/DataGroup'
 import RightSideModal from '@/components/molecules/RightSideModal'
 import SensorCard from '@/modules/sensors/components/SensorCard'
 import Button from '@/components/atoms/Button'
-import CropListItem from '@/modules/crops/CropListItem'
+import CropListItem from '@/modules/crops/components/CropListItem'
 
 export default {
   name: 'FieldDetailsModal',

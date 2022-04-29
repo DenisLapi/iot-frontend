@@ -45,10 +45,10 @@
 
 <script>
 import { ref, computed } from 'vue'
-import { CROP_TYPES_LIST, EMPTY_CROP_SCHEMA } from '@/modules/fields/utils/crops'
+import { CROP_TYPES_LIST, EMPTY_CROP_SCHEMA } from '@/modules/crops/utils/crops'
 import Input from '@/components/atoms/Input'
 import Modal from '@/components/molecules/Modal'
-import CropListItem from '@/modules/crops/CropListItem'
+import CropListItem from '@/modules/crops/components/CropListItem'
 import Divider from '@/components/atoms/Divider'
 import Button from '@/components/atoms/Button'
 
