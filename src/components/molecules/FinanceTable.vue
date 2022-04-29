@@ -33,12 +33,6 @@
       <td>{{ date }}</td>
       <td>
         <Button
-          type="small mr-10"
-          @click="$emit('onEdit', id)"
-        >
-          Edit
-        </Button>
-        <Button
           type="small"
           @click="$emit('onRemove', id)"
         >

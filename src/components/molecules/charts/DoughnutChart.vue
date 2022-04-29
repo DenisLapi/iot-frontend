@@ -9,6 +9,7 @@
     :styles="styles"
     :width="width"
     :height="height"
+    :border-width="1"
   />
 </template>
 
@@ -32,11 +33,11 @@ export default {
     },
     width: {
       type: Number,
-      default: 100
+      default: 400
     },
     height: {
       type: Number,
-      default: 100
+      default: 400
     },
     cssClasses: {
       default: '',
