@@ -10,34 +10,35 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
+    <tr
+      v-for="({ id, type, description, money, date }) in dataComp"
+      :key="id"
+    >
       <td class="finance-table__box-icon">
         <div class="finance-table__icon">
-          <icon name="trend-up" color="#80b215" />
+          <icon
+            :name="iconSettings(type).name"
+            :color="iconSettings(type).color" />
         </div>
       </td>
-      <td>Planting the crop...</td>
+      <td>{{ description }}</td>
       <td>
-        <span class="finance-table__label finance-table__label--income">$500</span>
+        <span class="finance-table__label finance-table__label--income">${{ money }}</span>
       </td>
-      <td>2022-05-05</td>
+      <td>{{ date }}</td>
       <td>
-        <Button type="small">Remove</Button>
-      </td>
-    </tr>
-    <tr>
-      <td class="finance-table__box-icon">
-        <div class="finance-table__icon">
-          <icon name="trend-down" color="#ec3636" />
-        </div>
-      </td>
-      <td>Planting the crop...</td>
-      <td>
-        <span class="finance-table__label finance-table__label--expense">$500</span>
-      </td>
-      <td>2022-05-05</td>
-      <td>
-        <Button type="small">Remove</Button>
+        <Button
+          type="small mr-10"
+          @click="$emit('onEdit', id)"
+        >
+          Edit
+        </Button>
+        <Button
+          type="small"
+          @click="$emit('onRemove', id)"
+        >
+          Remove
+        </Button>
       </td>
     </tr>
     </tbody>
@@ -45,6 +46,7 @@
 </template>
 
 <script>
+import { computed, watch } from 'vue'
 import Button from '@/components/atoms/Button'
 import Icon from '@/components/atoms/Icon'
 
@@ -53,6 +55,35 @@ export default {
   components: {
     Button,
     Icon
+  },
+  props: {
+    data: {
+      type: Array,
+      required: false
+    }
+  },
+  setup (props, { emit }) {
+    const dataComp = computed(() => props.data)
+
+    /**
+     * Function returns icon settings based on the money type
+     * @param type
+     * @returns {{color: string, name: string}|{color: string, name: string}}
+     */
+    const iconSettings = type => {
+      return type.toLowerCase() === 'income'
+        ? { name: 'trend-up', color: '#80b215' }
+        : { name: 'trend-down', color: '#ec3636' }
+    }
+
+    watch(dataComp, value => {
+      emit('onChange', value)
+    }, { deep: true })
+
+    return {
+      dataComp,
+      iconSettings
+    }
   }
 }
 </script>
@@ -105,5 +136,8 @@ export default {
       }
     }
   }
+}
+.mr-10 {
+  margin-right: 10px;
 }
 </style>

@@ -1,16 +1,20 @@
 <template>
   <div class="crop-details">
-    <div class="crop-details__header">
+    <div
+      v-if="selectedCrop"
+      class="crop-details__header"
+    >
       <div>
         <div class="crop-details__crop-icon">🧅</div>
       </div>
       <div class="crop-details__info">
-        <data-group label="Name" value="Sunflower" />
-        <data-group label="Hybrid" value="S320" />
-        <data-group label="Planting date" value="2022-03-03" />
-        <data-group label="Harvesting date" value="2022-08-08" />
-        <data-group label="Invested" value="$350" />
-        <data-group label="Earned" value="$500" />
+        <data-group label="Name" :value="selectedCrop.type" />
+        <data-group label="Hybrid" :value="selectedCrop.hybrid" />
+        <data-group label="Planting date" :value="selectedCrop.plantingDate" />
+        <data-group label="Harvesting date" :value="selectedCrop.harvestingDate" />
+        <data-group label="Expenses" :value="`$${expenses}`" />
+        <data-group label="Income" :value="`$${income}`" />
+        <data-group label="Profit" :value="`$${profit}`" />
       </div>
     </div>
     <div class="crop-details__finance-headline mt-50">
@@ -23,7 +27,10 @@
         Add more
       </Button>
     </div>
-    <finance-table class="mt-20" />
+    <finance-table
+      class="mt-20"
+      :data="selectedCrop.finance"
+    />
     <finance-modal
       :is-visible="financeModalVisible"
       @on-close="closeFinanceModal"
@@ -33,7 +40,10 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { storeToRefs } from 'pinia/dist/pinia'
+import { useCropStore } from '../store'
 import Button from '@/components/atoms/Button'
 import DataGroup from '@/components/atoms/DataGroup'
 import FinanceTable from '@/components/molecules/FinanceTable'
@@ -50,7 +60,38 @@ export default {
     DataGroup
   },
   setup () {
+    const route = useRoute()
+    const cropStore = useCropStore()
+    const { selectedCrop } = storeToRefs(cropStore)
     const financeModalVisible = ref(false)
+
+    /**
+     * Computed value calculates the total expenses we had for one crop
+     * @type {ComputedRef<unknown>}
+     */
+    const expenses = computed(() => {
+      if (!selectedCrop.value.finance.length) return 0
+      return selectedCrop.value.finance.reduce((sum, finance) => {
+        return finance.type === 'expense' ? Number(sum) + Number(finance.money) : Number(sum)
+      }, 0)
+    })
+
+    /**
+     * Computed value calculates the total income we had for one crop
+     * @type {ComputedRef<unknown>}
+     */
+    const income = computed(() => {
+      if (!selectedCrop.value.finance.length) return 0
+      return selectedCrop.value.finance.reduce((sum, finance) => {
+        return finance.type === 'income' ? Number(sum) + Number(finance.money) : Number(sum)
+      }, 0)
+    })
+
+    /**
+     * Computed value calculates the profit for crop
+     * @type {ComputedRef<unknown>}
+     */
+    const profit = computed(() => income.value - expenses.value)
 
     /**
      * Function triggered to when close event emitted on finance model
@@ -71,12 +112,21 @@ export default {
      * @param details
      */
     const saveFinancialDetail = details => {
-      console.log(details)
       financeModalVisible.value = false
+      selectedCrop.value.finance.push({ ...details })
+      console.log(selectedCrop.value)
     }
 
+    onMounted(_ => {
+      cropStore.selectCrop(route.params.id)
+    })
+
     return {
+      selectedCrop,
       financeModalVisible,
+      expenses,
+      income,
+      profit,
       closeFinanceModal,
       showFinanceModal,
       saveFinancialDetail
@@ -101,7 +151,7 @@ export default {
   }
   &__info {
     display: grid;
-    grid-template-columns: repeat(2, auto);
+    grid-template-columns: repeat(4, auto);
     column-gap: 20px;
     row-gap: 20px;
   }
