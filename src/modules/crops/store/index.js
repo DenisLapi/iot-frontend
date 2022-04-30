@@ -24,9 +24,7 @@ export const useCropStore = defineStore('crop', {
      * @param crop crop details which needs to include crop id
      */
     updateCrop (crop) {
-      db.collection('crops')
-        .doc(crop.id)
-        .set(crop).then(r => r)
+      db.collection('crops').add(crop).then(r => r)
     },
 
     /**

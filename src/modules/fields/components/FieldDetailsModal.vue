@@ -50,6 +50,7 @@
       <Button
         type="primary"
         class="mr-15"
+        @click="saveField"
       >
         Save
       </Button>
@@ -160,6 +161,15 @@ export default {
       closeModal()
     }
 
+    /**
+     * Function emits save event with the field data
+     * @param _
+     */
+    const saveField = _ => {
+      emit('onSave', { ...fieldRef.value })
+      closeModal()
+    }
+
     watch(show, isVisible => {
       if (isVisible) {
         fieldRef.value = props.field
@@ -176,7 +186,8 @@ export default {
       updateSensor,
       deleteCrop,
       addCrop,
-      deleteField
+      deleteField,
+      saveField
     }
   }
 }

@@ -12,6 +12,7 @@
       @on-close="closeFieldModal"
       @on-change="updateField"
       @on-delete="deleteField"
+      @on-save="saveField"
     />
     <create-field-modal
       :is-visible="showCreateFieldModal"
@@ -105,8 +106,19 @@ export default {
      * Function triggered when delete field event is emitted
      * @param field
      */
-    const deleteField = field => {
-      fieldStore.deleteField(field)
+    const deleteField = async field => {
+      await fieldStore.deleteField(field)
+      selectedField.value = false
+      fieldStore.loadFields()
+    }
+
+    /**
+     * Function is triggered when user save the field
+     * @param field
+     * @returns {Promise<void>}
+     */
+    const saveField = async field => {
+      await fieldStore.updateField(field)
       fieldStore.loadFields()
     }
 
@@ -128,7 +140,8 @@ export default {
       updateField,
       saveCreatedField,
       createField,
-      deleteField
+      deleteField,
+      saveField
     }
   }
 }

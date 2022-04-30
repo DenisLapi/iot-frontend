@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useCropStore } from '@/modules/crops/store'
 import { db } from '@/firebase/db'
 
 export const useFieldStore = defineStore('field', {
@@ -28,9 +29,22 @@ export const useFieldStore = defineStore('field', {
      * @param field field details which needs to include field id
      */
     updateField (field) {
-      db.collection('fields')
-        .doc(field.id)
-        .set(field).then(r => r)
+      return new Promise((resolve, reject) => {
+        const { crops } = field
+        delete field.crops
+        db.collection('fields')
+          .doc(field.id)
+          .update(field).then(async r => {
+            if (crops.length) {
+              const cropStore = useCropStore()
+              for (let i = 0; i < crops.length; i++) {
+                await cropStore.updateCrop(crops[i])
+              }
+              resolve(r)
+            }
+          })
+          .catch(e => reject(e))
+      })
     },
 
     /**
@@ -43,8 +57,29 @@ export const useFieldStore = defineStore('field', {
         db.collection('fields')
           .doc(fieldId)
           .get()
+          .then(async querySnapshot => {
+            const crops = await this.getFieldCrops(fieldId)
+            resolve({ id: querySnapshot.id, ...querySnapshot.data(), crops })
+          })
+          .catch(e => {
+            reject(e)
+          })
+      })
+    },
+
+    async getFieldCrops (fieldId) {
+      return new Promise((resolve, reject) => {
+        console.log('get field crops')
+        db.collection('crops')
+          .where('fieldId', '==', fieldId)
+          .get()
           .then(querySnapshot => {
-            resolve({ id: querySnapshot.id, ...querySnapshot.data() })
+            resolve(querySnapshot.docs.map(doc => {
+              return {
+                id: doc.id,
+                ...doc.data()
+              }
+            }))
           })
           .catch(e => {
             reject(e)
@@ -74,9 +109,13 @@ export const useFieldStore = defineStore('field', {
      * @param field Field object with id property
      */
     deleteField ({ id }) {
-      db.collection('fields')
-        .doc(id)
-        .delete().then(r => r)
+      return new Promise((resolve, reject) => {
+        db.collection('fields')
+          .doc(id)
+          .delete()
+          .then(r => resolve(r))
+          .catch(e => reject(e))
+      })
     }
   }
 })
