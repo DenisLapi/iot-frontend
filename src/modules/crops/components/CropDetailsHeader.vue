@@ -15,10 +15,28 @@
     <div>
       <h2>Crop Details</h2>
       <div class="crop-details__info">
-        <data-group label="Name" :value="crop.type" />
-        <data-group label="Hybrid" :value="crop.hybrid" />
-        <data-group label="Planting date" :value="crop.plantingDate" />
-        <data-group label="Harvesting date" :value="crop.harvestingDate" />
+        <Select
+          v-model="cropRef.type"
+          label="Crop"
+          :options="cropsList"
+        />
+        <Input
+          v-model="cropRef.hybrid"
+          placeholder="Enter hybrid"
+          label="Hybrid"
+        />
+        <Input
+          v-model="cropRef.plantingDate"
+          placeholder="Enter planting date"
+          label="Planting date"
+          type="date"
+        />
+        <Input
+          v-model="cropRef.harvestingDate"
+          placeholder="Enter harvesting date"
+          label="Harvesting date"
+          type="date"
+        />
         <data-group label="Expenses" :value="`$${expenses}`" />
         <data-group label="Income" :value="`$${income}`" />
         <data-group label="Profit" :value="`$${profit}`" />
@@ -28,30 +46,37 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import moment from 'moment'
-import DataGroup from '@/components/atoms/DataGroup'
 import DoughnutChart from '@/components/molecules/charts/DoughnutChart'
+import Input from '@/components/atoms/Input'
+import Select from '@/components/atoms/Select'
+import DataGroup from '@/components/atoms/DataGroup'
 
 export default {
   name: 'CropDetailsHeader',
   components: {
-    DataGroup,
-    DoughnutChart
+    DoughnutChart,
+    Input,
+    Select,
+    DataGroup
   },
   props: {
     crop: {
       type: Object,
       required: true
+    },
+    cropsList: {
+      type: Array,
+      required: true
     }
   },
-  setup (props) {
+  setup (props, { emit }) {
     const chartOptions = ref({
       responsive: true,
       cutout: '75%',
       events: []
     })
-
     const chartData = computed(() => {
       return {
         datasets: [{
@@ -64,18 +89,27 @@ export default {
       }
     })
 
+    const cropRef = computed({
+      get () {
+        return props.crop
+      },
+      set (value) {
+        emit('onChange', value)
+      }
+    })
+
     /**
      * Computed value calculates amount of days passed after planting
      * @type {ComputedRef<number>}
      */
-    const daysAfterPlanting = computed(() => moment().diff(props.crop.plantingDate, 'days'))
+    const daysAfterPlanting = computed(() => moment().diff(cropRef.value.plantingDate, 'days'))
 
     /**
      * Computed value count days before harvesting
      * @type {ComputedRef<number>}
      */
     const daysBeforeHarvesting = computed(() => {
-      return moment(props.crop.harvestingDate, 'YYYY-MM-DD').diff(moment(), 'days')
+      return moment(cropRef.value.harvestingDate, 'YYYY-MM-DD').diff(moment(), 'days')
     })
 
     /**
@@ -83,8 +117,8 @@ export default {
      * @type {ComputedRef<unknown>}
      */
     const expenses = computed(() => {
-      if (!props.crop.finance && !props.crop.finance.length) return 0
-      return props.crop.finance.reduce((sum, finance) => {
+      if (!cropRef.value.finance && !cropRef.value.finance.length) return 0
+      return cropRef.value.finance.reduce((sum, finance) => {
         return finance.type === 'expense' ? Number(sum) + Number(finance.money) : Number(sum)
       }, 0)
     })
@@ -94,8 +128,8 @@ export default {
      * @type {ComputedRef<unknown>}
      */
     const income = computed(() => {
-      if (!props.crop.finance.length) return 0
-      return props.crop.finance.reduce((sum, finance) => {
+      if (!cropRef.value.finance.length) return 0
+      return cropRef.value.finance.reduce((sum, finance) => {
         return finance.type === 'income' ? Number(sum) + Number(finance.money) : Number(sum)
       }, 0)
     })
@@ -106,9 +140,14 @@ export default {
      */
     const profit = computed(() => income.value - expenses.value)
 
+    watch(cropRef, value => {
+      emit('onChange', value)
+    }, { deep: true })
+
     return {
       chartOptions,
       chartData,
+      cropRef,
       daysAfterPlanting,
       daysBeforeHarvesting,
       expenses,

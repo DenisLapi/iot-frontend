@@ -3,6 +3,8 @@
     <crop-details-header
       v-if="selectedCrop"
       :crop="selectedCrop"
+      :crops-list="cropTypesList"
+      @on-change="onCropChange"
     />
     <div class="crop-details__finance-headline mt-50">
       <h2>Financial details</h2>
@@ -37,6 +39,7 @@ import Icon from '@/components/atoms/Icon'
 import FinanceTable from '@/components/molecules/FinanceTable'
 import FinanceModal from '@/components/molecules/FinanceModal'
 import CropDetailsHeader from '@/modules/crops/components/CropDetailsHeader'
+import { CROP_TYPES_LIST } from '@/modules/crops/utils/crops'
 
 export default {
   name: 'CropDetails',
@@ -52,6 +55,7 @@ export default {
     const cropStore = useCropStore()
     const { selectedCrop } = storeToRefs(cropStore)
     const financeModalVisible = ref(false)
+    const cropTypesList = ref(CROP_TYPES_LIST)
 
     /**
      * Computed value returns if crop has finance data
@@ -83,6 +87,14 @@ export default {
       await cropStore.updateCrop({ ...selectedCrop.value })
     }
 
+    /**
+     * Function triggered when crop is changed
+     * @param crop
+     */
+    const onCropChange = crop => {
+      selectedCrop.value = crop
+    }
+
     onMounted(_ => {
       cropStore.selectCrop(route.params.id)
     })
@@ -90,10 +102,12 @@ export default {
     return {
       selectedCrop,
       financeModalVisible,
+      cropTypesList,
       hasFinanceData,
       closeFinanceModal,
       showFinanceModal,
-      saveFinancialDetail
+      saveFinancialDetail,
+      onCropChange
     }
   }
 }
