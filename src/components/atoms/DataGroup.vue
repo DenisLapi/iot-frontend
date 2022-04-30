@@ -1,7 +1,7 @@
 <template>
   <div class="data-group">
     <span class="data-group__label">{{ label }}</span>
-    <span class="data-group__value">{{ value }}</span>
+    <span class="data-group__value">{{ value || 'N/A' }}</span>
   </div>
 </template>
 

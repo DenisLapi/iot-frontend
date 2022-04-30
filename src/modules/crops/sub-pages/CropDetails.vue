@@ -77,9 +77,10 @@ export default {
      * Function triggered when save financial is emitted
      * @param details
      */
-    const saveFinancialDetail = details => {
+    const saveFinancialDetail = async details => {
       financeModalVisible.value = false
       selectedCrop.value.finance.push({ ...details })
+      await cropStore.updateCrop({ ...selectedCrop.value })
     }
 
     onMounted(_ => {

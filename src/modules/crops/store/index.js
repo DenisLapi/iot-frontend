@@ -24,7 +24,13 @@ export const useCropStore = defineStore('crop', {
      * @param crop crop details which needs to include crop id
      */
     updateCrop (crop) {
-      db.collection('crops').add(crop).then(r => r)
+      return new Promise((resolve, reject) => {
+        db.collection('crops')
+          .doc(crop.id)
+          .update(crop)
+          .then(r => resolve(r))
+          .catch(e => reject(e))
+      })
     },
 
     /**
@@ -56,12 +62,17 @@ export const useCropStore = defineStore('crop', {
      * @returns {*} Crop
      */
     getCrop (cropId) {
-      db.collection('crops')
-        .doc(cropId)
-        .get()
-        .then(querySnapshot => {
-          return querySnapshot.data()
-        })
+      return new Promise((resolve, reject) => {
+        db.collection('crops')
+          .doc(cropId)
+          .get()
+          .then(querySnapshot => {
+            resolve({ id: cropId, ...querySnapshot.data() })
+          })
+          .catch(e => {
+            reject(e)
+          })
+      })
     },
 
     /**
@@ -97,8 +108,11 @@ export const useCropStore = defineStore('crop', {
      * Function loads the view crop state variable
      * @param cropId
      */
-    selectCrop (cropId) {
-      this.selectedCrop = this.getCrop(cropId)
+    async selectCrop (cropId) {
+      this.selectedCrop = await this.getCrop(cropId)
+      if (!this.selectedCrop.finance) {
+        this.selectedCrop.finance = []
+      }
     }
   }
 })
