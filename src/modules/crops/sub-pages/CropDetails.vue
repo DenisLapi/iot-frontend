@@ -18,13 +18,23 @@
     </div>
     <finance-table
       v-if="hasFinanceData"
-      class="mt-20"
+      class="mt-20 mb-100"
       :data="selectedCrop.finance"
+      @on-remove="removeFinanceDetail"
     />
     <finance-modal
       :is-visible="financeModalVisible"
       @on-close="closeFinanceModal"
       @on-save="saveFinancialDetail"
+    />
+    <cta-banner
+      v-if="showCtaBanner"
+      class="crop-details__cta-banner"
+      :headline="'Do you want to save you changes?'"
+      :description="'The crop details were changed. Do you want to save the change?'"
+      :is-confirming="isConfirmingCta"
+      @on-cancel="hideCtaBanner"
+      @on-confirm="saveCrop"
     />
   </div>
 </template>
@@ -40,10 +50,12 @@ import FinanceTable from '@/components/molecules/FinanceTable'
 import FinanceModal from '@/components/molecules/FinanceModal'
 import CropDetailsHeader from '@/modules/crops/components/CropDetailsHeader'
 import { CROP_TYPES_LIST } from '@/modules/crops/utils/crops'
+import CtaBanner from '@/components/molecules/CtaBanner'
 
 export default {
   name: 'CropDetails',
   components: {
+    CtaBanner,
     CropDetailsHeader,
     Icon,
     Button,
@@ -55,6 +67,8 @@ export default {
     const cropStore = useCropStore()
     const { selectedCrop } = storeToRefs(cropStore)
     const financeModalVisible = ref(false)
+    const showCtaBanner = ref(false)
+    const isConfirmingCta = ref(false)
     const cropTypesList = ref(CROP_TYPES_LIST)
 
     /**
@@ -84,7 +98,7 @@ export default {
     const saveFinancialDetail = async details => {
       financeModalVisible.value = false
       selectedCrop.value.finance.push({ ...details })
-      await cropStore.updateCrop({ ...selectedCrop.value })
+      showCtaBanner.value = true
     }
 
     /**
@@ -93,6 +107,33 @@ export default {
      */
     const onCropChange = crop => {
       selectedCrop.value = crop
+      showCtaBanner.value = true
+    }
+
+    /**
+     * Function triggered when user click remove button on finance detail
+     * @param id
+     */
+    const removeFinanceDetail = id => {
+      selectedCrop.value.finance.splice(id, 1)
+      showCtaBanner.value = true
+    }
+
+    /**
+     * Function triggered when clicked on save in CTA banner
+     */
+    const saveCrop = async () => {
+      isConfirmingCta.value = true
+      await cropStore.updateCrop({ ...selectedCrop.value })
+      hideCtaBanner()
+    }
+
+    /**
+     * Function for hiding the CTA banner and setting loading icon hidden
+     */
+    const hideCtaBanner = () => {
+      showCtaBanner.value = false
+      isConfirmingCta.value = false
     }
 
     onMounted(_ => {
@@ -102,12 +143,17 @@ export default {
     return {
       selectedCrop,
       financeModalVisible,
+      showCtaBanner,
+      isConfirmingCta,
       cropTypesList,
       hasFinanceData,
       closeFinanceModal,
       showFinanceModal,
       saveFinancialDetail,
-      onCropChange
+      onCropChange,
+      removeFinanceDetail,
+      saveCrop,
+      hideCtaBanner
     }
   }
 }
@@ -125,11 +171,21 @@ export default {
       margin-right: 20px;
     }
   }
+  &__cta-banner {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    width: 96%;
+    transform: translateX(-50%);
+  }
 }
 .mt-20 {
   margin-top: 20px
 }
 .mt-50 {
   margin-top: 50px;
+}
+.mb-100 {
+  margin-bottom: 100px;
 }
 </style>

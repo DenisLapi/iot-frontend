@@ -11,8 +11,8 @@
     </thead>
     <tbody>
     <tr
-      v-for="({ id, type, description, money, date }) in dataComp"
-      :key="id"
+      v-for="({ type, description, money, date }, index) in dataComp"
+      :key="index"
     >
       <td class="finance-table__box-icon">
         <div class="finance-table__icon">
@@ -34,7 +34,7 @@
       <td>
         <Button
           type="small"
-          @click="$emit('onRemove', id)"
+          @click="$emit('onRemove', index)"
         >
           Remove
         </Button>
