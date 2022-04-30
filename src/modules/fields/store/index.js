@@ -14,7 +14,12 @@ export const useFieldStore = defineStore('field', {
       db.collection('fields')
         .get()
         .then(querySnapshot => {
-          this.fields = querySnapshot.docs.map(doc => doc.data())
+          this.fields = querySnapshot.docs.map(doc => {
+            return {
+              id: doc.id,
+              ...doc.data()
+            }
+          })
         })
     },
 
@@ -33,13 +38,18 @@ export const useFieldStore = defineStore('field', {
      * @param fieldId
      * @returns {*} Field
      */
-    getField (fieldId) {
-      db.collection('fields')
-        .doc(fieldId)
-        .get()
-        .then(querySnapshot => {
-          return querySnapshot.data()
-        })
+    async getField (fieldId) {
+      return new Promise((resolve, reject) => {
+        db.collection('fields')
+          .doc(fieldId)
+          .get()
+          .then(querySnapshot => {
+            resolve({ id: querySnapshot.id, ...querySnapshot.data() })
+          })
+          .catch(e => {
+            reject(e)
+          })
+      })
     },
 
     /**
@@ -47,8 +57,16 @@ export const useFieldStore = defineStore('field', {
      * @param field
      */
     addField (field) {
-      db.collection('fields')
-        .add(field).then(r => r)
+      return new Promise((resolve, reject) => {
+        db.collection('fields')
+          .add(field)
+          .then(r => {
+            resolve(r)
+          })
+          .catch(e => {
+            reject(e)
+          })
+      })
     },
 
     /**

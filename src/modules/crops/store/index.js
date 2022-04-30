@@ -48,8 +48,14 @@ export const useCropStore = defineStore('crop', {
      * @param crop
      */
     addCrop (crop) {
-      db.collection('crops')
-        .add(crop).then(r => r)
+      return new Promise((resolve, reject) => {
+        db.collection('crops')
+          .add(crop)
+          .then(r => {
+            return resolve(r)
+          })
+          .catch(e => reject(e))
+      })
     },
 
     /**

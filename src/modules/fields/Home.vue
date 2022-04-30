@@ -26,6 +26,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useFieldStore } from './store'
+import { useCropStore } from '@/modules/crops/store'
 import { CROP_TYPES_LIST } from '../crops/utils/crops'
 import { formatCoordinatesToObject } from './utils/fields'
 import FieldsMap from './components/FieldsMap'
@@ -41,6 +42,7 @@ export default {
   },
   setup () {
     let newFieldCoordinates = []
+    const cropStore = useCropStore()
     const fieldStore = useFieldStore()
     const { fields } = storeToRefs(fieldStore)
     const selectedField = ref({})
@@ -54,8 +56,8 @@ export default {
      * Function triggered when field on the map is clicked
      * @param fieldId
      */
-    const fieldClicked = fieldId => {
-      selectedField.value = fieldStore.getField(fieldId)
+    const fieldClicked = async fieldId => {
+      selectedField.value = await fieldStore.getField(fieldId)
       showFieldModal.value = true
     }
 
@@ -88,10 +90,15 @@ export default {
      * Function triggered when create field event is emitted
      * @param field
      */
-    const createField = field => {
+    const createField = async field => {
       field.coordinates = newFieldCoordinates
-      newFieldCoordinates = []
-      fieldStore.addField(field)
+      const { crops } = field
+      delete field.crops
+      const createdField = await fieldStore.addField(field)
+      for (let i = 0; i < crops.length; i++) {
+        await cropStore.addCrop({ fieldId: createdField.id, ...crops[i] })
+      }
+      fieldStore.loadFields()
     }
 
     /**
@@ -100,6 +107,7 @@ export default {
      */
     const deleteField = field => {
       fieldStore.deleteField(field)
+      fieldStore.loadFields()
     }
 
     onMounted(_ => {
