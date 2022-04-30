@@ -132,7 +132,6 @@ export default {
      * Function triggered when you click on create field button
      */
     const createField = () => {
-      console.log('field', field.value)
       emit('onCreate', { ...field.value })
       emit('onClose', true)
     }
