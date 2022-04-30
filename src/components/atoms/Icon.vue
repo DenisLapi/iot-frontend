@@ -21,6 +21,8 @@ import IconPlus from '@/components/atoms/icons/IconPlus'
 import IconTrash from '@/components/atoms/icons/IconTrash'
 import IconTrendDown from '@/components/atoms/icons/IconTrendDown'
 import IconTrendUp from '@/components/atoms/icons/IconTrendUp'
+import IconEye from '@/components/atoms/icons/IconEye'
+import IconLoading from '@/components/atoms/icons/IconLoading'
 
 export default {
   name: 'Icon',
@@ -64,6 +66,10 @@ export default {
           return IconTrendDown
         case 'trend-up':
           return IconTrendUp
+        case 'eye':
+          return IconEye
+        case 'loading':
+          return IconLoading
         default:
           return new Error('Icon not found')
       }

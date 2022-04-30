@@ -34,14 +34,13 @@ export const useFieldStore = defineStore('field', {
         delete field.crops
         db.collection('fields')
           .doc(field.id)
-          .update(field).then(async r => {
+          .update(field)
+          .then(async r => {
             if (crops.length) {
               const cropStore = useCropStore()
-              for (let i = 0; i < crops.length; i++) {
-                await cropStore.updateCrop(crops[i])
-              }
-              resolve(r)
+              await cropStore.batchUpdateOrCreate(crops)
             }
+            resolve()
           })
           .catch(e => reject(e))
       })
@@ -69,7 +68,6 @@ export const useFieldStore = defineStore('field', {
 
     async getFieldCrops (fieldId) {
       return new Promise((resolve, reject) => {
-        console.log('get field crops')
         db.collection('crops')
           .where('fieldId', '==', fieldId)
           .get()
@@ -110,11 +108,22 @@ export const useFieldStore = defineStore('field', {
      */
     deleteField ({ id }) {
       return new Promise((resolve, reject) => {
-        db.collection('fields')
-          .doc(id)
-          .delete()
-          .then(r => resolve(r))
-          .catch(e => reject(e))
+        const crops = db.collection('crops').where('fieldId', '==', id)
+        const batch = db.batch()
+        crops
+          .get()
+          .then(snapshop => {
+            snapshop.docs.forEach(crop => {
+              batch.delete(crop.ref)
+            })
+            batch.commit().then(_ => {
+              db.collection('fields')
+                .doc(id)
+                .delete()
+                .then(r => resolve(r))
+                .catch(e => reject(e))
+            })
+          })
       })
     }
   }

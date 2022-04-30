@@ -26,11 +26,14 @@
       <Button class="mt-15 mr-15">All sensors</Button>
       <crop-list-item
         v-for="(crop, index) in fieldRef.crops"
+        :key="crop.id || index"
         class="mt-15"
         icon="trash"
         :crops-list="cropTypesList"
         :crop="crop"
-        @on-submit="deleteCrop(index)"
+        :preview-enable="Boolean(crop.id)"
+        @on-preview="previewCrop(crop)"
+        @on-submit="deleteCrop(crop, index)"
       />
       <Button
         class="mt-15"
@@ -52,6 +55,12 @@
         class="mr-15"
         @click="saveField"
       >
+        <icon
+          v-if="isSaving"
+          name="loading"
+          color="#fefefe"
+          class="btn-loading-icon"
+        />
         Save
       </Button>
       <Button
@@ -67,14 +76,14 @@
 <script>
 import {
   computed,
-  watch,
   ref
 } from 'vue'
-import { CROP_TYPES_LIST } from '../../crops/utils/crops'
+import { CROP_TYPES_LIST, EMPTY_CROP_SCHEMA } from '../../crops/utils/crops'
 import DataGroup from '@/components/atoms/DataGroup'
 import RightSideModal from '@/components/molecules/RightSideModal'
 import SensorCard from '@/modules/sensors/components/SensorCard'
 import Button from '@/components/atoms/Button'
+import Icon from '@/components/atoms/Icon'
 import CropListItem from '@/modules/crops/components/CropListItem'
 
 export default {
@@ -84,6 +93,7 @@ export default {
     RightSideModal,
     SensorCard,
     Button,
+    Icon,
     CropListItem
   },
   props: {
@@ -94,11 +104,15 @@ export default {
     field: {
       type: Object,
       required: true
+    },
+    isSaving: {
+      type: Boolean,
+      default: false
     }
   },
   setup (props, { emit }) {
     const cropTypesList = ref(CROP_TYPES_LIST)
-    const fieldRef = ref(props.field)
+    const fieldRef = computed(() => props.field)
     const fieldValues = computed(() => [
       { label: 'Name', value: fieldRef.value.title },
       { label: 'Size', value: fieldRef.value.size },
@@ -140,17 +154,38 @@ export default {
 
     /**
      * Function to delete the crop from field crop list
+     * @param crop
      * @param index
      */
-    const deleteCrop = index => {
-      fieldRef.value.crops.splice(index, 1)
+    const deleteCrop = (crop, index) => {
+      if (crop.id) {
+        emit('onDeleteCrop', crop)
+      } else {
+        fieldRef.value.crops.splice(index, 1)
+      }
     }
 
     /**
      * Function to add crop for the field crop list
      */
     const addCrop = () => {
-      fieldRef.value.crops.unshift({ ...CROP_TYPES_LIST })
+      const field = { ...fieldRef.value }
+      if (!field.crops) {
+        field.crops = []
+      }
+      field.crops.unshift({
+        fieldId: fieldRef.value.id,
+        ...EMPTY_CROP_SCHEMA
+      })
+      emit('onAddCrop', field)
+    }
+
+    /**
+     * Function emits preview event with the crop data
+     * @param crop
+     */
+    const previewCrop = crop => {
+      emit('onPreviewCrop', crop)
     }
 
     /**
@@ -167,14 +202,7 @@ export default {
      */
     const saveField = _ => {
       emit('onSave', { ...fieldRef.value })
-      closeModal()
     }
-
-    watch(show, isVisible => {
-      if (isVisible) {
-        fieldRef.value = props.field
-      }
-    })
 
     return {
       cropTypesList,
@@ -186,6 +214,7 @@ export default {
       updateSensor,
       deleteCrop,
       addCrop,
+      previewCrop,
       deleteField,
       saveField
     }
@@ -216,6 +245,12 @@ export default {
     column-gap: 10px;
   }
 }
+
+.btn-loading-icon {
+  animation: rotation 3s infinite linear;
+  margin-right: 5px;
+}
+
 h3 {
   margin: 15px 0;
 }
@@ -225,7 +260,19 @@ h3 {
 .mt-15 {
   margin-top: 15px;
 }
+.mr-5 {
+  margin-right: 5px;
+}
 .mr-15 {
   margin-right: 15px;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
 }
 </style>

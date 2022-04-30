@@ -9,10 +9,13 @@
       :if="shouldDisplayFieldModal"
       :field="selectedField"
       :is-visible="showFieldModal"
+      :is-saving="isSavingField"
       @on-close="closeFieldModal"
       @on-change="updateField"
       @on-delete="deleteField"
       @on-save="saveField"
+      @on-delete-crop="deleteCrop"
+      @on-preview-crop="showCrop"
     />
     <create-field-modal
       :is-visible="showCreateFieldModal"
@@ -25,6 +28,7 @@
 
 <script>
 import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useFieldStore } from './store'
 import { useCropStore } from '@/modules/crops/store'
@@ -43,11 +47,13 @@ export default {
   },
   setup () {
     let newFieldCoordinates = []
+    const router = useRouter()
     const cropStore = useCropStore()
     const fieldStore = useFieldStore()
     const { fields } = storeToRefs(fieldStore)
     const selectedField = ref({})
     const showFieldModal = ref(false)
+    const isSavingField = ref(false)
     const showCreateFieldModal = ref(false)
     const modalShow = ref(true)
     const crops = ref(CROP_TYPES_LIST)
@@ -96,9 +102,10 @@ export default {
       const { crops } = field
       delete field.crops
       const createdField = await fieldStore.addField(field)
-      for (let i = 0; i < crops.length; i++) {
-        await cropStore.addCrop({ fieldId: createdField.id, ...crops[i] })
-      }
+      crops.forEach(crop => {
+        crop.fieldId = createdField.id
+      })
+      await cropStore.batchUpdateOrCreate(crops)
       fieldStore.loadFields()
     }
 
@@ -107,8 +114,8 @@ export default {
      * @param field
      */
     const deleteField = async field => {
+      showFieldModal.value = false
       await fieldStore.deleteField(field)
-      selectedField.value = false
       fieldStore.loadFields()
     }
 
@@ -118,8 +125,29 @@ export default {
      * @returns {Promise<void>}
      */
     const saveField = async field => {
+      isSavingField.value = true
       await fieldStore.updateField(field)
+      selectedField.value = await fieldStore.getField(field.id)
+      isSavingField.value = false
       fieldStore.loadFields()
+    }
+
+    /**
+     * Function is triggered when user wants to delete crop already existing in the store
+     * @param crop
+     * @returns {Promise<void>}
+     */
+    const deleteCrop = async crop => {
+      await cropStore.deleteCrop(crop)
+      selectedField.value = await fieldStore.getField(crop.fieldId)
+    }
+
+    /**
+     * Function is triggered when user wants preview crop details
+     * @param crop
+     */
+    const showCrop = ({ id }) => {
+      router.push(`/crops/${id}`)
     }
 
     onMounted(_ => {
@@ -130,6 +158,7 @@ export default {
       fields,
       selectedField,
       showFieldModal,
+      isSavingField,
       showCreateFieldModal,
       crops,
       shouldDisplayFieldModal,
@@ -141,7 +170,9 @@ export default {
       saveCreatedField,
       createField,
       deleteField,
-      saveField
+      saveField,
+      deleteCrop,
+      showCrop
     }
   }
 }

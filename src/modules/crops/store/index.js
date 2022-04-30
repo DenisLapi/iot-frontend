@@ -28,6 +28,29 @@ export const useCropStore = defineStore('crop', {
     },
 
     /**
+     * Batch update or create crops
+     * @param crops Crops array
+     */
+    async batchUpdateOrCreate (crops) {
+      return new Promise((resolve, reject) => {
+        const batch = db.batch()
+        for (let i = 0; i < crops.length; i++) {
+          if (crops[i].id) {
+            const updateCropRef = db.collection('crops').doc(crops[i].id)
+            batch.update(updateCropRef, { ...crops[i] })
+          } else {
+            const newCropRef = db.collection('crops').doc()
+            batch.set(newCropRef, crops[i])
+          }
+        }
+        batch
+          .commit()
+          .then(r => resolve(r))
+          .catch(e => reject(e))
+      })
+    },
+
+    /**
      * Function returns the crop based on the id
      * @param cropId
      * @returns {*} Crop
@@ -61,9 +84,13 @@ export const useCropStore = defineStore('crop', {
      * @param crop Crop object with id property
      */
     deleteCrop ({ id }) {
-      db.collection('crops')
-        .doc(id)
-        .delete().then(r => r)
+      return new Promise((resolve, reject) => {
+        db.collection('crops')
+          .doc(id)
+          .delete()
+          .then(r => resolve(r))
+          .catch(e => reject(e))
+      })
     },
 
     /**
