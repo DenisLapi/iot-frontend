@@ -89,14 +89,7 @@ export default {
       }
     })
 
-    const cropRef = computed({
-      get () {
-        return props.crop
-      },
-      set (value) {
-        emit('onChange', value)
-      }
-    })
+    const cropRef = computed(() => props.crop)
 
     /**
      * Computed value calculates amount of days passed after planting

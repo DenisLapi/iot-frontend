@@ -67,7 +67,11 @@ export const useCropStore = defineStore('crop', {
           .doc(cropId)
           .get()
           .then(querySnapshot => {
-            resolve({ id: cropId, ...querySnapshot.data() })
+            const crop = { id: cropId, ...querySnapshot.data() }
+            if (!crop.finance) {
+              crop.finance = []
+            }
+            resolve(crop)
           })
           .catch(e => {
             reject(e)
@@ -110,9 +114,6 @@ export const useCropStore = defineStore('crop', {
      */
     async selectCrop (cropId) {
       this.selectedCrop = await this.getCrop(cropId)
-      if (!this.selectedCrop.finance) {
-        this.selectedCrop.finance = []
-      }
     }
   }
 })
