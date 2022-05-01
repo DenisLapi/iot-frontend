@@ -134,7 +134,6 @@ export default {
     const profit = computed(() => income.value - expenses.value)
 
     watch(() => cropRef.value, (value, old) => {
-      console.log({ ...value }, { ...old })
       emit('onChange', value)
     }, { deep: true })
 
