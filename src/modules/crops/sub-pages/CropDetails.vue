@@ -8,7 +8,7 @@
         <Icon
           name="chevron-left"
           color="#939ca6"
-          size="15"
+          :size="15"
         />
         Go to fields
       </router-link>

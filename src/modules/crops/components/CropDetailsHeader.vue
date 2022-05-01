@@ -9,7 +9,7 @@
           :chart-data="chartData"
           :chart-options="chartOptions"
         />
-        <span class="crop-details__chart-icon">🧅</span>
+        <span class="crop-details__chart-icon">{{ cropIcon }}</span>
       </div>
     </div>
     <div>
@@ -133,6 +133,15 @@ export default {
      */
     const profit = computed(() => income.value - expenses.value)
 
+    /**
+     * Computed value which returns the emoji/icon for selected crop
+     * @type {ComputedRef<*>}
+     */
+    const cropIcon = computed(() => {
+      const index = props.cropsList.findIndex(crop => cropRef.value.type === crop.value)
+      return props.cropsList[index].icon
+    })
+
     watch(() => cropRef.value, (value, old) => {
       emit('onChange', value)
     }, { deep: true })
@@ -145,7 +154,8 @@ export default {
       daysBeforeHarvesting,
       expenses,
       income,
-      profit
+      profit,
+      cropIcon
     }
   }
 }
@@ -183,7 +193,7 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 40px;
+    font-size: 60px;
   }
 }
 </style>
