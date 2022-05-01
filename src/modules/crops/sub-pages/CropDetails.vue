@@ -1,5 +1,14 @@
 <template>
   <div class="crop-details">
+    <div class="mb-20">
+      <router-link
+        to="/fields"
+        class="back-link"
+      >
+        <Icon name="chevron-left" color="#939ca6" size="15" />
+        Go to fields
+      </router-link>
+    </div>
     <crop-details-header
       v-if="isCropSelected"
       :crop="selectedCrop"
@@ -185,12 +194,22 @@ export default {
     width: 96%;
     transform: translateX(-50%);
   }
+  .back-link {
+    display: flex;
+    align-items: center;
+    ::v-deep svg {
+      margin-right: 5px;
+    }
+  }
 }
 .mt-20 {
   margin-top: 20px
 }
 .mt-50 {
   margin-top: 50px;
+}
+.mb-20 {
+  margin-bottom: 20px;
 }
 .mb-100 {
   margin-bottom: 100px;
