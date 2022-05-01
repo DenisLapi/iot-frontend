@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
-import DEFAULT_FIELDS from './data'
+import { useCropStore } from '@/modules/crops/store'
+import { db } from '@/firebase/db'
 
 export const useFieldStore = defineStore('field', {
   state: () => ({
@@ -11,7 +12,16 @@ export const useFieldStore = defineStore('field', {
      * Function loads the fields in the store
      */
     loadFields () {
-      this.fields = DEFAULT_FIELDS
+      db.collection('fields')
+        .get()
+        .then(querySnapshot => {
+          this.fields = querySnapshot.docs.map(doc => {
+            return {
+              id: doc.id,
+              ...doc.data()
+            }
+          })
+        })
     },
 
     /**
@@ -19,8 +29,21 @@ export const useFieldStore = defineStore('field', {
      * @param field field details which needs to include field id
      */
     updateField (field) {
-      const fieldIndex = this.fields.findIndex(({ id }) => field.id === id)
-      this.fields[fieldIndex] = field
+      return new Promise((resolve, reject) => {
+        const { crops } = field
+        delete field.crops
+        db.collection('fields')
+          .doc(field.id)
+          .update(field)
+          .then(async r => {
+            if (crops.length) {
+              const cropStore = useCropStore()
+              await cropStore.batchUpdateOrCreate(crops)
+            }
+            resolve()
+          })
+          .catch(e => reject(e))
+      })
     },
 
     /**
@@ -28,9 +51,38 @@ export const useFieldStore = defineStore('field', {
      * @param fieldId
      * @returns {*} Field
      */
-    getField (fieldId) {
-      const fieldIndex = this.fields.findIndex(({ id }) => fieldId === id)
-      return this.fields[fieldIndex]
+    async getField (fieldId) {
+      return new Promise((resolve, reject) => {
+        db.collection('fields')
+          .doc(fieldId)
+          .get()
+          .then(async querySnapshot => {
+            const crops = await this.getFieldCrops(fieldId)
+            resolve({ id: querySnapshot.id, ...querySnapshot.data(), crops })
+          })
+          .catch(e => {
+            reject(e)
+          })
+      })
+    },
+
+    async getFieldCrops (fieldId) {
+      return new Promise((resolve, reject) => {
+        db.collection('crops')
+          .where('fieldId', '==', fieldId)
+          .get()
+          .then(querySnapshot => {
+            resolve(querySnapshot.docs.map(doc => {
+              return {
+                id: doc.id,
+                ...doc.data()
+              }
+            }))
+          })
+          .catch(e => {
+            reject(e)
+          })
+      })
     },
 
     /**
@@ -38,16 +90,41 @@ export const useFieldStore = defineStore('field', {
      * @param field
      */
     addField (field) {
-      this.fields.push(field)
+      return new Promise((resolve, reject) => {
+        db.collection('fields')
+          .add(field)
+          .then(r => {
+            resolve(r)
+          })
+          .catch(e => {
+            reject(e)
+          })
+      })
     },
 
     /**
      * Function deletes field from the field list
      * @param field Field object with id property
      */
-    deleteField (field) {
-      const fieldIndex = this.fields.findIndex(({ id }) => field.id === id)
-      this.fields.splice(fieldIndex, 1)
+    deleteField ({ id }) {
+      return new Promise((resolve, reject) => {
+        const crops = db.collection('crops').where('fieldId', '==', id)
+        const batch = db.batch()
+        crops
+          .get()
+          .then(snapshop => {
+            snapshop.docs.forEach(crop => {
+              batch.delete(crop.ref)
+            })
+            batch.commit().then(_ => {
+              db.collection('fields')
+                .doc(id)
+                .delete()
+                .then(r => resolve(r))
+                .catch(e => reject(e))
+            })
+          })
+      })
     }
   }
 })

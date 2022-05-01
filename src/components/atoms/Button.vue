@@ -40,9 +40,6 @@ export default {
   &:hover {
     background: #ededed;
   }
-  :slotted(svg) {
-    margin-right: 5px;
-  }
   &.primary {
     background: #27ae60;
     border-color: #27ae60;
@@ -52,11 +49,11 @@ export default {
     }
   }
   &.danger {
-    background: #db5555;
-    border-color: #db5555;
+    background: #fa4444;
+    border-color: #ea4141;
     color: #fff;
     &:hover {
-      background: #f35a5a;
+      background: #f36363;
     }
   }
   &.small {

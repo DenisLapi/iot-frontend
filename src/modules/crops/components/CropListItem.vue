@@ -1,5 +1,5 @@
 <template>
-  <div class="crop-list-item">
+  <div class="crop-list-item" :data-id="crop.id">
     <Select
       v-model="cropRef.type"
       label="Crop"
@@ -22,6 +22,13 @@
       label="Harvesting date"
       type="date"
     />
+    <Button
+      v-if="previewEnable"
+      class="mt-22"
+      @click="$emit('onPreview', cropRef)"
+    >
+      <icon name="eye" />
+    </Button>
     <Button
       class="mt-22"
       @click="$emit('onSubmit', cropRef)"
@@ -59,6 +66,10 @@ export default {
       type: String,
       default: 'plus',
       required: false
+    },
+    previewEnable: {
+      type: Boolean,
+      default: false
     }
   },
   setup (props, { emit }) {
@@ -74,7 +85,7 @@ export default {
 <style lang="scss" scoped>
 .crop-list-item {
   display: grid;
-  grid-template-columns: repeat(5, auto);
+  grid-template-columns: repeat(6, auto);
   column-gap: 10px;
 }
 .mt-22 {
