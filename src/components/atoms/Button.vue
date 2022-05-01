@@ -49,11 +49,11 @@ export default {
     }
   }
   &.danger {
-    background: #db5555;
-    border-color: #db5555;
+    background: #fa4444;
+    border-color: #ea4141;
     color: #fff;
     &:hover {
-      background: #f35a5a;
+      background: #f36363;
     }
   }
   &.small {
