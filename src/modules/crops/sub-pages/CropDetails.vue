@@ -5,7 +5,11 @@
         to="/fields"
         class="back-link"
       >
-        <Icon name="chevron-left" color="#939ca6" size="15" />
+        <Icon
+          name="chevron-left"
+          color="#939ca6"
+          size="15"
+        />
         Go to fields
       </router-link>
     </div>
