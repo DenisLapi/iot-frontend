@@ -16,7 +16,7 @@ body {
   color: #2c3e50;
 }
 a {
-  color: #007aff;
+  color: #37c76c;
   text-decoration: none;
 }
 </style>
