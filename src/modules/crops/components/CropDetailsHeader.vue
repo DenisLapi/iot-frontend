@@ -13,7 +13,7 @@
       </div>
     </div>
     <div>
-      <h2>Crop Details</h2>
+      <h2 class="mt-0">Crop Details</h2>
       <div class="crop-details__info">
         <Select
           v-model="cropRef.type"
@@ -195,5 +195,8 @@ export default {
     transform: translate(-50%, -50%);
     font-size: 60px;
   }
+}
+.mt-0 {
+  margin-top: 0;
 }
 </style>
