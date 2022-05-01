@@ -1,7 +1,7 @@
 <template>
   <div class="crop-details">
     <crop-details-header
-      v-if="selectedCrop"
+      v-if="isCropSelected"
       :crop="selectedCrop"
       :crops-list="cropTypesList"
       @on-change="onCropChange"
@@ -17,7 +17,7 @@
       </Button>
     </div>
     <finance-table
-      v-if="hasFinanceData"
+      v-if="isCropSelected && hasFinanceData"
       class="mt-20 mb-100"
       :data="selectedCrop.finance"
       @on-remove="removeFinanceDetail"
@@ -40,16 +40,16 @@
 </template>
 
 <script>
+import { isEmpty } from 'lodash'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { storeToRefs } from 'pinia/dist/pinia'
 import { useCropStore } from '../store'
+import { CROP_TYPES_LIST } from '../utils/crops'
 import Button from '@/components/atoms/Button'
 import Icon from '@/components/atoms/Icon'
 import FinanceTable from '@/components/molecules/FinanceTable'
 import FinanceModal from '@/components/molecules/FinanceModal'
-import CropDetailsHeader from '@/modules/crops/components/CropDetailsHeader'
-import { CROP_TYPES_LIST } from '@/modules/crops/utils/crops'
+import CropDetailsHeader from '../components/CropDetailsHeader'
 import CtaBanner from '@/components/molecules/CtaBanner'
 
 export default {
@@ -65,7 +65,7 @@ export default {
   setup () {
     const route = useRoute()
     const cropStore = useCropStore()
-    const { selectedCrop } = storeToRefs(cropStore)
+    const selectedCrop = ref({})
     const financeModalVisible = ref(false)
     const showCtaBanner = ref(false)
     const isConfirmingCta = ref(false)
@@ -75,7 +75,13 @@ export default {
      * Computed value returns if crop has finance data
      * @type {ComputedRef<*>}
      */
-    const hasFinanceData = computed(() => selectedCrop.value && selectedCrop.value.finance.length)
+    const hasFinanceData = computed(() => selectedCrop.value && selectedCrop.value.finance && selectedCrop.value.finance.length)
+
+    /**
+     * Computed check if selected crop has value
+     * @type {ComputedRef<boolean>}
+     */
+    const isCropSelected = computed(() => !isEmpty(selectedCrop.value))
 
     /**
      * Function triggered to when close event emitted on finance model
@@ -136,8 +142,8 @@ export default {
       isConfirmingCta.value = false
     }
 
-    onMounted(_ => {
-      cropStore.selectCrop(route.params.id)
+    onMounted(async () => {
+      selectedCrop.value = await cropStore.getCrop(route.params.id)
     })
 
     return {
@@ -147,6 +153,7 @@ export default {
       isConfirmingCta,
       cropTypesList,
       hasFinanceData,
+      isCropSelected,
       closeFinanceModal,
       showFinanceModal,
       saveFinancialDetail,

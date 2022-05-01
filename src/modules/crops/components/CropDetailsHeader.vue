@@ -110,7 +110,7 @@ export default {
      * @type {ComputedRef<unknown>}
      */
     const expenses = computed(() => {
-      if (!cropRef.value.finance && !cropRef.value.finance.length) return 0
+      if (!cropRef.value.finance || !cropRef.value.finance.length) return 0
       return cropRef.value.finance.reduce((sum, finance) => {
         return finance.type === 'expense' ? Number(sum) + Number(finance.money) : Number(sum)
       }, 0)
@@ -121,7 +121,7 @@ export default {
      * @type {ComputedRef<unknown>}
      */
     const income = computed(() => {
-      if (!cropRef.value.finance.length) return 0
+      if (!cropRef.value.finance || !cropRef.value.finance.length) return 0
       return cropRef.value.finance.reduce((sum, finance) => {
         return finance.type === 'income' ? Number(sum) + Number(finance.money) : Number(sum)
       }, 0)
@@ -133,7 +133,8 @@ export default {
      */
     const profit = computed(() => income.value - expenses.value)
 
-    watch(cropRef, value => {
+    watch(() => cropRef.value, (value, old) => {
+      console.log({ ...value }, { ...old })
       emit('onChange', value)
     }, { deep: true })
 
