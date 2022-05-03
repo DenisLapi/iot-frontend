@@ -41,7 +41,10 @@ export default {
       {
         label: 'Location',
         icon: 'crosshair',
-        callback: () => { console.log('show location') }
+        callback: () => {
+          const { coordinates: { x, y } } = sensorRef.value
+          emit('onSetLocation', { x, y })
+        }
       },
       {
         label: `${props.sensor.battery}%`,

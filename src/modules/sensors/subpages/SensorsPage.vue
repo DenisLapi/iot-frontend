@@ -1,6 +1,7 @@
 <template>
   <div class="sensors-page">
     <sensors-map
+      :center="mapCenter"
       :sensors="sensors"
       @on-sensor-click="onSensorClicked"
     />
@@ -10,7 +11,10 @@
           v-for="sensor in sensors"
           :key="sensor.id"
         >
-          <sensor-card :sensor="sensor"/>
+          <sensor-card
+            :sensor="sensor"
+            @on-set-location="setLocation"
+          />
         </div>
       </div>
     </div>
@@ -32,13 +36,32 @@ export default {
   setup () {
     const sensorStore = useSensorStore()
     const sensors = ref([])
+    const mapCenter = ref([])
+
+    /**
+     * Function triggered on sensor on the map is clicked
+     * @param id
+     */
     const onSensorClicked = id => console.log(id)
+
+    /**
+     * Function triggered when set location in the sensor card is clicked
+     * @param x
+     * @param y
+     */
+    const setLocation = ({ x, y }) => {
+      mapCenter.value = [x, y]
+    }
+
     onMounted(async _ => {
       sensors.value = await sensorStore.getSensors()
     })
+
     return {
       sensors,
-      onSensorClicked
+      mapCenter,
+      onSensorClicked,
+      setLocation
     }
   }
 }

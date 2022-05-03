@@ -23,6 +23,10 @@ export default {
     sensors: {
       type: Array,
       default: () => []
+    },
+    center: {
+      type: Array,
+      required: false
     }
   },
   setup (props, { emit }) {
@@ -58,14 +62,19 @@ export default {
     }
 
     watch(() => sensors.value, value => {
-      if (value.length) {
-        createSensorsOnMap()
-      }
+      createSensorsOnMap()
+    })
+
+    watch(() => props.center, value => {
+      mapCenter.value = value
+      mapCreated.flyTo({
+        center: mapCenter.value
+      })
     })
 
     return {
-      accessToken,
       mapCenter,
+      accessToken,
       mapZoom,
       onMapLoaded
     }
