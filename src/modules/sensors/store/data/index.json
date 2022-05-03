@@ -1,39 +1,40 @@
 [
-    {
-      "id": "1",
-      "type": "sunflower",
-      "hybrid": "20",
-      "plantingDate": "2022-04-01",
-      "harvestingDate": "2022-06-29",
-      "finance": [
-        {
-          "id":  "dfawfghh5486ga68t4j6h84h6j4s68h4s64kjkyf",
-          "type": "income",
-          "money": 5000,
-          "description": "Donation from GoFundMe",
-          "date": "2022-03-25"
-        },
-        {
-          "id":  "dfawfghh5482212168t4j6h84h6j4s68h4s64kjkyf",
-          "type": "expense",
-          "money": 300,
-          "description": "Planting seeds",
-          "date": "2022-03-27"
-        },
-        {
-          "id":  "dfawfghh5482212168t4j6h84h6j4s68h4s64kjkyf",
-          "type": "expense",
-          "money": 300,
-          "description": "Visit with specialists",
-          "date": "2022-04-27"
-        },
-        {
-          "id":  "dfawfghh5482212ss1168t4j6h84h6j4s68h4s64kjkyf",
-          "type": "expense",
-          "money": 500,
-          "description": "Harvesting",
-          "date": "2022-09-05"
-        }
-      ]
+  {
+    "name": "Wind sensor",
+    "type": "wind",
+    "status": true,
+    "battery": 41,
+    "current": {
+      "value": 32,
+      "unit": "m/s"
+    },
+    "coordinates": {
+      "x": 22.638745,
+      "y": 44.423574
+    },
+    "field": {
+      "id": 3994086,
+      "title": "Field 187",
+      "size": "15.4 ha"
     }
+  },
+  {
+    "name": "Humidity sensor",
+    "type": "humidity",
+    "status": false,
+    "battery": 32,
+    "current": {
+      "value": 60,
+      "unit": "%"
+    },
+    "coordinates": {
+      "x": 22.638745,
+      "y": 44.423574
+    },
+    "field": {
+      "id": 3994088,
+      "title": "Field 300",
+      "size": "15.4 ha"
+    }
+  }
 ]
