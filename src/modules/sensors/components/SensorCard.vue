@@ -1,8 +1,6 @@
 <template>
   <div class="sensor-card">
-    <div class="sensor-card__icon-wrapper">
-      <icon :name="sensorRef.type" />
-    </div>
+    <div class="sensor-card__icon-wrapper">{{ sensorIcon }}</div>
     <p class="sensor-card__name">{{ sensorRef.name }}</p>
     <p class="sensor-card__value">
       {{ sensorRef.current.value }}<span class="sensor-card__value-unit">{{ sensorRef.current.unit }}</span>
@@ -19,16 +17,15 @@
 </template>
 
 <script>
-import Icon from '@/components/atoms/Icon'
+import { computed, ref, watch } from 'vue'
+import { sensorIcon as SENSOR_ICON } from '../utils'
 import Switch from '@/components/atoms/Switch'
 import MenuGroup from '@/components/molecules/MenuGroup'
-import { ref, watch } from 'vue'
 
 export default {
   name: 'SensorCard',
   components: {
     Switch,
-    Icon,
     MenuGroup
   },
   props: {
@@ -38,6 +35,7 @@ export default {
     }
   },
   setup (props, { emit }) {
+    const sensorIcon = computed(() => SENSOR_ICON[sensorRef.value.type])
     const sensorRef = ref(props.sensor)
     const options = ref([
       {
@@ -56,8 +54,9 @@ export default {
     }, { deep: true })
 
     return {
-      options,
-      sensorRef
+      sensorIcon,
+      sensorRef,
+      options
     }
   }
 }
@@ -69,7 +68,6 @@ export default {
   height: auto;
   padding: 10px;
   border: 1px solid #dedede;
-  border-radius: 8px;
   position: relative;
   &__status-switch {
     position: absolute;
@@ -85,6 +83,7 @@ export default {
     align-items: center;
     justify-content: center;
     margin: 20px auto;
+    font-size: 18px;
   }
   &__name {
     font-size: 13px;

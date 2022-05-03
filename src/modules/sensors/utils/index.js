@@ -20,9 +20,11 @@ sensorIcon[SENSOR_TYPE_VOICE] = '🔊'
  * Function add sensors to the map
  * @param map
  * @param sensors
- * @param clickCallback Callback function
+ * @param onSensorsAdded Callback function called then all sensors are created
+ * @param onSensorClick Callback function called when clicking on sensor
  */
-export const addSensors = (map, sensors, clickCallback) => {
+export const addSensors = (map, sensors, onSensorsAdded, onSensorClick) => {
+  const allSensors = []
   const features = sensors.map(sensor => createSensorFeature(sensor))
   const geojson = {
     type: 'FeatureCollection',
@@ -33,18 +35,32 @@ export const addSensors = (map, sensors, clickCallback) => {
     const el = document.createElement('div')
     el.classList.add('sensor-marker')
     el.addEventListener('click', _ => {
-      clickCallback(feature.properties.id)
+      onSensorClick(feature.properties.id)
     })
     el.innerHTML = `<span>${sensorIcon[feature.properties.type]}</span>`
-    new mapboxgl.Marker(el)
+    const sensor = new mapboxgl.Marker(el)
       .setLngLat(feature.geometry.coordinates)
       .addTo(map)
+    allSensors.push(sensor)
+  }
+
+  onSensorsAdded(allSensors)
+}
+
+/**
+ * Remove all sensors from the map
+ * @param sensors
+ */
+export const removeAllSensors = sensors => {
+  for (const sensor of sensors) {
+    sensor.remove()
   }
 }
 
 /**
  * Create the Mapbox feather for sensor
  * @param id
+ * @param type
  * @param x
  * @param y
  * @returns {{geometry: {coordinates: *[], type: string}, type: string, properties: {id}}}

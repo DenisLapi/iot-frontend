@@ -38,5 +38,85 @@
       "title": "Field 300",
       "size": "15.4 ha"
     }
+  },
+  {
+    "id": "g5r46s8j4h6468464h6jsyjkl846844464",
+    "name": "Fire sensor",
+    "type": "fire",
+    "status": true,
+    "battery": 41,
+    "current": {
+      "value": 32,
+      "unit": "m/s"
+    },
+    "coordinates": {
+      "x": 22.628194538022342,
+      "y": 44.41616519996933
+    },
+    "field": {
+      "id": 3994086,
+      "title": "Field 187",
+      "size": "15.4 ha"
+    }
+  },
+  {
+    "id": "g5r46s8j4h6468464h6jsyjkl846d1dh68a16r",
+    "name": "Temperature sensor",
+    "type": "temperature",
+    "status": false,
+    "battery": 32,
+    "current": {
+      "value": 60,
+      "unit": "%"
+    },
+    "coordinates": {
+      "x": 22.64445556068111,
+      "y": 44.417300554380375
+    },
+    "field": {
+      "id": 3994088,
+      "title": "Field 300",
+      "size": "15.4 ha"
+    }
+  },
+  {
+    "id": "g5r46s8j4h6468464h6jsyjkl846844464",
+    "name": "Co2 sensor",
+    "type": "co2",
+    "status": true,
+    "battery": 41,
+    "current": {
+      "value": 32,
+      "unit": "m/s"
+    },
+    "coordinates": {
+      "x": 22.619224743161624,
+      "y": 44.40961107117869
+    },
+    "field": {
+      "id": 3994086,
+      "title": "Field 187",
+      "size": "15.4 ha"
+    }
+  },
+  {
+    "id": "g5r46s8j4h6468464h6jsyjkl846d1dh68a16r",
+    "name": "Voice sensor",
+    "type": "voice",
+    "status": false,
+    "battery": 32,
+    "current": {
+      "value": 60,
+      "unit": "%"
+    },
+    "coordinates": {
+      "x": 22.637775432522062,
+      "y": 44.40838917604185
+    },
+    "field": {
+      "id": 3994088,
+      "title": "Field 300",
+      "size": "15.4 ha"
+    }
   }
 ]

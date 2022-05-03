@@ -10,9 +10,8 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue'
-import { addSensors } from '../utils'
-import { useSensorStore } from '../store'
+import { computed, ref, watch } from 'vue'
+import { addSensors, removeAllSensors } from '../utils'
 import Map from '@/components/atoms/Map'
 
 export default {
@@ -20,20 +19,50 @@ export default {
   components: {
     Map
   },
-  setup () {
-    const sensorStore = useSensorStore()
-    const accessToken = computed(() => process.env.VUE_APP_MAPBOX_ACCESS_TOKEN)
+  props: {
+    sensors: {
+      type: Array,
+      default: () => []
+    }
+  },
+  setup (props, { emit }) {
+    let mapCreated
+    let mapSensorMarkers = []
+
     const mapCenter = ref([22.630162, 44.416341])
     const mapZoom = ref(15)
-    const sensors = ref([])
-    const onMapLoaded = map => {
-      addSensors(map, sensors.value, id => {
-        console.log(id)
-      })
+    const sensors = computed(() => props.sensors)
+    const accessToken = computed(() => process.env.VUE_APP_MAPBOX_ACCESS_TOKEN)
+
+    /**
+     * Function which adds sensors on map
+     */
+    const createSensorsOnMap = () => {
+      removeAllSensors(mapSensorMarkers)
+      addSensors(mapCreated, sensors.value,
+        sensorMarkers => {
+          mapSensorMarkers = sensorMarkers
+        },
+        id => {
+          emit('onSensorClick', id)
+        })
     }
-    onMounted(async _ => {
-      sensors.value = await sensorStore.getSensors()
+
+    /**
+     * Function triggered when mapbox map is loaded
+     * @param map
+     */
+    const onMapLoaded = map => {
+      mapCreated = map
+      createSensorsOnMap()
+    }
+
+    watch(() => sensors.value, value => {
+      if (value.length) {
+        createSensorsOnMap()
+      }
     })
+
     return {
       accessToken,
       mapCenter,
