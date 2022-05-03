@@ -1,5 +1,6 @@
 [
   {
+    "id": "g5r46s8j4h6468464h6jsyjkl846844464",
     "name": "Wind sensor",
     "type": "wind",
     "status": true,
@@ -19,6 +20,7 @@
     }
   },
   {
+    "id": "g5r46s8j4h6468464h6jsyjkl846d1dh68a16r",
     "name": "Humidity sensor",
     "type": "humidity",
     "status": false,

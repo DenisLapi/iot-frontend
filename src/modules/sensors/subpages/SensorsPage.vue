@@ -1,10 +1,17 @@
 <template>
-  <h2>Sensors page</h2>
+  <div>
+    <sensors-map />
+  </div>
 </template>
 
 <script>
+import SensorsMap from '../components/SensorsMap'
+
 export default {
-  name: 'SensorsPage'
+  name: 'SensorsPage',
+  components: {
+    SensorsMap
+  }
 }
 </script>
 

@@ -187,5 +187,4 @@ export default {
   height: 100vh;
   position: relative;
 }
-
 </style>
