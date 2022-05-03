@@ -1,7 +1,6 @@
 <template>
   <div class="sensors-page">
     <sensors-map
-      :center="mapCenter"
       :sensors="sensors"
       @on-sensor-click="onSensorClicked"
     />

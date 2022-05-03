@@ -8,7 +8,7 @@
       container="map"
       class="map"
       :access-token="accessToken"
-      :center="mapCenter"
+      :center="center"
       :zoom="mapZoom"
       :mode="mapMode"
       @load="mapLoaded"
@@ -42,8 +42,11 @@ export default {
   props: {
     fields: {
       type: Array,
-      default: () => [],
-      required: false
+      default: () => []
+    },
+    center: {
+      type: Array,
+      default: () => [22.630162, 44.416341]
     }
   },
   setup (props, { emit }) {
@@ -51,7 +54,6 @@ export default {
     const router = useRouter()
     const newField = ref(null)
     const mapMode = ref(MAP_MODE_SELECT)
-    const mapCenter = ref([22.630162, 44.416341])
     const mapZoom = ref(15)
 
     const accessToken = computed(() => process.env.VUE_APP_MAPBOX_ACCESS_TOKEN)
@@ -156,7 +158,6 @@ export default {
 
     return {
       mapMode,
-      mapCenter,
       mapZoom,
       accessToken,
       showSaveButton,

@@ -3,7 +3,7 @@
     container="map"
     class="map"
     :access-token="accessToken"
-    :center="mapCenter"
+    :center="center"
     :zoom="mapZoom"
     @load="onMapLoaded"
   />
@@ -26,14 +26,13 @@ export default {
     },
     center: {
       type: Array,
-      required: false
+      default: () => [22.630162, 44.416341]
     }
   },
   setup (props, { emit }) {
     let mapCreated
     let mapSensorMarkers = []
 
-    const mapCenter = ref([22.630162, 44.416341])
     const mapZoom = ref(15)
     const sensors = computed(() => props.sensors)
     const accessToken = computed(() => process.env.VUE_APP_MAPBOX_ACCESS_TOKEN)
@@ -66,14 +65,12 @@ export default {
     })
 
     watch(() => props.center, value => {
-      mapCenter.value = value
       mapCreated.flyTo({
-        center: mapCenter.value
+        center: value
       })
     })
 
     return {
-      mapCenter,
       accessToken,
       mapZoom,
       onMapLoaded

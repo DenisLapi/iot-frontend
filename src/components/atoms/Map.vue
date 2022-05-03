@@ -23,7 +23,6 @@ export default {
     },
     center: {
       type: Array,
-      required: false,
       default: () => [-74.5, 40]
     },
     zoom: {
@@ -41,6 +40,7 @@ export default {
         center,
         zoom
       } = props
+      console.log(accessToken, container, style, center, zoom)
       mapboxgl.accessToken = accessToken
       const map = new mapboxgl.Map({
         container,
