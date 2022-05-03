@@ -31,6 +31,7 @@ import {
 } from '../utils/fields'
 import Map from '@/components/atoms/Map'
 import MapControls from './MapControls'
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'FieldsMap',
@@ -47,7 +48,7 @@ export default {
   },
   setup (props, { emit }) {
     let map, draw
-
+    const router = useRouter()
     const newField = ref(null)
     const mapMode = ref(MAP_MODE_SELECT)
     const mapCenter = ref([22.630162, 44.416341])
@@ -71,6 +72,11 @@ export default {
         icon: 'layout',
         hide: !showCreateButton.value,
         callback: () => { setCreateMode() }
+      },
+      {
+        icon: 'cpu',
+        hide: false,
+        callback: () => { router.push('/sensors') }
       }
     ])
 

@@ -24,6 +24,7 @@ import IconTrendUp from '@/components/atoms/icons/IconTrendUp'
 import IconEye from '@/components/atoms/icons/IconEye'
 import IconLoading from '@/components/atoms/icons/IconLoading'
 import IconChevronLeft from '@/components/atoms/icons/IconChevronLeft'
+import IconCpu from '@/components/atoms/icons/IconCpu'
 
 export default {
   name: 'Icon',
@@ -73,6 +74,8 @@ export default {
           return IconLoading
         case 'chevron-left':
           return IconChevronLeft
+        case 'cpu':
+          return IconCpu
         default:
           return new Error('Icon not found')
       }
