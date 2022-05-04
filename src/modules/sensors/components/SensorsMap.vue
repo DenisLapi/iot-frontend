@@ -89,7 +89,7 @@ export default {
   align-items: center;
   font-size: 20px;
   background: #e8edea;
-  border: 1px solid #000000;
+  border: 2px solid #000000;
 }
 </style>
 
