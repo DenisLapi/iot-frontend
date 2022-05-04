@@ -2,7 +2,7 @@
   <modal
     class="sensor-details"
     :is-visible="show"
-    :max-width="1300"
+    :max-width="1500"
     @on-close="closeModal"
   >
     <div class="switch-wrapper">
@@ -44,6 +44,34 @@
       label="Sensor ID"
       :token="sensor.id"
     />
+    <line-chart
+      v-if="chartData"
+      class="mt-20"
+      :chart-data="chartData"
+      :chart-options="chartOptions"
+    />
+    <div class="footer mt-20">
+      <Button
+        type="small primary"
+        class="mr-15"
+        @click="saveSensor"
+      >
+        Save
+      </Button>
+      <Button
+        type="small danger"
+        class="mr-15"
+        @click="deleteSensor"
+      >
+        Delete
+      </Button>
+      <Button
+        type="small"
+        @click="closeModal"
+      >
+        Close
+      </Button>
+    </div>
   </modal>
 </template>
 
@@ -55,10 +83,14 @@ import Modal from '@/components/molecules/Modal'
 import Switch from '@/components/atoms/Switch'
 import Icon from '@/components/atoms/Icon'
 import Select from '@/components/atoms/Select'
+import LineChart from '@/components/molecules/charts/LineChart'
+import Button from '@/components/atoms/Button'
 
 export default {
   name: 'SensorDetailsModal',
   components: {
+    Button,
+    LineChart,
     Select,
     Icon,
     Switch,
@@ -95,6 +127,50 @@ export default {
         return '#27ad5f'
       }
     })
+    const chartData = computed(() => {
+      if (sensorRef.value.values.length) {
+        const labels = sensorRef.value.values.map(({ label }) => label)
+        const data = sensorRef.value.values.map(({ value }) => value)
+        return {
+          labels,
+          datasets: [
+            {
+              label: 'Value',
+              backgroundColor: '#38da6b',
+              data
+            }
+          ]
+        }
+      }
+      return null
+    })
+    const chartOptions = ref({
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: false
+      },
+      scales: {
+        x: {
+          display: false
+        }
+      }
+    })
+
+    /**
+     * Function emits event to save the sensor
+     */
+    const saveSensor = () => {
+      emit('onSaveSensor', { ...sensorRef.value })
+    }
+
+    /**
+     * Function emits event to delete the sensor
+     */
+    const deleteSensor = () => {
+      emit('onDeleteSensor', { ...sensorRef.value })
+      closeModal()
+    }
 
     /**
      * Function triggered by framework when modal is closed
@@ -107,6 +183,10 @@ export default {
       sensorRef,
       show,
       batteryColor,
+      chartData,
+      chartOptions,
+      saveSensor,
+      deleteSensor,
       closeModal
     }
   }
@@ -116,7 +196,7 @@ export default {
 <style lang="scss" scoped>
 .sensor-details {
   ::v-deep .o-modal__content {
-    width: 600px;
+    width: 1500px;
   }
   .switch-wrapper {
     display: flex;
@@ -154,6 +234,15 @@ export default {
       margin-right: 8px;
     }
   }
+  .footer {
+    display: flex;
+    & > :first-child {
+      margin-left: auto;
+    }
+  }
+}
+.mr-15 {
+  margin-right: 15px;
 }
 .mt-10 {
   margin-top: 10px;
