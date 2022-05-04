@@ -5,7 +5,7 @@ export const SENSOR_TYPE_HUMIDITY = 'humidity'
 export const SENSOR_TYPE_FIRE = 'fire'
 export const SENSOR_TYPE_TEMPERATURE = 'temperature'
 export const SENSOR_TYPE_CO2 = 'co2'
-export const SENSOR_TYPE_VOICE = 'voice'
+export const SENSOR_TYPE_NOISE = 'noise'
 
 export const sensorIcon = {}
 
@@ -14,7 +14,34 @@ sensorIcon[SENSOR_TYPE_HUMIDITY] = '💧'
 sensorIcon[SENSOR_TYPE_FIRE] = '🔥'
 sensorIcon[SENSOR_TYPE_TEMPERATURE] = '🌡️'
 sensorIcon[SENSOR_TYPE_CO2] = '☢'
-sensorIcon[SENSOR_TYPE_VOICE] = '🔊'
+sensorIcon[SENSOR_TYPE_NOISE] = '🔊'
+
+export const SENSOR_SELECT_OPTIONS = [
+  {
+    value: SENSOR_TYPE_WIND,
+    label: `${sensorIcon[SENSOR_TYPE_WIND]} Wind`
+  },
+  {
+    value: SENSOR_TYPE_HUMIDITY,
+    label: `${sensorIcon[SENSOR_TYPE_HUMIDITY]} Humidity`
+  },
+  {
+    value: SENSOR_TYPE_FIRE,
+    label: `${sensorIcon[SENSOR_TYPE_FIRE]} Fire`
+  },
+  {
+    value: SENSOR_TYPE_TEMPERATURE,
+    label: `${sensorIcon[SENSOR_TYPE_TEMPERATURE]} Temperature`
+  },
+  {
+    value: SENSOR_TYPE_CO2,
+    label: `${sensorIcon[SENSOR_TYPE_CO2]} CO2`
+  },
+  {
+    value: SENSOR_TYPE_NOISE,
+    label: `${sensorIcon[SENSOR_TYPE_NOISE]} Noise`
+  }
+]
 
 /**
  * Function add sensors to the map

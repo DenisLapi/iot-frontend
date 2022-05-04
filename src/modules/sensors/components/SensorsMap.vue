@@ -79,7 +79,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .sensor-marker {
   height: 45px;
   width: 45px;
@@ -90,6 +90,9 @@ export default {
   font-size: 20px;
   background: #e8edea;
   border: 2px solid #000000;
+  &:hover {
+    background: #d4fbe3;
+  }
 }
 </style>
 

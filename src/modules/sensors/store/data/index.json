@@ -4,7 +4,7 @@
     "name": "Wind sensor",
     "type": "wind",
     "status": true,
-    "battery": 41,
+    "battery": 60,
     "current": {
       "value": 32,
       "unit": "m/s"
@@ -101,8 +101,8 @@
   },
   {
     "id": "g5r46s8j4h6468464h6jsyjkl846d1dh68a16r",
-    "name": "Voice sensor",
-    "type": "voice",
+    "name": "Noise sensor",
+    "type": "noise",
     "status": false,
     "battery": 32,
     "current": {
