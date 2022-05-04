@@ -1,8 +1,16 @@
 <template>
-  <o-switch
-    v-model="switchValue"
-    :class="{ 'is-small': small }"
-  />
+  <div>
+    <p
+      v-if="label"
+      class="label"
+    >
+      {{ label }}
+    </p>
+    <o-switch
+      v-model="switchValue"
+      :class="{ 'is-small': small }"
+    />
+  </div>
 </template>
 
 <script>
@@ -17,6 +25,10 @@ export default {
     small: {
       type: Boolean,
       default: false,
+      required: false
+    },
+    label: {
+      type: String,
       required: false
     }
   },
@@ -49,5 +61,10 @@ export default {
   ::v-deep .o-switch__check--checked {
     background: #27ae60;
   }
+}
+.label {
+  font-size: 12px;
+  margin: 0 0 5px;
+  color: #a5b2bc;
 }
 </style>

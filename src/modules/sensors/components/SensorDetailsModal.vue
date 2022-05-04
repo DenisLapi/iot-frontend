@@ -169,7 +169,7 @@ export default {
      * Function emits event to save the sensor
      */
     const saveSensor = () => {
-      emit('onSaveSensor', { ...sensorRef.value })
+      emit('onSave', { ...sensorRef.value })
     }
 
     /**

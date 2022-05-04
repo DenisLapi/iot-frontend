@@ -16,6 +16,18 @@ sensorIcon[SENSOR_TYPE_TEMPERATURE] = '🌡️'
 sensorIcon[SENSOR_TYPE_CO2] = '☢'
 sensorIcon[SENSOR_TYPE_NOISE] = '🔊'
 
+export const SENSOR_EMPTY_SCHEMA = {
+  name: '',
+  type: '',
+  status: true,
+  battery: null,
+  unit: '',
+  coordinates: {
+    x: null,
+    y: null
+  }
+}
+
 export const SENSOR_SELECT_OPTIONS = [
   {
     value: SENSOR_TYPE_WIND,

@@ -12,7 +12,13 @@
     <sensor-details-modal
       :sensor="selectedSensor"
       :is-visible="showSensorDetailsModal"
+      @on-save="saveSensor"
       @on-close="closeSensorDetailsModal"
+    />
+    <sensor-create-modal
+      :is-visible="showCreateSensorModal"
+      @on-close="closeCreateSensorModal"
+      @on-save="addSensor"
     />
   </div>
 </template>
@@ -23,10 +29,12 @@ import { onMounted, ref } from 'vue'
 import SensorsMap from './components/SensorsMap'
 import SensorsSidebar from './components/SensorsSidebar'
 import SensorDetailsModal from '@/modules/sensors/components/SensorDetailsModal'
+import SensorCreateModal from '@/modules/sensors/components/SensorCreateModal'
 
 export default {
   name: 'Home',
   components: {
+    SensorCreateModal,
     SensorDetailsModal,
     SensorsMap,
     SensorsSidebar
@@ -36,6 +44,7 @@ export default {
     const sensors = ref([])
     const mapCenter = ref([22.630162, 44.416341])
     const showSensorDetailsModal = ref(false)
+    const showCreateSensorModal = ref(true)
     const selectedSensor = ref({})
 
     /**
@@ -62,6 +71,31 @@ export default {
       mapCenter.value = [x, y]
     }
 
+    /**
+     * Function triggered when save event is emitted
+     * @param sensor
+     */
+    const saveSensor = async sensor => {
+      await sensorStore.saveSensor(sensor)
+      showSensorDetailsModal.value = false
+    }
+
+    /**
+     * Function triggered when close event is emitted on create sensor modal
+     * @param _
+     */
+    const closeCreateSensorModal = _ => {
+      showCreateSensorModal.value = false
+    }
+
+    /**
+     * Function triggered when save event is emitted on create sensor modal
+     * @param sensor
+     */
+    const addSensor = async sensor => {
+      await sensorStore.addSensor(sensor)
+    }
+
     onMounted(async _ => {
       sensors.value = await sensorStore.getSensors()
       selectedSensor.value = sensors.value[0]
@@ -71,10 +105,14 @@ export default {
       sensors,
       mapCenter,
       showSensorDetailsModal,
+      showCreateSensorModal,
       selectedSensor,
       onSensorClicked,
       closeSensorDetailsModal,
-      setLocation
+      setLocation,
+      saveSensor,
+      closeCreateSensorModal,
+      addSensor
     }
   }
 }
