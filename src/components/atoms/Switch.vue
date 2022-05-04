@@ -19,7 +19,7 @@ import { computed } from 'vue'
 export default {
   name: 'Switch',
   props: {
-    value: {
+    modelValue: {
       type: Boolean
     },
     small: {
@@ -35,10 +35,10 @@ export default {
   setup (props, { emit }) {
     const switchValue = computed({
       get () {
-        return props.value
+        return props.modelValue
       },
       set (value) {
-        emit('input', value)
+        emit('update:modelValue', value)
       }
     })
     return {

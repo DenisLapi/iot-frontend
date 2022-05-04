@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { SENSOR_SELECT_OPTIONS } from '../utils'
 import Token from '@/components/molecules/Token'
 import Modal from '@/components/molecules/Modal'
@@ -185,6 +185,10 @@ export default {
      * @param value
      */
     const closeModal = value => emit('onClose', value)
+
+    watch(sensorRef, value => {
+      console.log(value)
+    }, { deep: true })
 
     return {
       sensorsSelectOptions,
