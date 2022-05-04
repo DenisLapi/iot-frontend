@@ -9,6 +9,7 @@
     <sensors-sidebar
       :sensors="sensors"
       @on-set-location="setLocation"
+      @on-change="onSensorChange"
     />
     <sensor-details-modal
       :sensor="selectedSensor"
@@ -121,6 +122,12 @@ export default {
       selectedSensor.value = {}
     }
 
+    const onSensorChange = async sensor => {
+      await sensorStore.saveSensor(sensor)
+      // sensors.value = await sensorStore.getSensors()
+      // console.log(sensors.value)
+    }
+
     onMounted(async _ => {
       sensors.value = await sensorStore.getSensors()
     })
@@ -138,7 +145,8 @@ export default {
       closeCreateSensorModal,
       addSensor,
       saveCoordinates,
-      deleteSensor
+      deleteSensor,
+      onSensorChange
     }
   }
 }

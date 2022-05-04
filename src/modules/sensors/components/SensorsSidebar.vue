@@ -8,6 +8,7 @@
         <sensor-card
           :sensor="sensor"
           @on-set-location="setLocation"
+          @on-change="$emit('on-change', sensor)"
         />
       </div>
     </div>

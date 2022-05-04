@@ -57,7 +57,7 @@ export default {
       }
     ])
 
-    watch(sensorRef, value => {
+    watch(() => sensorRef.value, value => {
       emit('onChange', value)
     }, { deep: true })
 
