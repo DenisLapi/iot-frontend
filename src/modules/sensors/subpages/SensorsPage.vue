@@ -2,6 +2,7 @@
   <div class="sensors-page">
     <sensors-map
       :sensors="sensors"
+      :center="mapCenter"
       @on-sensor-click="onSensorClicked"
     />
     <div class="sensors-page__sidebar">
@@ -35,7 +36,7 @@ export default {
   setup () {
     const sensorStore = useSensorStore()
     const sensors = ref([])
-    const mapCenter = ref([])
+    const mapCenter = ref([22.630162, 44.416341])
 
     /**
      * Function triggered on sensor on the map is clicked
