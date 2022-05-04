@@ -5,10 +5,7 @@
     "type": "wind",
     "status": true,
     "battery": 60,
-    "current": {
-      "value": 32,
-      "unit": "m/s"
-    },
+    "unit": "m/s",
     "values": [
       {
         "label": "2019-06-01 2:04:03",
@@ -75,10 +72,7 @@
     "type": "humidity",
     "status": false,
     "battery": 32,
-    "current": {
-      "value": 60,
-      "unit": "%"
-    },
+    "unit": "%",
     "coordinates": {
       "x": 22.638745,
       "y": 44.423574
@@ -95,10 +89,7 @@
     "type": "fire",
     "status": true,
     "battery": 41,
-    "current": {
-      "value": 32,
-      "unit": "m/s"
-    },
+    "unit": "m/s",
     "coordinates": {
       "x": 22.628194538022342,
       "y": 44.41616519996933
@@ -115,10 +106,7 @@
     "type": "temperature",
     "status": false,
     "battery": 32,
-    "current": {
-      "value": 60,
-      "unit": "%"
-    },
+    "unit": "%",
     "coordinates": {
       "x": 22.64445556068111,
       "y": 44.417300554380375
@@ -155,10 +143,7 @@
     "type": "noise",
     "status": false,
     "battery": 32,
-    "current": {
-      "value": 60,
-      "unit": "%"
-    },
+    "unit": "%",
     "coordinates": {
       "x": 22.637775432522062,
       "y": 44.40838917604185

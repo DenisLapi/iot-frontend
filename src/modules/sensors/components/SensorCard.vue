@@ -3,7 +3,7 @@
     <div class="sensor-card__icon-wrapper">{{ sensorIcon }}</div>
     <p class="sensor-card__name">{{ sensorRef.name }}</p>
     <p class="sensor-card__value">
-      {{ sensorRef.current.value }}<span class="sensor-card__value-unit">{{ sensorRef.current.unit }}</span>
+      {{ lastValue }}<span class="sensor-card__value-unit">{{ sensorRef.unit }}</span>
     </p>
     <Switch
       class="sensor-card__status-switch"
@@ -36,7 +36,11 @@ export default {
   },
   setup (props, { emit }) {
     const sensorIcon = computed(() => SENSOR_ICON[sensorRef.value.type])
-    const sensorRef = ref(props.sensor)
+    const sensorRef = computed(() => props.sensor)
+    const lastValue = computed(() => {
+      const values = sensorRef.value.values
+      return values && values.length ? values[values.length - 1].value : 'N/A'
+    })
     const options = ref([
       {
         label: 'Location',
@@ -52,13 +56,15 @@ export default {
         callback: false
       }
     ])
-    watch(sensorRef, newValue => {
-      emit('onChange', newValue)
+
+    watch(sensorRef, value => {
+      emit('onChange', value)
     }, { deep: true })
 
     return {
       sensorIcon,
       sensorRef,
+      lastValue,
       options
     }
   }

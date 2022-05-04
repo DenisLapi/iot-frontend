@@ -14,20 +14,22 @@
     </div>
     <div class="header mt-10">
       <div>
-        <h2 class="title">{{ sensorRef.name }}</h2>
+        <Input
+          v-model="sensorRef.name"
+          placeholder="Enter sensor name"
+        />
         <p class="battery">
           <icon
             name="battery"
             :color="batteryColor"
-            :size="18"
+            :size="23"
           />
           {{ sensorRef.battery }}%
         </p>
       </div>
       <div>
         <p class="current-value">
-          {{ sensorRef.current.value }}
-          <span class="unit">{{ sensorRef.current.unit }}</span>
+          {{ lastValue }}<span class="unit">{{ sensorRef.unit }}</span>
         </p>
       </div>
     </div>
@@ -85,6 +87,7 @@ import Icon from '@/components/atoms/Icon'
 import Select from '@/components/atoms/Select'
 import LineChart from '@/components/molecules/charts/LineChart'
 import Button from '@/components/atoms/Button'
+import Input from '@/components/atoms/Input'
 
 export default {
   name: 'SensorDetailsModal',
@@ -95,7 +98,8 @@ export default {
     Icon,
     Switch,
     Token,
-    Modal
+    Modal,
+    Input
   },
   props: {
     isVisible: {
@@ -126,6 +130,10 @@ export default {
       } else {
         return '#27ad5f'
       }
+    })
+    const lastValue = computed(() => {
+      const values = sensorRef.value.values
+      return values[values.length - 1].value
     })
     const chartData = computed(() => {
       if (sensorRef.value.values.length) {
@@ -183,6 +191,7 @@ export default {
       sensorRef,
       show,
       batteryColor,
+      lastValue,
       chartData,
       chartOptions,
       saveSensor,
@@ -229,7 +238,7 @@ export default {
     font-weight: 500;
     display: flex;
     align-items: center;
-    margin: 5px 0;
+    margin: 20px 0 0;
     svg {
       margin-right: 8px;
     }
