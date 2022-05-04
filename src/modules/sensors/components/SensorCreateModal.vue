@@ -6,10 +6,16 @@
     @on-close="closeModal"
   >
     <Input
-        v-model="sensorRef.name"
-        placeholder="Enter sensor name"
-        label="Sensor name"
-      />
+      v-model="sensorRef.name"
+      placeholder="Enter sensor name"
+      label="Sensor name"
+    />
+    <Input
+      v-model="sensorRef.unit"
+      class="mt-20"
+      placeholder="Enter sensor unit"
+      label="Sensor unit"
+    />
     <Select
       v-model="sensorRef.type"
       class="mt-20"

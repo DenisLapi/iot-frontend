@@ -4,6 +4,7 @@
       :sensors="sensors"
       :center="mapCenter"
       @on-sensor-click="onSensorClicked"
+      @on-save-coords="saveCoordinates"
     />
     <sensors-sidebar
       :sensors="sensors"
@@ -14,6 +15,7 @@
       :is-visible="showSensorDetailsModal"
       @on-save="saveSensor"
       @on-close="closeSensorDetailsModal"
+      @on-delete="deleteSensor"
     />
     <sensor-create-modal
       :is-visible="showCreateSensorModal"
@@ -28,8 +30,8 @@ import { useSensorStore } from './store'
 import { onMounted, ref } from 'vue'
 import SensorsMap from './components/SensorsMap'
 import SensorsSidebar from './components/SensorsSidebar'
-import SensorDetailsModal from '@/modules/sensors/components/SensorDetailsModal'
-import SensorCreateModal from '@/modules/sensors/components/SensorCreateModal'
+import SensorDetailsModal from './components/SensorDetailsModal'
+import SensorCreateModal from './components/SensorCreateModal'
 
 export default {
   name: 'Home',
@@ -42,16 +44,18 @@ export default {
   setup () {
     const sensorStore = useSensorStore()
     const sensors = ref([])
+    const newSensorCoords = ref({})
     const mapCenter = ref([22.630162, 44.416341])
     const showSensorDetailsModal = ref(false)
-    const showCreateSensorModal = ref(true)
+    const showCreateSensorModal = ref(false)
     const selectedSensor = ref({})
 
     /**
      * Function triggered on sensor on the map is clicked
      * @param id
      */
-    const onSensorClicked = id => {
+    const onSensorClicked = async id => {
+      selectedSensor.value = await sensorStore.getSensor(id)
       showSensorDetailsModal.value = true
     }
 
@@ -77,6 +81,7 @@ export default {
      */
     const saveSensor = async sensor => {
       await sensorStore.saveSensor(sensor)
+      sensors.value = await sensorStore.getSensors()
       showSensorDetailsModal.value = false
     }
 
@@ -93,12 +98,31 @@ export default {
      * @param sensor
      */
     const addSensor = async sensor => {
+      sensor.coordinates = newSensorCoords.value
       await sensorStore.addSensor(sensor)
+      newSensorCoords.value = {}
+      showCreateSensorModal.value = false
+      sensors.value = await sensorStore.getSensors()
+    }
+
+    const saveCoordinates = coords => {
+      newSensorCoords.value = coords
+      showCreateSensorModal.value = true
+    }
+
+    /**
+     * Function triggered when delete event is emitted
+     * @param id
+     */
+    const deleteSensor = async ({ id }) => {
+      showSensorDetailsModal.value = false
+      await sensorStore.deleteSensor({ id })
+      sensors.value = await sensorStore.getSensors()
+      selectedSensor.value = {}
     }
 
     onMounted(async _ => {
       sensors.value = await sensorStore.getSensors()
-      selectedSensor.value = sensors.value[0]
     })
 
     return {
@@ -112,7 +136,9 @@ export default {
       setLocation,
       saveSensor,
       closeCreateSensorModal,
-      addSensor
+      addSensor,
+      saveCoordinates,
+      deleteSensor
     }
   }
 }

@@ -30,7 +30,7 @@ export default {
   },
   setup (props, { emit }) {
     /**
-     * Function triggered when set location is emited from sensor card
+     * Function triggered when set location is emitted from sensor card
      * @param x
      * @param y
      */

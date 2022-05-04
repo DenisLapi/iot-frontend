@@ -27,7 +27,7 @@
           {{ sensorRef.battery }}%
         </p>
       </div>
-      <div>
+      <div v-if="lastValue">
         <p class="current-value">
           {{ lastValue }}<span class="unit">{{ sensorRef.unit }}</span>
         </p>
@@ -133,10 +133,10 @@ export default {
     })
     const lastValue = computed(() => {
       const values = sensorRef.value.values
-      return values[values.length - 1].value
+      return values && values.length ? values[values.length - 1].value : ''
     })
     const chartData = computed(() => {
-      if (sensorRef.value.values.length) {
+      if (sensorRef.value.values && sensorRef.value.values.length) {
         const labels = sensorRef.value.values.map(({ label }) => label)
         const data = sensorRef.value.values.map(({ value }) => value)
         return {
@@ -176,7 +176,7 @@ export default {
      * Function emits event to delete the sensor
      */
     const deleteSensor = () => {
-      emit('onDeleteSensor', { ...sensorRef.value })
+      emit('onDelete', { ...sensorRef.value })
       closeModal()
     }
 

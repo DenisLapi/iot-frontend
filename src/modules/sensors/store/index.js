@@ -1,10 +1,9 @@
 import { defineStore } from 'pinia'
 import { db } from '@/firebase/db'
-import SENSORS from './data'
 
 export const useSensorStore = defineStore('sensor', {
   state: () => ({
-    sensors: []
+    // State variables...
   }),
   actions: {
 
@@ -14,7 +13,37 @@ export const useSensorStore = defineStore('sensor', {
      */
     getSensors () {
       return new Promise((resolve, reject) => {
-        resolve(SENSORS)
+        db.collection('sensors')
+          .get()
+          .then(querySnapshot => {
+            const sensors = querySnapshot.docs.map(doc => {
+              return {
+                id: doc.id,
+                ...doc.data()
+              }
+            })
+            resolve(sensors)
+          })
+          .catch(e => reject(e))
+      })
+    },
+
+    /**
+     * Function returns the sensor based on the id
+     * @param sensorId
+     * @returns {*} Field
+     */
+    async getSensor (sensorId) {
+      return new Promise((resolve, reject) => {
+        db.collection('sensors')
+          .doc(sensorId)
+          .get()
+          .then(async querySnapshot => {
+            resolve({ id: querySnapshot.id, ...querySnapshot.data() })
+          })
+          .catch(e => {
+            reject(e)
+          })
       })
     },
 
@@ -43,6 +72,20 @@ export const useSensorStore = defineStore('sensor', {
         db.collection('sensors')
           .doc()
           .set(sensor)
+          .then(r => resolve(r))
+          .catch(e => reject(e))
+      })
+    },
+
+    /**
+     * Function deletes sensor
+     * @param sensor Sensor object with id property
+     */
+    deleteSensor ({ id }) {
+      return new Promise((resolve, reject) => {
+        db.collection('sensors')
+          .doc(id)
+          .delete()
           .then(r => resolve(r))
           .catch(e => reject(e))
       })
