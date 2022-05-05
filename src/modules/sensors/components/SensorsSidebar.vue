@@ -8,7 +8,7 @@
         <sensor-card
           :sensor="sensor"
           @on-set-location="setLocation"
-          @on-change="$emit('on-change', sensor)"
+          @on-change="onSensorChange(sensor)"
         />
       </div>
     </div>
@@ -38,8 +38,18 @@ export default {
     const setLocation = ({ x, y }) => {
       emit('onSetLocation', { x, y })
     }
+
+    /**
+     * Function triggered when sensor change event is emitted
+     * @param sensor
+     */
+    const onSensorChange = sensor => {
+      emit('onChange', sensor)
+    }
+
     return {
-      setLocation
+      setLocation,
+      onSensorChange
     }
   }
 }

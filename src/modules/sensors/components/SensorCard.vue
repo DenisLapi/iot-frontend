@@ -36,7 +36,7 @@ export default {
   },
   setup (props, { emit }) {
     const sensorIcon = computed(() => SENSOR_ICON[sensorRef.value.type])
-    const sensorRef = computed(() => props.sensor)
+    const sensorRef = ref(props.sensor)
     const lastValue = computed(() => {
       const values = sensorRef.value.values
       return values && values.length ? values[values.length - 1].value : 'N/A'
