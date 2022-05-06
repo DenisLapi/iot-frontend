@@ -9,6 +9,7 @@
       class="sensor-card__status-switch"
       v-model="sensorRef.status"
       :small="true"
+      @change="onChange"
     />
     <MenuGroup
       class="sensor-card__menu"
@@ -17,7 +18,7 @@
 </template>
 
 <script>
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { sensorIcon as SENSOR_ICON } from '../utils'
 import Switch from '@/components/atoms/Switch'
 import MenuGroup from '@/components/molecules/MenuGroup'
@@ -36,7 +37,7 @@ export default {
   },
   setup (props, { emit }) {
     const sensorIcon = computed(() => SENSOR_ICON[sensorRef.value.type])
-    const sensorRef = ref(props.sensor)
+    const sensorRef = computed(() => props.sensor)
     const lastValue = computed(() => {
       const values = sensorRef.value.values
       return values && values.length ? values[values.length - 1].value : 'N/A'
@@ -57,15 +58,19 @@ export default {
       }
     ])
 
-    watch(() => sensorRef.value, value => {
-      emit('onChange', value)
-    }, { deep: true })
+    /**
+     * Function emit event when change detected
+     */
+    const onChange = () => {
+      emit('onChange', { ...sensorRef.value })
+    }
 
     return {
       sensorIcon,
       sensorRef,
       lastValue,
-      options
+      options,
+      onChange
     }
   }
 }

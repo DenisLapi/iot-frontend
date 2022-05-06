@@ -124,8 +124,7 @@ export default {
 
     const onSensorChange = async sensor => {
       await sensorStore.saveSensor(sensor)
-      // sensors.value = await sensorStore.getSensors()
-      // console.log(sensors.value)
+      sensors.value = await sensorStore.getSensors()
     }
 
     onMounted(async _ => {
