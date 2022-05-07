@@ -1,5 +1,5 @@
 import Home from '../Home'
-import CropDetails from '../sub-pages/CropDetails'
+import CropDetails from '../subpages/CropDetails'
 
 export default [
   {

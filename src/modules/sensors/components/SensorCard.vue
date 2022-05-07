@@ -1,16 +1,15 @@
 <template>
   <div class="sensor-card">
-    <div class="sensor-card__icon-wrapper">
-      <icon :name="sensorRef.type" />
-    </div>
+    <div class="sensor-card__icon-wrapper">{{ sensorIcon }}</div>
     <p class="sensor-card__name">{{ sensorRef.name }}</p>
     <p class="sensor-card__value">
-      {{ sensorRef.current.value }}<span class="sensor-card__value-unit">{{ sensorRef.current.unit }}</span>
+      {{ lastValue }}<span class="sensor-card__value-unit">{{ sensorRef.unit }}</span>
     </p>
     <Switch
       class="sensor-card__status-switch"
       v-model="sensorRef.status"
       :small="true"
+      @change="onChange"
     />
     <MenuGroup
       class="sensor-card__menu"
@@ -19,16 +18,15 @@
 </template>
 
 <script>
-import Icon from '@/components/atoms/Icon'
+import { computed, ref } from 'vue'
+import { sensorIcon as SENSOR_ICON } from '../utils'
 import Switch from '@/components/atoms/Switch'
 import MenuGroup from '@/components/molecules/MenuGroup'
-import { ref, watch } from 'vue'
 
 export default {
   name: 'SensorCard',
   components: {
     Switch,
-    Icon,
     MenuGroup
   },
   props: {
@@ -38,12 +36,20 @@ export default {
     }
   },
   setup (props, { emit }) {
-    const sensorRef = ref(props.sensor)
+    const sensorIcon = computed(() => SENSOR_ICON[sensorRef.value.type])
+    const sensorRef = computed(() => props.sensor)
+    const lastValue = computed(() => {
+      const values = sensorRef.value.values
+      return values && values.length ? values[values.length - 1].value : 'N/A'
+    })
     const options = ref([
       {
         label: 'Location',
         icon: 'crosshair',
-        callback: () => { console.log('show location') }
+        callback: () => {
+          const { coordinates: { x, y } } = sensorRef.value
+          emit('onSetLocation', { x, y })
+        }
       },
       {
         label: `${props.sensor.battery}%`,
@@ -51,13 +57,20 @@ export default {
         callback: false
       }
     ])
-    watch(sensorRef, newValue => {
-      emit('onChange', newValue)
-    }, { deep: true })
+
+    /**
+     * Function emit event when change detected
+     */
+    const onChange = () => {
+      emit('onChange', { ...sensorRef.value })
+    }
 
     return {
+      sensorIcon,
+      sensorRef,
+      lastValue,
       options,
-      sensorRef
+      onChange
     }
   }
 }
@@ -69,7 +82,6 @@ export default {
   height: auto;
   padding: 10px;
   border: 1px solid #dedede;
-  border-radius: 8px;
   position: relative;
   &__status-switch {
     position: absolute;
@@ -85,6 +97,7 @@ export default {
     align-items: center;
     justify-content: center;
     margin: 20px auto;
+    font-size: 18px;
   }
   &__name {
     font-size: 13px;

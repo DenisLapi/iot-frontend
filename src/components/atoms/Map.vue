@@ -23,7 +23,6 @@ export default {
     },
     center: {
       type: Array,
-      required: false,
       default: () => [-74.5, 40]
     },
     zoom: {
