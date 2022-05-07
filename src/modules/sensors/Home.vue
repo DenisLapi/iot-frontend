@@ -81,7 +81,7 @@ export default {
      * @param sensor
      */
     const saveSensor = async sensor => {
-      await sensorStore.saveSensor(sensor)
+      await sensorStore.updateSensor(sensor)
       sensors.value = await sensorStore.getSensors()
       showSensorDetailsModal.value = false
     }
@@ -123,7 +123,7 @@ export default {
     }
 
     const onSensorChange = async sensor => {
-      await sensorStore.saveSensor(sensor)
+      await sensorStore.updateSensor(sensor)
       sensors.value = await sensorStore.getSensors()
     }
 

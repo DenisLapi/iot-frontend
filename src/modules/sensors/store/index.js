@@ -48,11 +48,11 @@ export const useSensorStore = defineStore('sensor', {
     },
 
     /**
-     * Function save the sensor into the db
+     * Function updates the sensor into the db
      * @param sensor
      * @returns {Promise<unknown>}
      */
-    saveSensor (sensor) {
+    updateSensor (sensor) {
       return new Promise((resolve, reject) => {
         db.collection('sensors')
           .doc(sensor.id)
