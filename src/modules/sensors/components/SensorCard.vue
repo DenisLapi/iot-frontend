@@ -52,7 +52,7 @@ export default {
         }
       },
       {
-        label: `${props.sensor.battery}%`,
+        label: props.sensor.battery ? `${props.sensor.battery}%` : 'N/A',
         icon: 'battery',
         callback: false
       }

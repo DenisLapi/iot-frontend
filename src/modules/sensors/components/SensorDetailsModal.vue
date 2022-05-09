@@ -16,16 +16,26 @@
       <div>
         <Input
           v-model="sensorRef.name"
+          label="Sensor name"
           placeholder="Enter sensor name"
         />
-        <p class="battery">
-          <icon
-            name="battery"
-            :color="batteryColor"
-            :size="23"
-          />
-          {{ sensorRef.battery }}%
-        </p>
+        <Input
+          v-model="sensorRef.unit"
+          label="Sensor unit"
+          placeholder="Enter sensor unit"
+          class="mt-20"
+        />
+        <Select
+          v-model="sensorRef.type"
+          class="mt-20"
+          label="Sensor type"
+          :options="sensorsSelectOptions"
+        />
+        <token
+        class="mt-20"
+        label="Sensor ID"
+        :token="sensor.id"
+      />
       </div>
       <div v-if="lastValue">
         <p class="current-value">
@@ -33,19 +43,17 @@
         </p>
       </div>
     </div>
-    <div>
-      <Select
-        v-model="sensorRef.type"
-        class="mt-20"
-        label="Sensor type"
-        :options="sensorsSelectOptions"
+    <p
+      v-if="sensorRef.battery !== null"
+      class="battery"
+    >
+      <icon
+        name="battery"
+        :color="batteryColor"
+        :size="23"
       />
-    </div>
-    <token
-      class="mt-20"
-      label="Sensor ID"
-      :token="sensor.id"
-    />
+      {{ sensorRef.battery }}%
+    </p>
     <line-chart
       v-if="chartData"
       class="mt-20"
