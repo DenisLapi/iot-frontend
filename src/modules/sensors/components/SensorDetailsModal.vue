@@ -56,11 +56,11 @@
     </p>
     <line-chart
       v-if="chartData"
-      class="mt-20"
+      class="mt-40"
       :chart-data="chartData"
       :chart-options="chartOptions"
     />
-    <div class="footer mt-20">
+    <div class="mt-40">
       <Button
         type="small primary"
         class="mr-15"
@@ -251,12 +251,6 @@ export default {
       margin-right: 8px;
     }
   }
-  .footer {
-    display: flex;
-    & > :first-child {
-      margin-left: auto;
-    }
-  }
 }
 .mr-15 {
   margin-right: 15px;
@@ -266,5 +260,8 @@ export default {
 }
 .mt-20 {
   margin-top: 20px;
+}
+.mt-40 {
+  margin-top: 40px;
 }
 </style>
