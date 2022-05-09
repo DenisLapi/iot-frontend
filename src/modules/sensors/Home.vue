@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import { storeToRefs } from 'pinia'
 import { useSensorStore } from './store'
 import { onMounted, ref } from 'vue'
 import SensorsMap from './components/SensorsMap'
@@ -44,7 +45,7 @@ export default {
   },
   setup () {
     const sensorStore = useSensorStore()
-    const sensors = ref([])
+    const { sensors } = storeToRefs(sensorStore)
     const newSensorCoords = ref({})
     const mapCenter = ref([22.630162, 44.416341])
     const showSensorDetailsModal = ref(false)
@@ -82,7 +83,6 @@ export default {
      */
     const saveSensor = async sensor => {
       await sensorStore.updateSensor(sensor)
-      sensors.value = await sensorStore.getSensors()
       showSensorDetailsModal.value = false
     }
 
@@ -103,7 +103,6 @@ export default {
       await sensorStore.addSensor(sensor)
       newSensorCoords.value = {}
       showCreateSensorModal.value = false
-      sensors.value = await sensorStore.getSensors()
     }
 
     const saveCoordinates = coords => {
@@ -118,17 +117,15 @@ export default {
     const deleteSensor = async ({ id }) => {
       showSensorDetailsModal.value = false
       await sensorStore.deleteSensor({ id })
-      sensors.value = await sensorStore.getSensors()
       selectedSensor.value = {}
     }
 
     const onSensorChange = async sensor => {
       await sensorStore.updateSensor(sensor)
-      sensors.value = await sensorStore.getSensors()
     }
 
     onMounted(async _ => {
-      sensors.value = await sensorStore.getSensors()
+      sensorStore.triggerLiveUpdates()
     })
 
     return {

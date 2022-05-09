@@ -3,7 +3,7 @@ import { db } from '@/firebase/db'
 
 export const useSensorStore = defineStore('sensor', {
   state: () => ({
-    // State variables...
+    sensors: [] // Store live updates of sensors
   }),
   actions: {
 
@@ -89,6 +89,16 @@ export const useSensorStore = defineStore('sensor', {
           .then(r => resolve(r))
           .catch(e => reject(e))
       })
+    },
+
+    /**
+     * Function which triggers live updates for sensors and stores in the store
+     */
+    triggerLiveUpdates () {
+      db.collection('sensors')
+        .onSnapshot(snapshot => {
+          this.sensors = snapshot.docs.map(doc => doc.data())
+        })
     }
   }
 })
