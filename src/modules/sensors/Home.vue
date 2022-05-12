@@ -27,9 +27,10 @@
 </template>
 
 <script>
+import { find, isEmpty } from 'lodash'
 import { storeToRefs } from 'pinia'
 import { useSensorStore } from './store'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import SensorsMap from './components/SensorsMap'
 import SensorsSidebar from './components/SensorsSidebar'
 import SensorDetailsModal from './components/SensorDetailsModal'
@@ -126,6 +127,13 @@ export default {
 
     onMounted(async _ => {
       sensorStore.triggerLiveUpdates()
+    })
+
+    watch(sensors, value => {
+      // Update sensor details modal when it is displayed and list of sensors is updated
+      if (showSensorDetailsModal.value && !isEmpty(selectedSensor.value)) {
+        selectedSensor.value = find(sensors.value, { id: selectedSensor.value.id })
+      }
     })
 
     return {
