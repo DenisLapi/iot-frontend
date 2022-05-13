@@ -16,16 +16,26 @@
       <div>
         <Input
           v-model="sensorRef.name"
+          label="Sensor name"
           placeholder="Enter sensor name"
         />
-        <p class="battery">
-          <icon
-            name="battery"
-            :color="batteryColor"
-            :size="23"
-          />
-          {{ sensorRef.battery }}%
-        </p>
+        <Input
+          v-model="sensorRef.unit"
+          label="Sensor unit"
+          placeholder="Enter sensor unit"
+          class="mt-20"
+        />
+        <Select
+          v-model="sensorRef.type"
+          class="mt-20"
+          label="Sensor type"
+          :options="sensorsSelectOptions"
+        />
+        <token
+        class="mt-20"
+        label="Sensor ID"
+        :token="sensor.id"
+      />
       </div>
       <div v-if="lastValue">
         <p class="current-value">
@@ -33,26 +43,24 @@
         </p>
       </div>
     </div>
-    <div>
-      <Select
-        v-model="sensorRef.type"
-        class="mt-20"
-        label="Sensor type"
-        :options="sensorsSelectOptions"
+    <p
+      v-if="showBatteryValue"
+      class="battery"
+    >
+      <icon
+        name="battery"
+        :color="batteryColor"
+        :size="23"
       />
-    </div>
-    <token
-      class="mt-20"
-      label="Sensor ID"
-      :token="sensor.id"
-    />
+      {{ sensorRef.battery }}%
+    </p>
     <line-chart
       v-if="chartData"
-      class="mt-20"
+      class="mt-40"
       :chart-data="chartData"
       :chart-options="chartOptions"
     />
-    <div class="footer mt-20">
+    <div class="mt-40">
       <Button
         type="small primary"
         class="mr-15"
@@ -80,6 +88,7 @@
 <script>
 import { computed, ref } from 'vue'
 import { SENSOR_SELECT_OPTIONS } from '../utils'
+import { isNumber } from 'lodash'
 import Token from '@/components/molecules/Token'
 import Modal from '@/components/molecules/Modal'
 import Switch from '@/components/atoms/Switch'
@@ -135,6 +144,7 @@ export default {
       const values = sensorRef.value.values
       return values && values.length ? values[values.length - 1].value : ''
     })
+    const showBatteryValue = computed(() => isNumber(props.sensor.battery))
     const chartData = computed(() => {
       if (sensorRef.value.values && sensorRef.value.values.length) {
         const labels = sensorRef.value.values.map(({ label }) => label)
@@ -192,6 +202,7 @@ export default {
       show,
       batteryColor,
       lastValue,
+      showBatteryValue,
       chartData,
       chartOptions,
       saveSensor,
@@ -243,12 +254,6 @@ export default {
       margin-right: 8px;
     }
   }
-  .footer {
-    display: flex;
-    & > :first-child {
-      margin-left: auto;
-    }
-  }
 }
 .mr-15 {
   margin-right: 15px;
@@ -258,5 +263,8 @@ export default {
 }
 .mt-20 {
   margin-top: 20px;
+}
+.mt-40 {
+  margin-top: 40px;
 }
 </style>

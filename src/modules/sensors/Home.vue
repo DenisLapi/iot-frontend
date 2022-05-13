@@ -27,8 +27,10 @@
 </template>
 
 <script>
+import { find, isEmpty } from 'lodash'
+import { storeToRefs } from 'pinia'
 import { useSensorStore } from './store'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import SensorsMap from './components/SensorsMap'
 import SensorsSidebar from './components/SensorsSidebar'
 import SensorDetailsModal from './components/SensorDetailsModal'
@@ -44,7 +46,7 @@ export default {
   },
   setup () {
     const sensorStore = useSensorStore()
-    const sensors = ref([])
+    const { sensors } = storeToRefs(sensorStore)
     const newSensorCoords = ref({})
     const mapCenter = ref([22.630162, 44.416341])
     const showSensorDetailsModal = ref(false)
@@ -81,8 +83,7 @@ export default {
      * @param sensor
      */
     const saveSensor = async sensor => {
-      await sensorStore.saveSensor(sensor)
-      sensors.value = await sensorStore.getSensors()
+      await sensorStore.updateSensor(sensor)
       showSensorDetailsModal.value = false
     }
 
@@ -103,7 +104,6 @@ export default {
       await sensorStore.addSensor(sensor)
       newSensorCoords.value = {}
       showCreateSensorModal.value = false
-      sensors.value = await sensorStore.getSensors()
     }
 
     const saveCoordinates = coords => {
@@ -118,17 +118,22 @@ export default {
     const deleteSensor = async ({ id }) => {
       showSensorDetailsModal.value = false
       await sensorStore.deleteSensor({ id })
-      sensors.value = await sensorStore.getSensors()
       selectedSensor.value = {}
     }
 
     const onSensorChange = async sensor => {
-      await sensorStore.saveSensor(sensor)
-      sensors.value = await sensorStore.getSensors()
+      await sensorStore.updateSensor(sensor)
     }
 
     onMounted(async _ => {
-      sensors.value = await sensorStore.getSensors()
+      sensorStore.triggerLiveUpdates()
+    })
+
+    watch(sensors, value => {
+      // Update sensor details modal when it is displayed and list of sensors is updated
+      if (showSensorDetailsModal.value && !isEmpty(selectedSensor.value)) {
+        selectedSensor.value = find(sensors.value, { id: selectedSensor.value.id })
+      }
     })
 
     return {

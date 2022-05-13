@@ -23,7 +23,6 @@
           @on-change="newValue => updateSensor(newValue, index)"
         />
       </div>
-      <Button class="mt-15 mr-15">All sensors</Button>
       <crop-list-item
         v-for="(crop, index) in fieldRef.crops"
         :key="crop.id || index"

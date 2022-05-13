@@ -20,6 +20,7 @@
 <script>
 import { computed, ref } from 'vue'
 import { sensorIcon as SENSOR_ICON } from '../utils'
+import { isNumber } from 'lodash'
 import Switch from '@/components/atoms/Switch'
 import MenuGroup from '@/components/molecules/MenuGroup'
 
@@ -42,6 +43,7 @@ export default {
       const values = sensorRef.value.values
       return values && values.length ? values[values.length - 1].value : 'N/A'
     })
+    const showBatteryValue = computed(() => isNumber(sensorRef.value.battery))
     const options = ref([
       {
         label: 'Location',
@@ -52,7 +54,7 @@ export default {
         }
       },
       {
-        label: `${props.sensor.battery}%`,
+        label: showBatteryValue.value ? `${props.sensor.battery}%` : 'N/A',
         icon: 'battery',
         callback: false
       }
