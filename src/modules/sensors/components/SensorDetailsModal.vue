@@ -44,7 +44,7 @@
       </div>
     </div>
     <p
-      v-if="sensorRef.battery !== null"
+      v-if="showBatteryValue"
       class="battery"
     >
       <icon
@@ -88,6 +88,7 @@
 <script>
 import { computed, ref } from 'vue'
 import { SENSOR_SELECT_OPTIONS } from '../utils'
+import { isNumber } from 'lodash'
 import Token from '@/components/molecules/Token'
 import Modal from '@/components/molecules/Modal'
 import Switch from '@/components/atoms/Switch'
@@ -143,6 +144,7 @@ export default {
       const values = sensorRef.value.values
       return values && values.length ? values[values.length - 1].value : ''
     })
+    const showBatteryValue = computed(() => isNumber(props.sensor.battery))
     const chartData = computed(() => {
       if (sensorRef.value.values && sensorRef.value.values.length) {
         const labels = sensorRef.value.values.map(({ label }) => label)
@@ -200,6 +202,7 @@ export default {
       show,
       batteryColor,
       lastValue,
+      showBatteryValue,
       chartData,
       chartOptions,
       saveSensor,
