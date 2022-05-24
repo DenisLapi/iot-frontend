@@ -5,6 +5,11 @@ import CropsRoutes from '@/modules/crops/routes'
 import SensorsRouters from '@/modules/sensors/routes'
 
 const routes = [
+  {
+    name: 'Home',
+    path: '/',
+    redirect: '/fields'
+  },
   ...FieldsRoutes,
   ...CropsRoutes,
   ...SensorsRouters
